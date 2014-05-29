@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.ConceptReferenceTerm;
 
+import java.net.URISyntaxException;
+
 import static org.junit.Assert.assertEquals;
 
 public class ConceptReferenceTermEventTest {
@@ -42,5 +44,11 @@ public class ConceptReferenceTermEventTest {
     public void shouldBeAbleToRetrieveTheEntireConceptUsingTheURL() throws Exception {
         Event event = new ConceptReferenceTermEvent().asEvent(new Object[]{conceptReferenceTerm});
         assertEquals("v=full", event.getUri().getQuery());
+    }
+
+    @Test
+    public void shouldHaveTheContent() throws URISyntaxException {
+        Event event = new ConceptReferenceTermEvent().asEvent(new Object[]{conceptReferenceTerm});
+        assertEquals("/openmrs/ws/rest/v1/conceptreferenceterm/" + CONCEPT_REFERENCE_TERM_ID + "?v=full", event.getContents());
     }
 }

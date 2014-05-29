@@ -24,6 +24,6 @@ public class ConceptReferenceTermEvent implements ConceptEvent {
         ConceptReferenceTerm term = (ConceptReferenceTerm) arguments[0];
         String conceptId = term.getUuid();
         String url = String.format(URL, conceptId);
-        return new Event(term.getUuid(), TITLE, DateTime.now(), url, StringUtils.EMPTY, CATEGORY);
+        return new Event(term.getUuid(), TITLE, DateTime.now(), url, url, CATEGORY);
     }
 }
