@@ -1,6 +1,5 @@
 package org.openmrs.module.freeshr.terminology.model.event;
 
-import org.apache.commons.lang.StringUtils;
 import org.ict4h.atomfeed.server.service.Event;
 import org.joda.time.DateTime;
 import org.openmrs.Concept;
@@ -24,6 +23,6 @@ public class ConceptEntityEvent implements ConceptEvent {
         Concept concept = (Concept) arguments[0];
         String conceptId = concept.getUuid();
         String url = String.format(URL, conceptId);
-        return new Event(conceptId, TITLE, DateTime.now(), url, StringUtils.EMPTY, CATEGORY);
+        return new Event(conceptId, TITLE, DateTime.now(), url, url, CATEGORY);
     }
 }

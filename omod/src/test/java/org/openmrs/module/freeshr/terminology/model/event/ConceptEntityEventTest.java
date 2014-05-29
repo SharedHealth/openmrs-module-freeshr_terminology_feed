@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.Concept;
 
+import java.net.URISyntaxException;
+
 import static org.junit.Assert.assertEquals;
 
 public class ConceptEntityEventTest {
@@ -42,5 +44,11 @@ public class ConceptEntityEventTest {
     public void shouldBeAbleToRetrieveTheEntireConceptUsingTheURL() throws Exception {
         Event event = new ConceptEntityEvent().asEvent(new Object[]{concept});
         assertEquals("v=full", event.getUri().getQuery());
+    }
+
+    @Test
+    public void shouldHaveConcenptContent() throws URISyntaxException {
+        Event event = new ConceptEntityEvent().asEvent(new Object[]{concept});
+        assertEquals("/openmrs/ws/rest/v1/concept/" + CONCEPT_ID + "?v=full", event.getContents());
     }
 }
