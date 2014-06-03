@@ -8,6 +8,7 @@ import org.openmrs.Concept;
 import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class ConceptEntityEventTest {
 
@@ -29,9 +30,10 @@ public class ConceptEntityEventTest {
     }
 
     @Test
-    public void shouldHaveTheSameIdAsConcept() throws Exception {
-        Event event = new ConceptEntityEvent().asEvent(new Object[]{concept});
-        assertEquals(CONCEPT_ID + "", event.getUuid());
+    public void twoEventsForSameConceptShouldNotHaveTheSameUUID() throws Exception {
+        Event event1 = new ConceptEntityEvent().asEvent(new Object[]{concept});
+        Event event2 = new ConceptEntityEvent().asEvent(new Object[]{concept});
+        assertFalse(event1.getUuid().equals(event2.getUuid()));
     }
 
     @Test

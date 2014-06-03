@@ -6,6 +6,7 @@ import org.openmrs.Concept;
 
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.UUID;
 
 import static java.util.Arrays.asList;
 
@@ -21,8 +22,7 @@ public class ConceptEntityEvent implements ConceptEvent {
 
     public Event asEvent(Object[] arguments) throws URISyntaxException {
         Concept concept = (Concept) arguments[0];
-        String conceptId = concept.getUuid();
-        String url = String.format(URL, conceptId);
-        return new Event(conceptId, TITLE, DateTime.now(), url, url, CATEGORY);
+        String url = String.format(URL, concept.getUuid());
+        return new Event(UUID.randomUUID().toString(), TITLE, DateTime.now(), url, url, CATEGORY);
     }
 }
