@@ -1,13 +1,10 @@
 package org.openmrs.module.freeshr.terminology.model.event;
 
-import org.ict4h.atomfeed.server.service.Event;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.ConceptReferenceTerm;
 
-import java.net.URISyntaxException;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ConceptReferenceTermEventTest {
 
@@ -22,33 +19,14 @@ public class ConceptReferenceTermEventTest {
     }
 
     @Test
-    public void shouldBeOfSameCategory() throws Exception {
-        Event event = new ConceptReferenceTermEvent().asEvent(new Object[]{conceptReferenceTerm});
-        Event anotherEvent = new ConceptReferenceTermEvent().asEvent(new Object[]{conceptReferenceTerm});
-        assertEquals(event.getCategory(), anotherEvent.getCategory());
-    }
-
-    @Test
-    public void shouldHaveTheSameIdAsConcept() throws Exception {
-        Event event = new ConceptReferenceTermEvent().asEvent(new Object[]{conceptReferenceTerm});
-        assertEquals(CONCEPT_REFERENCE_TERM_ID + "", event.getUuid());
-    }
-
-    @Test
     public void shouldHaveConceptIdInTheUrl() throws Exception {
-        Event event = new ConceptReferenceTermEvent().asEvent(new Object[]{conceptReferenceTerm});
-        assertEquals("/openmrs/ws/rest/v1/conceptreferenceterm/" + CONCEPT_REFERENCE_TERM_ID, event.getUri().getPath());
+        String url = new ConceptReferenceTermEvent().getUrl(new Object[]{conceptReferenceTerm});
+        assertTrue(url.contains("/openmrs/ws/rest/v1/conceptreferenceterm/" + CONCEPT_REFERENCE_TERM_ID));
     }
 
     @Test
     public void shouldBeAbleToRetrieveTheEntireConceptUsingTheURL() throws Exception {
-        Event event = new ConceptReferenceTermEvent().asEvent(new Object[]{conceptReferenceTerm});
-        assertEquals("v=full", event.getUri().getQuery());
-    }
-
-    @Test
-    public void shouldHaveTheContent() throws URISyntaxException {
-        Event event = new ConceptReferenceTermEvent().asEvent(new Object[]{conceptReferenceTerm});
-        assertEquals("/openmrs/ws/rest/v1/conceptreferenceterm/" + CONCEPT_REFERENCE_TERM_ID + "?v=full", event.getContents());
+        String url = new ConceptReferenceTermEvent().getUrl(new Object[]{conceptReferenceTerm});
+        assertTrue(url.contains("v=full"));
     }
 }

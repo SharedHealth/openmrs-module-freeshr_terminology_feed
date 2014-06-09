@@ -5,7 +5,6 @@ import org.ict4h.atomfeed.server.service.Event;
 import org.ict4h.atomfeed.server.service.EventService;
 import org.ict4h.atomfeed.server.service.EventServiceImpl;
 import org.ict4h.atomfeed.transaction.AFTransactionWorkWithoutResult;
-import org.openmrs.Concept;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.atomfeed.transaction.support.AtomFeedSpringTransactionManager;
 import org.openmrs.module.freeshr.terminology.model.ConceptOperation;
@@ -46,8 +45,8 @@ public class ConceptServiceEventInterceptor implements AfterReturningAdvice {
     @Override
     public void afterReturning(Object returnValue, Method method, Object[] arguments, Object conceptService) throws Throwable {
         ConceptOperation operation = new ConceptOperation(method);
-        if (operation.isValid()) {
-            final Event event = operation.apply(arguments);
+        if (operation.shouldPublishEventToFeed()) {
+            final Event event = operation.asEvent(arguments);
             atomFeedSpringTransactionManager.executeWithTransaction(
                     new AFTransactionWorkWithoutResult() {
                         @Override
