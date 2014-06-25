@@ -6,7 +6,10 @@ import org.junit.Test;
 import org.openmrs.Concept;
 import org.openmrs.api.ConceptService;
 
+import java.util.List;
+
 import static org.junit.Assert.assertFalse;
+import static org.openmrs.module.freeshr.terminology.utils.Lambda.first;
 
 public class ConceptOperationTest {
 
@@ -22,15 +25,15 @@ public class ConceptOperationTest {
 
     @Test
     public void shouldHaveUniqueUUIDForEachEvent() throws Exception {
-        Event event = new ConceptOperation(ConceptService.class.getMethod("saveConcept", Concept.class)).asEvent(new Object[]{concept});
-        Event anotherEvent = new ConceptOperation(ConceptService.class.getMethod("saveConcept", Concept.class)).asEvent(new Object[]{concept});
+        Event event = first(new ConceptOperation(ConceptService.class.getMethod("saveConcept", Concept.class)).apply(new Object[]{concept}));
+        Event anotherEvent = first(new ConceptOperation(ConceptService.class.getMethod("saveConcept", Concept.class)).apply(new Object[]{concept}));
         assertFalse(event.getUuid().equals(anotherEvent.getUuid()));
     }
 
     @Test
     public void shouldHaveTheSameContentAsTheUrl() throws Exception {
-        Event event = new ConceptOperation(ConceptService.class.getMethod("saveConcept", Concept.class)).asEvent(new Object[]{concept});
-        Event anotherEvent = new ConceptOperation(ConceptService.class.getMethod("saveConcept", Concept.class)).asEvent(new Object[]{concept});
+        Event event = first(new ConceptOperation(ConceptService.class.getMethod("saveConcept", Concept.class)).apply(new Object[]{concept}));
+        Event anotherEvent = first(new ConceptOperation(ConceptService.class.getMethod("saveConcept", Concept.class)).apply(new Object[]{concept}));
         assertFalse(event.getUri().getPath().equals(anotherEvent.getContents()));
     }
 

@@ -14,6 +14,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
+
 public class ConceptServiceEventInterceptor implements AfterReturningAdvice {
 
     private static final String UPDATE_METHOD = "updateConcept";
@@ -45,13 +47,15 @@ public class ConceptServiceEventInterceptor implements AfterReturningAdvice {
     @Override
     public void afterReturning(Object returnValue, Method method, Object[] arguments, Object conceptService) throws Throwable {
         ConceptOperation operation = new ConceptOperation(method);
-        if (operation.shouldPublishEventToFeed()) {
-            final Event event = operation.asEvent(arguments);
+        final List<Event> events = operation.apply(arguments);
+        if (isNotEmpty(events)) {
             atomFeedSpringTransactionManager.executeWithTransaction(
                     new AFTransactionWorkWithoutResult() {
                         @Override
                         protected void doInTransaction() {
-                            eventService.notify(event);
+                            for (Event event : events) {
+                                eventService.notify(event);
+                            }
                         }
 
                         @Override

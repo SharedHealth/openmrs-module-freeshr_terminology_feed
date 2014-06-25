@@ -1,7 +1,10 @@
 package org.openmrs.module.freeshr.terminology.model.event;
 
+import org.ict4h.atomfeed.server.service.Event;
+import org.joda.time.DateTime;
 import org.openmrs.ConceptReferenceTerm;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -10,15 +13,18 @@ public class ConceptReferenceTermEvent implements ConceptEvent {
 
     public static final String URL = "/openmrs/ws/rest/v1/conceptreferenceterm/%s?v=full";
 
-    @Override
-    public List<String> operations() {
+    private List<String> operations() {
         return asList("saveConceptReferenceTerm");
     }
 
-    @Override
-    public String getUrl(Object[] arguments) {
+    public Boolean isApplicable(String operation) {
+        return this.operations().contains(operation);
+    }
+
+    public Event asEvent(Object[] arguments) throws URISyntaxException {
         ConceptReferenceTerm term = (ConceptReferenceTerm) arguments[0];
         String conceptId = term.getUuid();
-        return String.format(URL, conceptId);
+        String url = String.format(URL, conceptId);
+        return new Event(term.getUuid(), "ConceptReferenceTerm", DateTime.now(), url, url, "ConceptReferenceTerm");
     }
 }

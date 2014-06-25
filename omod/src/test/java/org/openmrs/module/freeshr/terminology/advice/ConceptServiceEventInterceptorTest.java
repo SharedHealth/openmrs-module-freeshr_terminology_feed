@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.openmrs.Concept;
+import org.openmrs.ConceptClass;
 import org.openmrs.api.ConceptService;
 import org.openmrs.module.atomfeed.transaction.support.AtomFeedSpringTransactionManager;
 
@@ -39,6 +40,9 @@ public class ConceptServiceEventInterceptorTest {
         publishedFeed = new ConceptServiceEventInterceptor(atomFeedSpringTransactionManager, eventService);
         concept = new Concept();
         concept.setUuid("uuid");
+        ConceptClass conceptClass = new ConceptClass();
+        conceptClass.setName("Diagnosis");
+        concept.setConceptClass(conceptClass);
     }
 
     @Test
@@ -91,7 +95,7 @@ public class ConceptServiceEventInterceptorTest {
         verify(atomFeedSpringTransactionManager).executeWithTransaction(captor.capture());
 
         captor.getValue().execute();
-        verify(eventService).notify(any(Event.class));
+        verify(eventService, times(2)).notify(any(Event.class));
     }
 
     @Test
