@@ -1,5 +1,6 @@
 #Vagrant directories
 .vagrant/
+.DS_Store
 
 #Gradle directories
 .gradle/

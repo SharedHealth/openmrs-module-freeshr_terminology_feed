@@ -13,7 +13,7 @@ import static java.util.Arrays.asList;
 
 public class DiagnosisEvent implements ConceptEvent{
 
-    public static final String URL = "/openmrs/ws/rest/v1/concept/%s?v=custom:(uuid,name:(uuid,name,locale,conceptNameType)," +
+    public static final String URL = "/openmrs/ws/rest/v1/concept/%s?v=custom:(uuid,description,name:(uuid,name,locale,conceptNameType)," +
             "datatype,set,version,retired,names,answers,setMembers,mappings:(uuid,conceptReferenceTerm,conceptMapType))";
 
     private List<String> operations() {
