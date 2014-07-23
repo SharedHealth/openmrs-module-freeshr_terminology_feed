@@ -6,12 +6,13 @@ import org.openmrs.ConceptReferenceTerm;
 
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.UUID;
 
 import static java.util.Arrays.asList;
 
 public class ReferenceTermEvent implements TREvent {
 
-    public static final String URL = "/openmrs/ws/rest/v1/conceptreferenceterm/%s?v=custom:(uuid,display,name,conceptSource,description,code,version,retired,links)";
+    public static final String URL = "/openmrs/ws/rest/v1/conceptreferenceterm/%s?v=custom:(uuid,name,conceptSource,description,code,version,retired)";
 
     private List<String> operations() {
         return asList("saveConceptReferenceTerm");
@@ -25,6 +26,6 @@ public class ReferenceTermEvent implements TREvent {
         ConceptReferenceTerm term = (ConceptReferenceTerm) arguments[0];
         String conceptId = term.getUuid();
         String url = String.format(URL, conceptId);
-        return new Event(term.getUuid(), "ConceptReferenceTerm", DateTime.now(), url, url, "ConceptReferenceTerm");
+        return new Event(UUID.randomUUID().toString(), "ConceptReferenceTerm", DateTime.now(), url, url, "ConceptReferenceTerm");
     }
 }
