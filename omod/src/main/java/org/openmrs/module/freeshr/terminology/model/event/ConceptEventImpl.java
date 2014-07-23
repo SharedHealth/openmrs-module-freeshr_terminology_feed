@@ -33,16 +33,16 @@ public class ConceptEventImpl implements ConceptEvent {
     @Override
     public Event asAtomFeedEvent(Object[] arguments) throws URISyntaxException {
         Concept concept = (Concept) arguments[0];
-        if (isMatchingCategory(concept, this.category)) {
+        if (isMatchingCategory(concept, this.title)) {
             String url = String.format(this.url, concept.getUuid());
             return new Event(UUID.randomUUID().toString(), this.title, DateTime.now(), url, url, this.category);
         }
         return null;
     }
 
-    private boolean isMatchingCategory(Concept concept, String category) {
+    private boolean isMatchingCategory(Concept concept, String title) {
         return this.category.equals("concept") ||
-                (concept.getConceptClass() != null && concept.getConceptClass().getName().equals(category));
+                (concept.getConceptClass() != null && concept.getConceptClass().getName().equals(title));
     }
 
 }

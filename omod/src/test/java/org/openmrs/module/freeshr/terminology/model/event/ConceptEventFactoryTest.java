@@ -9,7 +9,6 @@ import org.openmrs.ConceptClass;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
 import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.conceptEvent;
 import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.diagnosisEvent;
 
@@ -35,7 +34,7 @@ public class ConceptEventFactoryTest {
     public void shouldCreateConceptEvents() {
         assertThat(ConceptEventFactory.conceptEvent(), is(notNullValue()));
         assertThat(ConceptEventFactory.diagnosisEvent(), is(notNullValue()));
-        assertThat(ConceptEventFactory.findingEVent(), is(notNullValue()));
+        assertThat(ConceptEventFactory.findingEvent(), is(notNullValue()));
     }
 
     @Test

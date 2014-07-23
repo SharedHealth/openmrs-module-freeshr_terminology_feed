@@ -9,20 +9,36 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.apache.commons.collections.CollectionUtils.addIgnoreNull;
-import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.*;
+import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.conceptEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.diagnosisEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.drugEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.findingEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.labSetEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.medSetEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.procedureEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.questionEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.referenceTermEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.symptomAndFindingEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.symptomEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.testEvent;
 
 public class ConceptOperation {
 
     private String name;
     private static final List<ConceptEvent> events = asList(conceptEvent(),
+            testEvent(),
+            procedureEvent(),
+            drugEvent(),
             diagnosisEvent(),
-            findingEVent(),
+            findingEvent(),
+            questionEvent(),
             labSetEvent(),
             medSetEvent(),
             symptomEvent(),
-            drugEvent(),
-            testEvent(),
+            symptomAndFindingEvent(),
             referenceTermEvent());
+
+
 
     public ConceptOperation(Method method) {
         this.name = method.getName();

@@ -15,7 +15,7 @@ public class ConceptEventFactory {
         return new ConceptEventImpl("Diagnosis", "Diagnosis", CUSTOM_URL);
     }
 
-    public static ConceptEvent findingEVent() {
+    public static ConceptEvent findingEvent() {
         return new ConceptEventImpl("Finding", "Finding", CUSTOM_URL);
     }
 
@@ -41,5 +41,17 @@ public class ConceptEventFactory {
 
     public static ConceptEvent referenceTermEvent() {
         return new ConceptReferenceTermEvent();
+    }
+
+    public static ConceptEvent symptomAndFindingEvent() {
+        return new ConceptEventImpl("Symptom/Finding", "Symptom-Finding", CUSTOM_URL);
+    }
+
+    public static ConceptEvent procedureEvent() {
+        return new ConceptEventImpl("Procedure", "Procedure", CUSTOM_URL);
+    }
+
+    public static ConceptEvent questionEvent() {
+        return new ConceptEventImpl("Question", "Question", CUSTOM_URL);
     }
 }
