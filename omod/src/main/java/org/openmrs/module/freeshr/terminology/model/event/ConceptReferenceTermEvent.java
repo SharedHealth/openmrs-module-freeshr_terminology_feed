@@ -21,7 +21,7 @@ public class ConceptReferenceTermEvent implements ConceptEvent {
         return this.operations().contains(operation);
     }
 
-    public Event asEvent(Object[] arguments) throws URISyntaxException {
+    public Event asAtomFeedEvent(Object[] arguments) throws URISyntaxException {
         ConceptReferenceTerm term = (ConceptReferenceTerm) arguments[0];
         String conceptId = term.getUuid();
         String url = String.format(URL, conceptId);

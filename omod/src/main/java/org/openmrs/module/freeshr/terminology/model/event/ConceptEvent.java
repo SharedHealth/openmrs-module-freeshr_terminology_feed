@@ -8,6 +8,6 @@ public interface ConceptEvent {
 
     public Boolean isApplicable(String operation);
 
-    public Event asEvent(Object[] arguments) throws URISyntaxException;
+    public Event asAtomFeedEvent(Object[] arguments) throws URISyntaxException;
 
 }
