@@ -9,7 +9,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 
-public class ConceptReferenceTermEvent implements ConceptEvent {
+public class ReferenceTermEvent implements TREvent {
 
     public static final String URL = "/openmrs/ws/rest/v1/conceptreferenceterm/%s?v=custom:(uuid,display,name,conceptSource,description,code,version,retired,links)";
 

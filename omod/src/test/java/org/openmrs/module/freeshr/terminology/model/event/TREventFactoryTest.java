@@ -9,10 +9,10 @@ import org.openmrs.ConceptClass;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.conceptEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.diagnosisEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.conceptEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.diagnosisEvent;
 
-public class ConceptEventFactoryTest {
+public class TREventFactoryTest {
 
 
     private static final String CONCEPT_ID = "uuid";
@@ -32,9 +32,9 @@ public class ConceptEventFactoryTest {
 
     @Test
     public void shouldCreateConceptEvents() {
-        assertThat(ConceptEventFactory.conceptEvent(), is(notNullValue()));
-        assertThat(ConceptEventFactory.diagnosisEvent(), is(notNullValue()));
-        assertThat(ConceptEventFactory.findingEvent(), is(notNullValue()));
+        assertThat(TREventFactory.conceptEvent(), is(notNullValue()));
+        assertThat(TREventFactory.diagnosisEvent(), is(notNullValue()));
+        assertThat(TREventFactory.findingEvent(), is(notNullValue()));
     }
 
     @Test

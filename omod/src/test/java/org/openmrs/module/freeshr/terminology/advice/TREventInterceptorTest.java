@@ -21,7 +21,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class ConceptServiceEventInterceptorTest {
+public class TREventInterceptorTest {
 
     @Mock
     private AtomFeedSpringTransactionManager atomFeedSpringTransactionManager;
@@ -30,14 +30,14 @@ public class ConceptServiceEventInterceptorTest {
 
     private ArgumentCaptor<AFTransactionWorkWithoutResult> captor = ArgumentCaptor.forClass(AFTransactionWorkWithoutResult.class);
 
-    private ConceptServiceEventInterceptor publishedFeed;
+    private TREventInterceptor publishedFeed;
 
     private Concept concept;
 
     @Before
     public void setup() {
         initMocks(this);
-        publishedFeed = new ConceptServiceEventInterceptor(atomFeedSpringTransactionManager, eventService);
+        publishedFeed = new TREventInterceptor(atomFeedSpringTransactionManager, eventService);
         concept = new Concept();
         concept.setUuid("uuid");
         ConceptClass conceptClass = new ConceptClass();

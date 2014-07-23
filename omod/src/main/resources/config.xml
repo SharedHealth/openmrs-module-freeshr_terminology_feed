@@ -21,7 +21,7 @@
 
     <advice>
         <point>org.openmrs.api.ConceptService</point>
-        <class>org.openmrs.module.freeshr.terminology.advice.ConceptServiceEventInterceptor</class>
+        <class>org.openmrs.module.freeshr.terminology.advice.TREventInterceptor</class>
     </advice>
 
     <!-- Internationalization -->

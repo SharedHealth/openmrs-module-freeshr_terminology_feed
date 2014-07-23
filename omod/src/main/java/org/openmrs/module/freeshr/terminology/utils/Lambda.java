@@ -15,13 +15,14 @@ public class Lambda {
         return result;
     }
 
-    public static <T> T first(List<T> xs){
+    public static <T> T first(List<T> xs) {
         return xs.get(0);
     }
 
-    public static boolean isNotEmpty(Object[] xs){
+    public static boolean isNotEmpty(Object[] xs) {
         return xs != null && xs.length > 0;
     }
+
     public static interface Fn<I, O> {
         public O call(I input);
     }

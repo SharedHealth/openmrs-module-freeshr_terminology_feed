@@ -7,7 +7,7 @@ import org.ict4h.atomfeed.server.service.EventServiceImpl;
 import org.ict4h.atomfeed.transaction.AFTransactionWorkWithoutResult;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.atomfeed.transaction.support.AtomFeedSpringTransactionManager;
-import org.openmrs.module.freeshr.terminology.model.ConceptOperation;
+import org.openmrs.module.freeshr.terminology.model.Operation;
 import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -16,20 +16,17 @@ import java.util.List;
 
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 
-public class ConceptServiceEventInterceptor implements AfterReturningAdvice {
-
-    private static final String UPDATE_METHOD = "updateConcept";
-    private static final String SAVE_METHOD = "saveConcept";
+public class TREventInterceptor implements AfterReturningAdvice {
 
     private AtomFeedSpringTransactionManager atomFeedSpringTransactionManager;
     private EventService eventService;
 
-    public ConceptServiceEventInterceptor() {
+    public TREventInterceptor() {
         atomFeedSpringTransactionManager = createTransactionManager();
         this.eventService = createService(atomFeedSpringTransactionManager);
     }
 
-    public ConceptServiceEventInterceptor(AtomFeedSpringTransactionManager atomFeedSpringTransactionManager, EventService eventService) {
+    public TREventInterceptor(AtomFeedSpringTransactionManager atomFeedSpringTransactionManager, EventService eventService) {
         this.atomFeedSpringTransactionManager = atomFeedSpringTransactionManager;
         this.eventService = eventService;
     }
@@ -46,7 +43,7 @@ public class ConceptServiceEventInterceptor implements AfterReturningAdvice {
 
     @Override
     public void afterReturning(Object returnValue, Method method, Object[] arguments, Object conceptService) throws Throwable {
-        ConceptOperation operation = new ConceptOperation(method);
+        Operation operation = new Operation(method);
         final List<Event> events = operation.apply(arguments);
         if (isNotEmpty(events)) {
             atomFeedSpringTransactionManager.executeWithTransaction(
