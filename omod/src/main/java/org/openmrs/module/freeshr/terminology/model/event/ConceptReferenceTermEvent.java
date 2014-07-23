@@ -11,7 +11,7 @@ import static java.util.Arrays.asList;
 
 public class ConceptReferenceTermEvent implements ConceptEvent {
 
-    public static final String URL = "/openmrs/ws/rest/v1/conceptreferenceterm/%s?v=full";
+    public static final String URL = "/openmrs/ws/rest/v1/conceptreferenceterm/%s?v=custom:(uuid,display,name,conceptSource,description,code,version,retired,links)";
 
     private List<String> operations() {
         return asList("saveConceptReferenceTerm");

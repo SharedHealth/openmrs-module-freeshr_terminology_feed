@@ -43,12 +43,12 @@ public class ConceptReferenceTermEventTest {
     @Test
     public void shouldBeAbleToRetrieveTheEntireConceptUsingTheURL() throws Exception {
         Event event = new ConceptReferenceTermEvent().asAtomFeedEvent(new Object[]{conceptReferenceTerm});
-        assertEquals("v=full", event.getUri().getQuery());
+        assertEquals("v=custom:(uuid,display,name,conceptSource,description,code,version,retired,links)", event.getUri().getQuery());
     }
 
     @Test
     public void shouldHaveTheContent() throws URISyntaxException {
         Event event = new ConceptReferenceTermEvent().asAtomFeedEvent(new Object[]{conceptReferenceTerm});
-        assertEquals("/openmrs/ws/rest/v1/conceptreferenceterm/" + CONCEPT_REFERENCE_TERM_ID + "?v=full", event.getContents());
+        assertEquals("/openmrs/ws/rest/v1/conceptreferenceterm/" + CONCEPT_REFERENCE_TERM_ID + "?v=custom:(uuid,display,name,conceptSource,description,code,version,retired,links)", event.getContents());
     }
 }
