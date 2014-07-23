@@ -38,4 +38,8 @@ public class ConceptEventFactory {
     public static ConceptEvent testEvent() {
         return new ConceptEventImpl("Test", "Test", CUSTOM_URL);
     }
+
+    public static ConceptEvent referenceTermEvent() {
+        return new ConceptReferenceTermEvent();
+    }
 }

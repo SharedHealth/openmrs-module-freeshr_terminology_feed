@@ -9,14 +9,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.apache.commons.collections.CollectionUtils.addIgnoreNull;
-import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.conceptEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.diagnosisEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.drugEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.findingEVent;
-import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.labSetEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.medSetEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.symptomEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.testEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.ConceptEventFactory.*;
 
 public class ConceptOperation {
 
@@ -28,7 +21,8 @@ public class ConceptOperation {
             medSetEvent(),
             symptomEvent(),
             drugEvent(),
-            testEvent());
+            testEvent(),
+            referenceTermEvent());
 
     public ConceptOperation(Method method) {
         this.name = method.getName();
