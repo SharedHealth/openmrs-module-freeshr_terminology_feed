@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
 
 public class ReferenceTermEvent implements TREvent {
 
-    public static final String URL = "/openmrs/ws/rest/v1/conceptreferenceterm/%s?v=custom:(uuid,name,conceptSource,description,code,version,retired)";
+    public static final String URL = "/openmrs/ws/rest/v1/conceptreferenceterm/%s?v=custom:(uuid,name,conceptSource,description,code,version,retired,conceptReferenceTermMaps)";
 
     private List<String> operations() {
         return asList("saveConceptReferenceTerm");
