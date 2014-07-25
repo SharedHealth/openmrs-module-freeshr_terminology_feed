@@ -9,24 +9,21 @@ import org.openmrs.ConceptClass;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.conceptEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.CONCEPT_URL;
 import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.diagnosisEvent;
 
 public class TREventFactoryTest {
 
-
-    private static final String CONCEPT_ID = "uuid";
-    private static final String CUSTOM_URL = "/openmrs/ws/rest/v1/concept/uuid?v=custom:(uuid,description,name:(uuid,name,locale,conceptNameType)," +
-            "datatype,conceptClass,set,version,retired,names,answers,setMembers,mappings:(uuid,conceptReferenceTerm,conceptMapType))";
+    private static final String CONCEPT_ID = "aebc57b7-0683-464e-ac48-48b8838abdfc";
 
     private Concept concept;
-    private ConceptClass diagnosisClass;
+    private ConceptClass diagnosis;
 
     @Before
     public void setup() {
         concept = new Concept();
-        diagnosisClass = new ConceptClass();
-        diagnosisClass.setName("Diagnosis");
+        diagnosis = new ConceptClass();
+        diagnosis.setName("Diagnosis");
         concept.setUuid(CONCEPT_ID);
     }
 
@@ -38,23 +35,15 @@ public class TREventFactoryTest {
     }
 
     @Test
-    public void shouldBuildAValidConceptEvent() throws Exception {
-        Event event = conceptEvent().asAtomFeedEvent(new Object[]{concept});
-        String url = "/openmrs/ws/rest/v1/concept/" + CONCEPT_ID + "?v=full";
-        assertThat(event.getCategory(), is("concept"));
-        assertThat(event.getTitle(), is("concept"));
+    public void shouldBuildAValidDiagnosisEvent() throws Exception {
+        concept.setConceptClass(diagnosis);
+        Event event = diagnosisEvent().asAtomFeedEvent(new Object[]{concept});
+
+        assertThat(event.getCategory(), is("Diagnosis"));
+        assertThat(event.getTitle(), is("Diagnosis"));
+
+        final String url = String.format(CONCEPT_URL, concept.getUuid());
         assertThat(event.getContents(), is(url));
         assertThat(event.getUri().toString(), is(url));
     }
-
-    @Test
-    public void shouldBuildAValidDiagnosisEvent() throws Exception {
-        concept.setConceptClass(diagnosisClass);
-        Event event = diagnosisEvent().asAtomFeedEvent(new Object[]{concept});
-        assertThat(event.getCategory(), is("Diagnosis"));
-        assertThat(event.getTitle(), is("Diagnosis"));
-        assertThat(event.getContents(), is(CUSTOM_URL));
-        assertThat(event.getUri().toString(), is(CUSTOM_URL));
-    }
-
 }

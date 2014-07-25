@@ -7,11 +7,12 @@ import org.openmrs.Concept;
 import org.openmrs.api.ConceptService;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.openmrs.module.freeshr.terminology.utils.Lambda.first;
 
 public class OperationTest {
 
-    private static final String CONCEPT_ID = "uuid";
+    private static final String CONCEPT_ID = "aebc57b7-0683-464e-ac48-48b8838abdfc";
 
     private Concept concept;
 
@@ -32,7 +33,6 @@ public class OperationTest {
     public void shouldHaveTheSameContentAsTheUrl() throws Exception {
         Event event = first(new Operation(ConceptService.class.getMethod("saveConcept", Concept.class)).apply(new Object[]{concept}));
         Event anotherEvent = first(new Operation(ConceptService.class.getMethod("saveConcept", Concept.class)).apply(new Object[]{concept}));
-        assertFalse(event.getUri().getPath().equals(anotherEvent.getContents()));
+        assertTrue(event.getUri().getPath().equals(anotherEvent.getContents()));
     }
-
 }
