@@ -5,7 +5,7 @@ public class TREventFactory {
     private static final String CONCEPT_URL_FULL = "/openmrs/ws/rest/v1/concept/%s?v=full";
 
     private static final String CONCEPT_URL_CUSTOM = "/openmrs/ws/rest/v1/concept/%s?v=custom:(uuid,description,name:(uuid,name,locale,conceptNameType)," +
-            "datatype,set,version,retired,names,answers,setMembers,mappings:(uuid,conceptReferenceTerm,conceptMapType))";
+            "datatype,conceptClass,set,version,retired,names,answers,setMembers,mappings:(uuid,conceptReferenceTerm,conceptMapType))";
 
     public static TREvent conceptEvent() {
         return new ConceptEvent("concept", "concept", CONCEPT_URL_FULL);
