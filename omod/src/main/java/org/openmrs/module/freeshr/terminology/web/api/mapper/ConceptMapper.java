@@ -1,7 +1,13 @@
 package org.openmrs.module.freeshr.terminology.web.api.mapper;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.openmrs.*;
 import org.openmrs.module.freeshr.terminology.web.api.*;
+import org.openmrs.module.freeshr.terminology.web.api.Concept;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptDescription;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptName;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptReferenceTerm;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptSource;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,7 +28,9 @@ public class ConceptMapper {
         concept.setFullySpecifiedName(mapConceptName(openmrsConcept.getFullySpecifiedName(Locale.ENGLISH)));
         concept.setNames(mapConceptNames(openmrsConcept.getNames()));
         concept.setReferenceTerms(mapReferenceTerms(openmrsConcept.getConceptMappings()));
-        concept.setDescription(mapDescription(openmrsConcept.getDescription()));
+        for (org.openmrs.ConceptDescription conceptDescription : openmrsConcept.getDescriptions()) {
+            concept.setDescription(mapDescription(conceptDescription));
+        }
         return concept;
     }
 
@@ -87,6 +95,7 @@ public class ConceptMapper {
             ConceptDescription description = new ConceptDescription();
             description.setUuid(openmrsConceptDescription.getUuid());
             description.setDescription(openmrsConceptDescription.getDescription());
+            return description;
         }
         return null;
     }
