@@ -12,7 +12,6 @@ public class ConceptReferenceTerm {
     private boolean retired;
     private String mapType;
     private ConceptSource conceptSource;
-    private List<ConceptReferenceTermMap> conceptReferenceTermMaps;
 
     public String getUuid() {
         return uuid;
@@ -76,13 +75,5 @@ public class ConceptReferenceTerm {
 
     public void setConceptSource(ConceptSource conceptSource) {
         this.conceptSource = conceptSource;
-    }
-
-    public List<ConceptReferenceTermMap> getConceptReferenceTermMaps() {
-        return conceptReferenceTermMaps;
-    }
-
-    public void setConceptReferenceTermMaps(List<ConceptReferenceTermMap> conceptReferenceTermMaps) {
-        this.conceptReferenceTermMaps = conceptReferenceTermMaps;
     }
 }
