@@ -17,7 +17,7 @@ public class TREventFactoryTest {
 
     private static final String CONCEPT_ID = "uuid";
     private static final String CUSTOM_URL = "/openmrs/ws/rest/v1/concept/uuid?v=custom:(uuid,description,name:(uuid,name,locale,conceptNameType)," +
-            "datatype,set,version,retired,names,answers,setMembers,mappings:(uuid,conceptReferenceTerm,conceptMapType))";
+            "datatype,conceptClass,set,version,retired,names,answers,setMembers,mappings:(uuid,conceptReferenceTerm,conceptMapType))";
 
     private Concept concept;
     private ConceptClass diagnosisClass;
