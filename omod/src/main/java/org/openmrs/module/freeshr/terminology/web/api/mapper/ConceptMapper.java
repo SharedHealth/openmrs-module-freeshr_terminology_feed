@@ -19,6 +19,7 @@ public class ConceptMapper {
         concept.setDatatypeName(openmrsConcept.getDatatype().getName());
         concept.setConceptClass(openmrsConcept.getConceptClass().getName());
         concept.setSet(openmrsConcept.isSet());
+        concept.setRetired(openmrsConcept.isRetired());
         concept.setFullySpecifiedName(mapConceptName(openmrsConcept.getFullySpecifiedName(Locale.ENGLISH)));
         concept.setNames(mapConceptNames(openmrsConcept.getNames()));
         concept.setReferenceTerms(mapReferenceTerms(openmrsConcept.getConceptMappings()));
@@ -67,12 +68,6 @@ public class ConceptMapper {
         return referenceTerms;
     }
 
-    private ConceptMapTerm mapReferenceTerm(org.openmrs.ConceptReferenceTerm openmrsConceptReferenceTerm) {
-        ConceptMapTerm conceptMapTerm = new ConceptMapTerm();
-        conceptMapTerm.setUuid(openmrsConceptReferenceTerm.getUuid());
-        return conceptMapTerm;
-    }
-
     private ConceptSource mapConceptSource(org.openmrs.ConceptSource openmrsConceptSource) {
         ConceptSource conceptSource = new ConceptSource();
         conceptSource.setUuid(openmrsConceptSource.getUuid());
@@ -87,6 +82,7 @@ public class ConceptMapper {
             ConceptDescription description = new ConceptDescription();
             description.setUuid(openmrsConceptDescription.getUuid());
             description.setDescription(openmrsConceptDescription.getDescription());
+            return description;
         }
         return null;
     }

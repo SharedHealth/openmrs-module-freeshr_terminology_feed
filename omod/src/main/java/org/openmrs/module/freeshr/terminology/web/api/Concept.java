@@ -9,6 +9,7 @@ public class Concept {
     private String datatypeName;
     private String conceptClass;
     private boolean isSet;
+    private boolean isRetired;
     private ConceptName fullySpecifiedName;
     private List<ConceptName> names;
     private List<ConceptReferenceTerm> referenceTerms;
@@ -52,6 +53,14 @@ public class Concept {
 
     public void setSet(boolean isSet) {
         this.isSet = isSet;
+    }
+
+    public boolean isRetired() {
+        return isRetired;
+    }
+
+    public void setRetired(boolean isRetired) {
+        this.isRetired = isRetired;
     }
 
     public ConceptName getFullySpecifiedName() {
