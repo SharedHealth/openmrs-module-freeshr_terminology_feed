@@ -15,6 +15,7 @@
     <!-- Required Modules -->
     <require_modules>
         <require_module version="${openmrsAtomfeedVersion}">org.ict4h.openmrs.openmrs-atomfeed</require_module>
+        <require_module version="1.9">org.openmrs.module.webservices.rest</require_module>
     </require_modules>
     <!-- Module Activator -->
     <activator>org.openmrs.module.freeshr.terminology.feed.FeedActivator</activator>
