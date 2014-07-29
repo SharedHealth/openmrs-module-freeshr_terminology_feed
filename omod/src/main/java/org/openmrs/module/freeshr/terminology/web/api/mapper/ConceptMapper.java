@@ -1,13 +1,20 @@
 package org.openmrs.module.freeshr.terminology.web.api.mapper;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.openmrs.*;
 import org.openmrs.module.freeshr.terminology.web.api.*;
+import org.openmrs.module.freeshr.terminology.web.api.Concept;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptDescription;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptName;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptReferenceTerm;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptSource;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
+
+import static java.util.Locale.ENGLISH;
 
 @Component
 public class ConceptMapper {
@@ -20,10 +27,10 @@ public class ConceptMapper {
         concept.setConceptClass(openmrsConcept.getConceptClass().getName());
         concept.setSet(openmrsConcept.isSet());
         concept.setRetired(openmrsConcept.isRetired());
-        concept.setFullySpecifiedName(mapConceptName(openmrsConcept.getFullySpecifiedName(Locale.ENGLISH)));
+        concept.setFullySpecifiedName(mapConceptName(openmrsConcept.getFullySpecifiedName(ENGLISH)));
         concept.setNames(mapConceptNames(openmrsConcept.getNames()));
         concept.setReferenceTerms(mapReferenceTerms(openmrsConcept.getConceptMappings()));
-        concept.setDescription(mapDescription(openmrsConcept.getDescription()));
+        concept.setDescription(mapDescription(openmrsConcept.getDescription(ENGLISH)));
         return concept;
     }
 
@@ -78,10 +85,10 @@ public class ConceptMapper {
     }
 
     private ConceptDescription mapDescription(org.openmrs.ConceptDescription openmrsConceptDescription) {
-        if (openmrsConceptDescription != null) {
+        if (openmrsConceptDescription != null ) {
             ConceptDescription description = new ConceptDescription();
-            description.setUuid(openmrsConceptDescription.getUuid());
             description.setDescription(openmrsConceptDescription.getDescription());
+            description.setLocale(openmrsConceptDescription.getLocale().toString());
             return description;
         }
         return null;

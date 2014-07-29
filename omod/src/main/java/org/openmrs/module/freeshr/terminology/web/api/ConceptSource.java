@@ -38,4 +38,19 @@ public class ConceptSource {
     public void setHl7Code(String hl7Code) {
         this.hl7Code = hl7Code;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ConceptSource)) return false;
+
+        ConceptSource that = (ConceptSource) o;
+
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (!hl7Code.equals(that.hl7Code)) return false;
+        if (!name.equals(that.name)) return false;
+        if (!uuid.equals(that.uuid)) return false;
+
+        return true;
+    }
 }

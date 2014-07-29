@@ -1,42 +1,38 @@
 package org.openmrs.module.freeshr.terminology.web.api.mapper;
 
-import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.openmrs.Concept;
-import org.openmrs.ConceptClass;
-import org.openmrs.ConceptDatatype;
-import org.openmrs.ConceptName;
+import org.openmrs.*;
 import org.openmrs.api.ConceptNameType;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Locale;
 
+import static java.util.Arrays.asList;
+import static java.util.Locale.ENGLISH;
 import static org.junit.Assert.assertEquals;
+import static org.openmrs.api.ConceptNameType.*;
 
 public class ConceptMapperTest {
 
+    private ObjectMapper mapper = new ObjectMapper();
+
     @Test
-    @Ignore
     public void shouldMapConcept() throws IOException {
-        org.openmrs.module.freeshr.terminology.web.api.Concept concept = new ConceptMapper().map(getOpenmrsConcept());
-        String actual = new ObjectMapper().writeValueAsString(concept);
-
         File src = new File(URLClassLoader.getSystemResource("concept.json").getFile());
-        String expected = FileUtils.readFileToString(src);
-
+        org.openmrs.module.freeshr.terminology.web.api.Concept expected = mapper.readValue(src, org.openmrs.module.freeshr.terminology.web.api.Concept.class);
+        org.openmrs.module.freeshr.terminology.web.api.Concept actual = new ConceptMapper().map(getOpenmrsConcept());
         assertEquals(expected, actual);
     }
 
-    private Concept getOpenmrsConcept() throws IOException {
+    private Concept getOpenmrsConcept() {
         Concept openmrsConcept = new Concept();
         openmrsConcept.setUuid("216c8246-202c-4376-bfa8-3278d1049630");
         openmrsConcept.setVersion("1.1.1");
+        openmrsConcept.setSet(false);
+        openmrsConcept.setFullySpecifiedName(new ConceptName("tbtest", ENGLISH));
 
         final ConceptDatatype conceptDatatype = new ConceptDatatype();
         conceptDatatype.setName("Text");
@@ -46,25 +42,47 @@ public class ConceptMapperTest {
         conceptClass.setName("Diagnosis");
         openmrsConcept.setConceptClass(conceptClass);
 
-        openmrsConcept.setSet(false);
+        openmrsConcept.setNames(asList(createConceptName("search", INDEX_TERM), createConceptName("test", SHORT), createConceptName("tbtest", FULLY_SPECIFIED)));
 
-        openmrsConcept.setFullySpecifiedName(new ConceptName("tbtest", Locale.ENGLISH));
+        final ArrayList<org.openmrs.ConceptDescription> conceptDescriptions = new ArrayList<>();
+        final org.openmrs.ConceptDescription conceptDescription = new org.openmrs.ConceptDescription();
+        conceptDescription.setDescription("description123");
+        conceptDescription.setLocale(ENGLISH);
+        conceptDescriptions.add(conceptDescription);
+        openmrsConcept.setDescriptions(conceptDescriptions);
 
-        Collection<ConceptName> conceptNames = new ArrayList<>();
-        addConceptName(conceptNames, "search", ConceptNameType.INDEX_TERM);
-        addConceptName(conceptNames, "test", ConceptNameType.SHORT);
-        addConceptName(conceptNames, "tbtest", ConceptNameType.FULLY_SPECIFIED);
-        addConceptName(conceptNames, "syn", null);
-        openmrsConcept.setNames(conceptNames);
+        final ArrayList<ConceptMap> conceptMaps = new ArrayList<>();
+        final ConceptMap conceptMap = new org.openmrs.ConceptMap();
 
+        final ConceptReferenceTerm conceptReferenceTerm = new ConceptReferenceTerm();
+        conceptReferenceTerm.setUuid("565496c2-bdfe-4cce-87d4-92091ab1f67a");
+        conceptReferenceTerm.setCode("ICD101");
+        conceptReferenceTerm.setRetired(false);
+        conceptReferenceTerm.setVersion("1.0");
+        conceptReferenceTerm.setDescription("ICD100description");
+        conceptReferenceTerm.setName("ICD101");
+
+        final ConceptSource conceptSource = new ConceptSource();
+        conceptSource.setUuid("ab587e35-dc14-494e-ac38-d79145670b3b");
+        conceptSource.setHl7Code("ICD10");
+        conceptSource.setDescription("ICD10");
+        conceptSource.setName("ICD10");
+        conceptReferenceTerm.setConceptSource(conceptSource);
+
+        final ConceptMapType conceptMapType = new ConceptMapType();
+        conceptMapType.setName("SAME-AS");
+        conceptMap.setConceptMapType(conceptMapType);
+        conceptMap.setConceptReferenceTerm(conceptReferenceTerm);
+        conceptMap.setConceptMapId(1);
+        conceptMaps.add(conceptMap);
+        openmrsConcept.setConceptMappings(conceptMaps);
 
         return openmrsConcept;
     }
 
-    private void addConceptName(Collection<ConceptName> conceptNames, String conceptNameValue, ConceptNameType conceptNameType) {
-        final ConceptName conceptName = new ConceptName(conceptNameValue, Locale.ENGLISH);
+    private ConceptName createConceptName(String conceptNameValue, ConceptNameType conceptNameType) {
+        final ConceptName conceptName = new ConceptName(conceptNameValue, ENGLISH);
         conceptName.setConceptNameType(conceptNameType);
-        conceptNames.add(conceptName);
-
+        return conceptName;
     }
 }

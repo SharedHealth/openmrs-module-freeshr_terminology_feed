@@ -29,4 +29,19 @@ public class ConceptName {
     public void setLocale(String locale) {
         this.locale = locale;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ConceptName)) return false;
+
+        ConceptName that = (ConceptName) o;
+
+        if (!conceptName.equals(that.conceptName)) return false;
+        if (conceptNameType != null ? !conceptNameType.equals(that.conceptNameType) : that.conceptNameType != null)
+            return false;
+        if (!locale.equals(that.locale)) return false;
+
+        return true;
+    }
 }

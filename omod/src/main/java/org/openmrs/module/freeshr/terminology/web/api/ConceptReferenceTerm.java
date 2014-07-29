@@ -76,4 +76,23 @@ public class ConceptReferenceTerm {
     public void setConceptSource(ConceptSource conceptSource) {
         this.conceptSource = conceptSource;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ConceptReferenceTerm)) return false;
+
+        ConceptReferenceTerm that = (ConceptReferenceTerm) o;
+
+        if (retired != that.retired) return false;
+        if (!code.equals(that.code)) return false;
+        if (!conceptSource.equals(that.conceptSource)) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (!mapType.equals(that.mapType)) return false;
+        if (!name.equals(that.name)) return false;
+        if (!uuid.equals(that.uuid)) return false;
+        if (!version.equals(that.version)) return false;
+
+        return true;
+    }
 }
