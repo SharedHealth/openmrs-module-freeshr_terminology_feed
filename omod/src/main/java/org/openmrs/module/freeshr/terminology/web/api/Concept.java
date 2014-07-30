@@ -13,6 +13,7 @@ public class Concept {
     private String conceptClass;
     private boolean isSet;
     private boolean isRetired;
+    private String retireReason;
     private ConceptName fullySpecifiedName;
     private List<ConceptName> names;
     private List<ConceptReferenceTerm> referenceTerms;
@@ -66,6 +67,14 @@ public class Concept {
         this.isRetired = isRetired;
     }
 
+    public String getRetireReason() {
+        return retireReason;
+    }
+
+    public void setRetireReason(String retireReason) {
+        this.retireReason = retireReason;
+    }
+
     public ConceptName getFullySpecifiedName() {
         return fullySpecifiedName;
     }
@@ -106,6 +115,7 @@ public class Concept {
         Concept concept = (Concept) o;
 
         if (isRetired != concept.isRetired) return false;
+        if (retireReason != null ? !retireReason.equals(concept.retireReason) : concept.retireReason != null) return false;
         if (isSet != concept.isSet) return false;
         if (!conceptClass.equals(concept.conceptClass)) return false;
         if (!datatypeName.equals(concept.datatypeName)) return false;

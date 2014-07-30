@@ -32,6 +32,8 @@ public class ConceptMapperTest {
         openmrsConcept.setUuid("216c8246-202c-4376-bfa8-3278d1049630");
         openmrsConcept.setVersion("1.1.1");
         openmrsConcept.setSet(false);
+        openmrsConcept.setRetired(true);
+        openmrsConcept.setRetireReason("demo");
         openmrsConcept.setFullySpecifiedName(new ConceptName("tbtest", ENGLISH));
 
         final ConceptDatatype conceptDatatype = new ConceptDatatype();

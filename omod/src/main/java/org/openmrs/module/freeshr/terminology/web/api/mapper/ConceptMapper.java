@@ -27,6 +27,7 @@ public class ConceptMapper {
         concept.setConceptClass(openmrsConcept.getConceptClass().getName());
         concept.setSet(openmrsConcept.isSet());
         concept.setRetired(openmrsConcept.isRetired());
+        concept.setRetireReason(openmrsConcept.getRetireReason());
         concept.setFullySpecifiedName(mapConceptName(openmrsConcept.getFullySpecifiedName(ENGLISH)));
         concept.setNames(mapConceptNames(openmrsConcept.getNames()));
         concept.setReferenceTerms(mapReferenceTerms(openmrsConcept.getConceptMappings()));

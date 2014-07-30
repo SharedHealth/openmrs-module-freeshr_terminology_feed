@@ -29,7 +29,8 @@
   },
   "uuid": "216c8246-202c-4376-bfa8-3278d1049630",
   "datatypeName": "Text",
-  "retired": false,
+  "retired": true,
+  "retireReason": "demo",
   "referenceTerms": [
     {
       "code": "ICD101",
