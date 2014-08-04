@@ -1,11 +1,11 @@
 package org.openmrs.module.freeshr.terminology.util;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.openmrs.module.freeshr.terminology.web.api.*;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class TestUtils {
 
@@ -24,6 +24,11 @@ public class TestUtils {
         assertConceptNameLists(c1.getNames(), c2.getNames());
         assertConceptReferenceTermLists(c1.getReferenceTerms(), c2.getReferenceTerms());
         assertConceptDescriptions(c1.getDescription(), c2.getDescription());
+        assertConceptSetMembers(c1.getSetMembers(), c2.getSetMembers());
+    }
+
+    private static void assertConceptSetMembers(List<String> setMembers, List<String> members) {
+        assertTrue(CollectionUtils.isEqualCollection(setMembers, members));
     }
 
     private static void assertConceptNames(ConceptName n1, ConceptName n2) {

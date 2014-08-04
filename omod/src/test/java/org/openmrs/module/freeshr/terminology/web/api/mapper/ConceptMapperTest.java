@@ -40,7 +40,7 @@ public class ConceptMapperTest {
         Concept openmrsConcept = new Concept();
         openmrsConcept.setUuid("216c8246-202c-4376-bfa8-3278d1049630");
         openmrsConcept.setVersion("1.1.1");
-        openmrsConcept.setSet(false);
+        openmrsConcept.setSet(true);
         openmrsConcept.setRetired(true);
         openmrsConcept.setRetireReason("demo");
         openmrsConcept.setFullySpecifiedName(new ConceptName("tbtest", ENGLISH));
@@ -89,7 +89,15 @@ public class ConceptMapperTest {
         conceptMaps.add(conceptMap);
         openmrsConcept.setConceptMappings(conceptMaps);
 
+        openmrsConcept.addSetMember(buildSetMember());
+
         return openmrsConcept;
+    }
+
+    private Concept buildSetMember() {
+        Concept concept = new Concept();
+        concept.setUuid("92efd6da-d0f8-4806-9093-0b099bf56ce8");
+        return concept;
     }
 
     private ConceptName createConceptName(String conceptNameValue, ConceptNameType conceptNameType) {

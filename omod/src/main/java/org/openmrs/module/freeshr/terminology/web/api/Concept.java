@@ -15,6 +15,7 @@ public class Concept {
     private List<ConceptName> names;
     private List<ConceptReferenceTerm> referenceTerms;
     private ConceptDescription description;
+    private List<String> setMembers;
 
     public String getUuid() {
         return uuid;
@@ -102,5 +103,13 @@ public class Concept {
 
     public void setDescription(ConceptDescription description) {
         this.description = description;
+    }
+
+    public List<String> getSetMembers() {
+        return setMembers;
+    }
+
+    public void setSetMembers(List<String> setMembers) {
+        this.setMembers = setMembers;
     }
 }

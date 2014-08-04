@@ -1,6 +1,7 @@
 package org.openmrs.module.freeshr.terminology.web.api.mapper;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.openmrs.ConceptSet;
 import org.openmrs.module.freeshr.terminology.web.api.*;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,16 @@ public class ConceptMapper {
         concept.setNames(mapConceptNames(openmrsConcept.getNames()));
         concept.setReferenceTerms(mapReferenceTerms(openmrsConcept.getConceptMappings()));
         concept.setDescription(mapDescription(openmrsConcept.getDescription(ENGLISH)));
+        concept.setSetMembers(mapSetMembers(openmrsConcept.getConceptSets()));
         return concept;
+    }
+
+    private List<String> mapSetMembers(Collection<ConceptSet> conceptSets) {
+        List<String> conceptSetMembers = new ArrayList<>();
+        for (ConceptSet conceptSet : conceptSets) {
+            conceptSetMembers.add(conceptSet.getConcept().getUuid());
+        }
+        return conceptSetMembers;
     }
 
     private List<ConceptName> mapConceptNames(Collection<org.openmrs.ConceptName> openmrsConceptNames) {

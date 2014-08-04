@@ -54,5 +54,8 @@
     "locale": "en",
     "description": "description123"
   },
-  "set": false
+  "setMembers" : [
+     "92efd6da-d0f8-4806-9093-0b099bf56ce8"
+  ],
+  "set": true
 }
