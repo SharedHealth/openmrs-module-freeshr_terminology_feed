@@ -1,0 +1,12 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="BD-201408041330" author="soham" context="setup">
+        <comment>Added constraints to concept_reference_source table.</comment>
+        <sql>
+            ALTER TABLE concept_reference_source ADD UNIQUE (name);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
