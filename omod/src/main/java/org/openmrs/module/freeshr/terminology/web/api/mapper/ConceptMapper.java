@@ -1,13 +1,9 @@
 package org.openmrs.module.freeshr.terminology.web.api.mapper;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.openmrs.*;
 import org.openmrs.module.freeshr.terminology.web.api.*;
-import org.openmrs.module.freeshr.terminology.web.api.Concept;
-import org.openmrs.module.freeshr.terminology.web.api.ConceptDescription;
-import org.openmrs.module.freeshr.terminology.web.api.ConceptName;
-import org.openmrs.module.freeshr.terminology.web.api.ConceptReferenceTerm;
-import org.openmrs.module.freeshr.terminology.web.api.ConceptSource;
+import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,6 +14,8 @@ import static java.util.Locale.ENGLISH;
 
 @Component
 public class ConceptMapper {
+
+    private TrServerProperties properties;
 
     public Concept map(org.openmrs.Concept openmrsConcept) {
         Concept concept = new Concept();
@@ -65,6 +63,7 @@ public class ConceptMapper {
                 referenceTerm.setUuid(openmrsConceptReferenceTerm.getUuid());
                 referenceTerm.setName(openmrsConceptReferenceTerm.getName());
                 referenceTerm.setCode(openmrsConceptReferenceTerm.getCode());
+                referenceTerm.setUri(getReferenceTermUri(openmrsConceptReferenceTerm.getUuid()));
                 referenceTerm.setDescription(openmrsConceptReferenceTerm.getDescription());
                 referenceTerm.setVersion(openmrsConceptReferenceTerm.getVersion());
                 referenceTerm.setRetired(openmrsConceptReferenceTerm.isRetired());
@@ -74,6 +73,10 @@ public class ConceptMapper {
             }
         }
         return referenceTerms;
+    }
+
+    private String getReferenceTermUri(String uuid) {
+        return properties.getConceptReferenceTermUri() + uuid;
     }
 
     private ConceptSource mapConceptSource(org.openmrs.ConceptSource openmrsConceptSource) {
@@ -86,12 +89,17 @@ public class ConceptMapper {
     }
 
     private ConceptDescription mapDescription(org.openmrs.ConceptDescription openmrsConceptDescription) {
-        if (openmrsConceptDescription != null ) {
+        if (openmrsConceptDescription != null) {
             ConceptDescription description = new ConceptDescription();
             description.setDescription(openmrsConceptDescription.getDescription());
             description.setLocale(openmrsConceptDescription.getLocale().toString());
             return description;
         }
         return null;
+    }
+
+    @Autowired
+    public void setProperties(TrServerProperties properties) {
+        this.properties = properties;
     }
 }

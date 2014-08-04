@@ -42,6 +42,7 @@
         "description": "ICD10",
         "name": "ICD10"
       },
+      "uri": "www.bdshr-tr.com/openmrs/ws/rest/v1/conceptreferenceterm/565496c2-bdfe-4cce-87d4-92091ab1f67a",
       "mapType": "SAME-AS",
       "version": "1.0",
       "description": "ICD100description",

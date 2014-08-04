@@ -1,8 +1,5 @@
 package org.openmrs.module.freeshr.terminology.web.api;
 
-import org.apache.commons.collections.CollectionUtils;
-
-import java.util.Collections;
 import java.util.List;
 
 public class Concept {
@@ -105,27 +102,5 @@ public class Concept {
 
     public void setDescription(ConceptDescription description) {
         this.description = description;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Concept)) return false;
-
-        Concept concept = (Concept) o;
-
-        if (isRetired != concept.isRetired) return false;
-        if (retireReason != null ? !retireReason.equals(concept.retireReason) : concept.retireReason != null) return false;
-        if (isSet != concept.isSet) return false;
-        if (!conceptClass.equals(concept.conceptClass)) return false;
-        if (!datatypeName.equals(concept.datatypeName)) return false;
-        if (description != null ? !description.equals(concept.description) : concept.description != null) return false;
-        if (!fullySpecifiedName.equals(concept.fullySpecifiedName)) return false;
-        CollectionUtils.isEqualCollection(names, concept.names);
-        CollectionUtils.isEqualCollection(referenceTerms, concept.referenceTerms);
-        if (!uuid.equals(concept.uuid)) return false;
-        if (!version.equals(concept.version)) return false;
-
-        return true;
     }
 }

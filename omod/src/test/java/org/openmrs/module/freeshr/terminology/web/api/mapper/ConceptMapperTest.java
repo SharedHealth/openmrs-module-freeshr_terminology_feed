@@ -4,6 +4,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.openmrs.*;
 import org.openmrs.api.ConceptNameType;
+import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +13,10 @@ import java.util.ArrayList;
 
 import static java.util.Arrays.asList;
 import static java.util.Locale.ENGLISH;
-import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.openmrs.api.ConceptNameType.*;
+import static org.openmrs.module.freeshr.terminology.util.TestUtils.assertConcepts;
 
 public class ConceptMapperTest {
 
@@ -23,8 +26,14 @@ public class ConceptMapperTest {
     public void shouldMapConcept() throws IOException {
         File src = new File(URLClassLoader.getSystemResource("concept.json").getFile());
         org.openmrs.module.freeshr.terminology.web.api.Concept expected = mapper.readValue(src, org.openmrs.module.freeshr.terminology.web.api.Concept.class);
-        org.openmrs.module.freeshr.terminology.web.api.Concept actual = new ConceptMapper().map(getOpenmrsConcept());
-        assertEquals(expected, actual);
+
+        final TrServerProperties trServerProperties = mock(TrServerProperties.class);
+        final ConceptMapper conceptMapper = new ConceptMapper();
+        conceptMapper.setProperties(trServerProperties);
+        when(trServerProperties.getConceptReferenceTermUri()).thenReturn("www.bdshr-tr.com/openmrs/ws/rest/v1/conceptreferenceterm/");
+        org.openmrs.module.freeshr.terminology.web.api.Concept actual = conceptMapper.map(getOpenmrsConcept());
+
+        assertConcepts(expected, actual);
     }
 
     private Concept getOpenmrsConcept() {
@@ -44,7 +53,8 @@ public class ConceptMapperTest {
         conceptClass.setName("Diagnosis");
         openmrsConcept.setConceptClass(conceptClass);
 
-        openmrsConcept.setNames(asList(createConceptName("search", INDEX_TERM), createConceptName("test", SHORT), createConceptName("tbtest", FULLY_SPECIFIED)));
+        openmrsConcept.setNames(asList(createConceptName("search", INDEX_TERM), createConceptName("test", SHORT),
+                createConceptName("tbtest", FULLY_SPECIFIED), createConceptName("syn", null)));
 
         final ArrayList<org.openmrs.ConceptDescription> conceptDescriptions = new ArrayList<>();
         final org.openmrs.ConceptDescription conceptDescription = new org.openmrs.ConceptDescription();
