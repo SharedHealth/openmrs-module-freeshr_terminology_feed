@@ -2,6 +2,7 @@ package org.openmrs.module.freeshr.terminology.util;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.openmrs.module.freeshr.terminology.web.api.*;
+import org.openmrs.module.freeshr.terminology.web.api.mapper.MappingConstants;
 
 import java.util.List;
 
@@ -25,6 +26,22 @@ public class TestUtils {
         assertConceptReferenceTermLists(c1.getReferenceTerms(), c2.getReferenceTerms());
         assertConceptDescriptions(c1.getDescription(), c2.getDescription());
         assertConceptSetMembers(c1.getSetMembers(), c2.getSetMembers());
+    }
+
+    public static void assertConceptNumeric(Concept c1, Concept c2) {
+        assertConcepts(c1, c2);
+        assertNumericFields(c1, c2);
+    }
+
+    private static void assertNumericFields(Concept c1, Concept c2) {
+        assertEquals(c1.getProperty(MappingConstants.ABSOLUTE_HIGH.name()), c2.getProperty(MappingConstants.ABSOLUTE_HIGH.name()));
+        assertEquals(c1.getProperty(MappingConstants.CRITICAL_HIGH.name()), c2.getProperty(MappingConstants.CRITICAL_HIGH.name()));
+        assertEquals(c1.getProperty(MappingConstants.NORMAL_HIGH.name()), c2.getProperty(MappingConstants.NORMAL_HIGH.name()));
+        assertEquals(c1.getProperty(MappingConstants.NORMAL_LOW.name()), c2.getProperty(MappingConstants.NORMAL_LOW.name()));
+        assertEquals(c1.getProperty(MappingConstants.CRITICAL_LOW.name()), c2.getProperty(MappingConstants.CRITICAL_LOW.name()));
+        assertEquals(c1.getProperty(MappingConstants.ABSOLUTE_LOW.name()), c2.getProperty(MappingConstants.ABSOLUTE_LOW.name()));
+        assertEquals(c1.getProperty(MappingConstants.NUMERIC_PRECISE.name()), c2.getProperty(MappingConstants.NUMERIC_PRECISE.name()));
+        assertEquals(c1.getProperty(MappingConstants.NUMERIC_UNITS.name()), c2.getProperty(MappingConstants.NUMERIC_UNITS.name()));
     }
 
     private static void assertConceptSetMembers(List<String> setMembers, List<String> members) {
