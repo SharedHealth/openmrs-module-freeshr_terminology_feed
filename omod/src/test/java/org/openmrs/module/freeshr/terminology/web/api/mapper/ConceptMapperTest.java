@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Locale.ENGLISH;
@@ -26,14 +27,27 @@ public class ConceptMapperTest {
     public void shouldMapConcept() throws IOException {
         File src = new File(URLClassLoader.getSystemResource("concept.json").getFile());
         org.openmrs.module.freeshr.terminology.web.api.Concept expected = mapper.readValue(src, org.openmrs.module.freeshr.terminology.web.api.Concept.class);
-
-        final TrServerProperties trServerProperties = mock(TrServerProperties.class);
-        final ConceptMapper conceptMapper = new ConceptMapper();
-        conceptMapper.setProperties(trServerProperties);
-        when(trServerProperties.getConceptReferenceTermUri()).thenReturn("www.bdshr-tr.com/openmrs/ws/rest/v1/conceptreferenceterm/");
+        ConceptMapper conceptMapper = buildConceptMapper();
         org.openmrs.module.freeshr.terminology.web.api.Concept actual = conceptMapper.map(getOpenmrsConcept());
-
         assertConcepts(expected, actual);
+    }
+
+    private ConceptMapper buildConceptMapper() {
+        List<ConceptMappingCommons> commonMappings = asList(
+                new CommonMappings(),
+                new ConceptDescriptionMapper(),
+                new ConceptNameMapper(),
+                buildReferenceTermMapper(),
+                new ConceptSetsMapper()
+        );
+        List<ConceptMappingExtension> extensions = asList((ConceptMappingExtension) new NumericExtension());
+        return new ConceptMapper(commonMappings, extensions);
+    }
+
+    private ConceptReferenceTermMapper buildReferenceTermMapper() {
+        final TrServerProperties trServerProperties = mock(TrServerProperties.class);
+        when(trServerProperties.getConceptReferenceTermUri()).thenReturn("www.bdshr-tr.com/openmrs/ws/rest/v1/conceptreferenceterm/");
+        return new ConceptReferenceTermMapper(trServerProperties, new ConceptSourceMapper());
     }
 
     private Concept getOpenmrsConcept() {

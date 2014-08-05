@@ -1,115 +1,43 @@
 package org.openmrs.module.freeshr.terminology.web.api.mapper;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.openmrs.ConceptSet;
-import org.openmrs.module.freeshr.terminology.web.api.*;
-import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
+import org.openmrs.module.freeshr.terminology.web.api.Concept;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
-import static java.util.Locale.ENGLISH;
 
 @Component
 public class ConceptMapper {
 
-    private TrServerProperties properties;
+    private List<ConceptMappingCommons> commonMappings;
+    private List<ConceptMappingExtension> conceptMappingExtensions;
+
+    @Autowired
+    public ConceptMapper(List<ConceptMappingCommons> commonMappings, List<ConceptMappingExtension> conceptMappingExtensions) {
+        this.commonMappings = commonMappings;
+        this.conceptMappingExtensions = conceptMappingExtensions;
+    }
 
     public Concept map(org.openmrs.Concept openmrsConcept) {
         Concept concept = new Concept();
-        concept.setUuid(openmrsConcept.getUuid());
-        concept.setVersion(openmrsConcept.getVersion());
-        concept.setDatatypeName(openmrsConcept.getDatatype().getName());
-        concept.setConceptClass(openmrsConcept.getConceptClass().getName());
-        concept.setSet(openmrsConcept.isSet());
-        concept.setRetired(openmrsConcept.isRetired());
-        concept.setRetireReason(openmrsConcept.getRetireReason());
-        concept.setFullySpecifiedName(mapConceptName(openmrsConcept.getFullySpecifiedName(ENGLISH)));
-        concept.setNames(mapConceptNames(openmrsConcept.getNames()));
-        concept.setReferenceTerms(mapReferenceTerms(openmrsConcept.getConceptMappings()));
-        concept.setDescription(mapDescription(openmrsConcept.getDescription(ENGLISH)));
-        concept.setSetMembers(mapSetMembers(openmrsConcept.getConceptSets()));
+        concept = mapCommons(openmrsConcept, concept);
+        concept = mapExtensions(openmrsConcept, concept);
         return concept;
     }
 
-    private List<String> mapSetMembers(Collection<ConceptSet> conceptSets) {
-        List<String> conceptSetMembers = new ArrayList<>();
-        for (ConceptSet conceptSet : conceptSets) {
-            conceptSetMembers.add(conceptSet.getConcept().getUuid());
-        }
-        return conceptSetMembers;
-    }
-
-    private List<ConceptName> mapConceptNames(Collection<org.openmrs.ConceptName> openmrsConceptNames) {
-        List<ConceptName> names = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(openmrsConceptNames)) {
-            for (org.openmrs.ConceptName openmrsConceptName : openmrsConceptNames) {
-                names.add(mapConceptName(openmrsConceptName));
+    private Concept mapExtensions(org.openmrs.Concept openmrsConcept, Concept concept) {
+        for (ConceptMappingExtension conceptMappingExtension : conceptMappingExtensions) {
+            if (conceptMappingExtension.appliesTo(openmrsConcept)) {
+                concept = conceptMappingExtension.extend(concept, openmrsConcept);
             }
         }
-        return names;
+        return concept;
     }
 
-    private ConceptName mapConceptName(org.openmrs.ConceptName openmrsConceptName) {
-        ConceptName name = new ConceptName();
-        name.setConceptName(openmrsConceptName.getName());
-        name.setLocale(openmrsConceptName.getLocale().toString());
-        org.openmrs.api.ConceptNameType openmrsConceptNameType = openmrsConceptName.getConceptNameType();
-        if (openmrsConceptNameType != null) {
-            name.setConceptNameType(openmrsConceptNameType.name());
+    private Concept mapCommons(org.openmrs.Concept openmrsConcept, Concept concept) {
+        for (ConceptMappingCommons commonMapping : commonMappings) {
+            concept = commonMapping.map(concept, openmrsConcept);
         }
-        return name;
-    }
-
-    private List<ConceptReferenceTerm> mapReferenceTerms(Collection<org.openmrs.ConceptMap> openmrsConceptMappings) {
-        List<ConceptReferenceTerm> referenceTerms = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(openmrsConceptMappings)) {
-            for (org.openmrs.ConceptMap openmrsConceptMap : openmrsConceptMappings) {
-                org.openmrs.ConceptReferenceTerm openmrsConceptReferenceTerm = openmrsConceptMap.getConceptReferenceTerm();
-                ConceptReferenceTerm referenceTerm = new ConceptReferenceTerm();
-                referenceTerm.setUuid(openmrsConceptReferenceTerm.getUuid());
-                referenceTerm.setName(openmrsConceptReferenceTerm.getName());
-                referenceTerm.setCode(openmrsConceptReferenceTerm.getCode());
-                referenceTerm.setUri(getReferenceTermUri(openmrsConceptReferenceTerm.getUuid()));
-                referenceTerm.setDescription(openmrsConceptReferenceTerm.getDescription());
-                referenceTerm.setVersion(openmrsConceptReferenceTerm.getVersion());
-                referenceTerm.setRetired(openmrsConceptReferenceTerm.isRetired());
-                referenceTerm.setMapType(openmrsConceptMap.getConceptMapType().getName());
-                referenceTerm.setConceptSource(mapConceptSource(openmrsConceptReferenceTerm.getConceptSource()));
-                referenceTerms.add(referenceTerm);
-            }
-        }
-        return referenceTerms;
-    }
-
-    private String getReferenceTermUri(String uuid) {
-        return properties.getConceptReferenceTermUri() + uuid;
-    }
-
-    private ConceptSource mapConceptSource(org.openmrs.ConceptSource openmrsConceptSource) {
-        ConceptSource conceptSource = new ConceptSource();
-        conceptSource.setUuid(openmrsConceptSource.getUuid());
-        conceptSource.setName(openmrsConceptSource.getName());
-        conceptSource.setDescription(openmrsConceptSource.getDescription());
-        conceptSource.setHl7Code(openmrsConceptSource.getHl7Code());
-        return conceptSource;
-    }
-
-    private ConceptDescription mapDescription(org.openmrs.ConceptDescription openmrsConceptDescription) {
-        if (openmrsConceptDescription != null) {
-            ConceptDescription description = new ConceptDescription();
-            description.setDescription(openmrsConceptDescription.getDescription());
-            description.setLocale(openmrsConceptDescription.getLocale().toString());
-            return description;
-        }
-        return null;
-    }
-
-    @Autowired
-    public void setProperties(TrServerProperties properties) {
-        this.properties = properties;
+        return concept;
     }
 }

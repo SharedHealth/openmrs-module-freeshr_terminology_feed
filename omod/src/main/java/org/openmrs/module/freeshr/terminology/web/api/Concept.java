@@ -1,6 +1,8 @@
 package org.openmrs.module.freeshr.terminology.web.api;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Concept {
 
@@ -16,6 +18,7 @@ public class Concept {
     private List<ConceptReferenceTerm> referenceTerms;
     private ConceptDescription description;
     private List<String> setMembers;
+    private Map<String, String> properties = new HashMap<>();
 
     public String getUuid() {
         return uuid;
@@ -111,5 +114,21 @@ public class Concept {
 
     public void setSetMembers(List<String> setMembers) {
         this.setMembers = setMembers;
+    }
+
+    public Map<String, String> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Map<String, String> properties) {
+        this.properties = properties;
+    }
+
+    public void addProperty(String key, String value) {
+        properties.put(key, value);
+    }
+
+    public String getProperty(String key) {
+        return properties.get(key);
     }
 }
