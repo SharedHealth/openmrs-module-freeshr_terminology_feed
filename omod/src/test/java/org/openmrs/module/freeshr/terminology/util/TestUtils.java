@@ -5,6 +5,7 @@ import org.openmrs.module.freeshr.terminology.web.api.*;
 import org.openmrs.module.freeshr.terminology.web.api.mapper.MappingConstants;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -26,6 +27,11 @@ public class TestUtils {
         assertConceptReferenceTermLists(c1.getReferenceTerms(), c2.getReferenceTerms());
         assertConceptDescriptions(c1.getDescription(), c2.getDescription());
         assertConceptSetMembers(c1.getSetMembers(), c2.getSetMembers());
+        assertConceptAnswers(c1.getConceptAnswers(), c2.getConceptAnswers());
+    }
+
+    private static void assertConceptAnswers(Set<String> conceptAnswers, Set<String> conceptAnswers1) {
+        assertTrue(CollectionUtils.isEqualCollection(conceptAnswers, conceptAnswers1));
     }
 
     public static void assertConceptNumeric(Concept c1, Concept c2) {

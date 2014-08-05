@@ -67,5 +67,8 @@
     "ABSOLUTE_LOW" : "15.0",
     "NUMERIC_UNITS": "test",
     "NUMERIC_PRECISE": true
-  }
+  },
+  "conceptAnswers": [
+    "72e25536-6b37-4eff-9db8-7201d39fd6b3"
+  ]
 }

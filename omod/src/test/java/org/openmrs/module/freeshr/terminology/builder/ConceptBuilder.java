@@ -67,7 +67,17 @@ public class ConceptBuilder {
 
         openmrsConcept.addSetMember(buildSetMember());
 
+        openmrsConcept.addAnswer(buildAnswer());
+
         return openmrsConcept;
+    }
+
+    private static ConceptAnswer buildAnswer() {
+        ConceptAnswer answer = new ConceptAnswer();
+        Concept concept = new Concept();
+        concept.setUuid("72e25536-6b37-4eff-9db8-7201d39fd6b3");
+        answer.setAnswerConcept(concept);
+        return answer;
     }
 
     public static Concept getNumericConcept() {

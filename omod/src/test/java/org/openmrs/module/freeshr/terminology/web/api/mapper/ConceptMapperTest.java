@@ -45,7 +45,8 @@ public class ConceptMapperTest {
                 new ConceptDescriptionMapper(),
                 new ConceptNameMapper(),
                 buildReferenceTermMapper(),
-                new ConceptSetsMapper()
+                new ConceptSetsMapper(),
+                new ConceptAnswerMapper()
         );
         List<ConceptMappingExtension> extensions = asList((ConceptMappingExtension) new NumericExtension());
         return new ConceptMapper(commonMappings, extensions);
