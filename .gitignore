@@ -1,6 +1,7 @@
 #Vagrant directories
 .vagrant/
 .DS_Store
+omod/.DS_Store
 
 #Gradle directories
 .gradle/

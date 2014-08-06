@@ -28,6 +28,7 @@
     "locale": "en"
   },
   "uuid": "216c8246-202c-4376-bfa8-3278d1049630",
+  "uri": "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/216c8246-202c-4376-bfa8-3278d1049630",
   "datatypeName": "Text",
   "retired": true,
   "retireReason": "demo",
@@ -42,7 +43,7 @@
         "description": "ICD10",
         "name": "ICD10"
       },
-      "uri": "www.bdshr-tr.com/openmrs/ws/rest/v1/conceptreferenceterm/565496c2-bdfe-4cce-87d4-92091ab1f67a",
+      "uri": "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/referenceterms/565496c2-bdfe-4cce-87d4-92091ab1f67a",
       "mapType": "SAME-AS",
       "version": "1.0",
       "description": "ICD100description",

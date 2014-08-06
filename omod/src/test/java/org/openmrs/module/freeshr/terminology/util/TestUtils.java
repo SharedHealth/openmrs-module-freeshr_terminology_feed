@@ -1,13 +1,18 @@
 package org.openmrs.module.freeshr.terminology.util;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.openmrs.module.freeshr.terminology.web.api.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import org.openmrs.module.freeshr.terminology.web.api.Concept;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptDescription;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptName;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptReferenceTerm;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptSource;
 import org.openmrs.module.freeshr.terminology.web.api.mapper.MappingConstants;
 
 import java.util.List;
 import java.util.Set;
-
-import static org.junit.Assert.*;
 
 public class TestUtils {
 
@@ -16,6 +21,7 @@ public class TestUtils {
         assertNotNull(c2);
 
         assertEquals(c1.getUuid(), c2.getUuid());
+        assertEquals(c1.getUri(), c2.getUri());
         assertEquals(c1.getVersion(), c2.getVersion());
         assertEquals(c1.getDatatypeName(), c2.getDatatypeName());
         assertEquals(c1.getConceptClass(), c2.getConceptClass());

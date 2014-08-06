@@ -5,6 +5,7 @@ import java.util.*;
 public class Concept {
 
     private String uuid;
+    private String uri;
     private String version;
     private String datatypeName;
     private String conceptClass;
@@ -25,6 +26,14 @@ public class Concept {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
     public String getVersion() {

@@ -1,7 +1,16 @@
 package org.openmrs.module.freeshr.terminology.web.api.mapper;
 
+import static java.util.Arrays.asList;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
+import static org.openmrs.module.freeshr.terminology.builder.ConceptBuilder.buildNumericConcept;
+import static org.openmrs.module.freeshr.terminology.builder.ConceptBuilder.buildOpenmrsConcept;
+import static org.openmrs.module.freeshr.terminology.util.TestUtils.assertConceptNumeric;
+import static org.openmrs.module.freeshr.terminology.util.TestUtils.assertConcepts;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 
 import java.io.File;
@@ -9,24 +18,23 @@ import java.io.IOException;
 import java.net.URLClassLoader;
 import java.util.List;
 
-import static java.util.Arrays.asList;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.openmrs.module.freeshr.terminology.builder.ConceptBuilder.getNumericConcept;
-import static org.openmrs.module.freeshr.terminology.builder.ConceptBuilder.getOpenmrsConcept;
-import static org.openmrs.module.freeshr.terminology.util.TestUtils.assertConceptNumeric;
-import static org.openmrs.module.freeshr.terminology.util.TestUtils.assertConcepts;
-
 public class ConceptMapperTest {
 
     private ObjectMapper mapper = new ObjectMapper();
+    @Mock
+    private TrServerProperties trServerProperties;
+
+    @Before
+    public void setUp() throws Exception {
+        initMocks(this);
+    }
 
     @Test
     public void shouldMapConcept() throws IOException {
         File src = new File(URLClassLoader.getSystemResource("concept.json").getFile());
         org.openmrs.module.freeshr.terminology.web.api.Concept expected = mapper.readValue(src, org.openmrs.module.freeshr.terminology.web.api.Concept.class);
         ConceptMapper conceptMapper = buildConceptMapper();
-        org.openmrs.module.freeshr.terminology.web.api.Concept actual = conceptMapper.map(getOpenmrsConcept());
+        org.openmrs.module.freeshr.terminology.web.api.Concept actual = conceptMapper.map(buildOpenmrsConcept());
         assertConcepts(expected, actual);
     }
 
@@ -35,13 +43,13 @@ public class ConceptMapperTest {
         File src = new File(URLClassLoader.getSystemResource("concept_numeric.json").getFile());
         org.openmrs.module.freeshr.terminology.web.api.Concept expected = mapper.readValue(src, org.openmrs.module.freeshr.terminology.web.api.Concept.class);
         ConceptMapper conceptMapper = buildConceptMapper();
-        org.openmrs.module.freeshr.terminology.web.api.Concept actual = conceptMapper.map(getNumericConcept());
+        org.openmrs.module.freeshr.terminology.web.api.Concept actual = conceptMapper.map(buildNumericConcept());
         assertConceptNumeric(expected, actual);
     }
 
     private ConceptMapper buildConceptMapper() {
         List<ConceptMappingCommons> commonMappings = asList(
-                new CommonMappings(),
+                buildCommonMapper(),
                 new ConceptDescriptionMapper(),
                 new ConceptNameMapper(),
                 buildReferenceTermMapper(),
@@ -52,9 +60,13 @@ public class ConceptMapperTest {
         return new ConceptMapper(commonMappings, extensions);
     }
 
+    private CommonMappings buildCommonMapper() {
+        when(trServerProperties.getConceptUri()).thenReturn("www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/");
+        return new CommonMappings(trServerProperties);
+    }
+
     private ConceptReferenceTermMapper buildReferenceTermMapper() {
-        final TrServerProperties trServerProperties = mock(TrServerProperties.class);
-        when(trServerProperties.getConceptReferenceTermUri()).thenReturn("www.bdshr-tr.com/openmrs/ws/rest/v1/conceptreferenceterm/");
+        when(trServerProperties.getConceptReferenceTermUri()).thenReturn("www.bdshr-tr.com/openmrs/ws/rest/v1/tr/referenceterms/");
         return new ConceptReferenceTermMapper(trServerProperties, new ConceptSourceMapper());
     }
 }

@@ -12,6 +12,7 @@ import java.util.Properties;
 public class TrServerProperties {
     private static final Logger log = Logger.getLogger(TrServerProperties.class);
     private static final String PATH_TO_PROPERTIES = "/.OpenMRS/tr-server.properties";
+    private static final java.lang.String CONCEPT_URI = "concept.uri";
     private static final String CONCEPT_REFERENCE_TERM_URI = "concept.reference.term.uri";
 
     @Resource(name = "trServerDefaultProperties")
@@ -31,6 +32,10 @@ public class TrServerProperties {
             log.info("TR server property file not found at " + propertyFileLocation + ". Using defaults.");
             trServerProperties = defaultProperties;
         }
+    }
+
+    public String getConceptUri() {
+        return trServerProperties.getProperty(CONCEPT_URI);
     }
 
     public String getConceptReferenceTermUri() {

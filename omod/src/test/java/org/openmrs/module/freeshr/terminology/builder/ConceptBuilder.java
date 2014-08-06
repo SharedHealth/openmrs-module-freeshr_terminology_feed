@@ -12,7 +12,7 @@ import static org.openmrs.api.ConceptNameType.*;
 
 public class ConceptBuilder {
 
-    public static Concept getOpenmrsConcept() {
+    public static Concept buildOpenmrsConcept() {
         Concept openmrsConcept = new Concept();
         openmrsConcept.setUuid("216c8246-202c-4376-bfa8-3278d1049630");
         openmrsConcept.setVersion("1.1.1");
@@ -29,8 +29,8 @@ public class ConceptBuilder {
         conceptClass.setName("Diagnosis");
         openmrsConcept.setConceptClass(conceptClass);
 
-        openmrsConcept.setNames(asList(createConceptName("search", INDEX_TERM), createConceptName("test", SHORT),
-                createConceptName("tbtest", FULLY_SPECIFIED), createConceptName("syn", null)));
+        openmrsConcept.setNames(asList(buildConceptName("search", INDEX_TERM), buildConceptName("test", SHORT),
+                buildConceptName("tbtest", FULLY_SPECIFIED), buildConceptName("syn", null)));
 
         final ArrayList<ConceptDescription> conceptDescriptions = new ArrayList<>();
         final org.openmrs.ConceptDescription conceptDescription = new org.openmrs.ConceptDescription();
@@ -80,8 +80,8 @@ public class ConceptBuilder {
         return answer;
     }
 
-    public static Concept getNumericConcept() {
-        ConceptNumeric conceptNumeric = new ConceptNumeric(getOpenmrsConcept());
+    public static Concept buildNumericConcept() {
+        ConceptNumeric conceptNumeric = new ConceptNumeric(buildOpenmrsConcept());
         conceptNumeric.getDatatype().setName("Numeric");
         conceptNumeric.setHiAbsolute(10d);
         conceptNumeric.setHiCritical(11d);
@@ -100,7 +100,7 @@ public class ConceptBuilder {
         return concept;
     }
 
-    private static ConceptName createConceptName(String conceptNameValue, ConceptNameType conceptNameType) {
+    private static ConceptName buildConceptName(String conceptNameValue, ConceptNameType conceptNameType) {
         final ConceptName conceptName = new ConceptName(conceptNameValue, ENGLISH);
         conceptName.setConceptNameType(conceptNameType);
         return conceptName;
