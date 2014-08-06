@@ -35,20 +35,25 @@ public class ConceptReferenceTermMapper implements ConceptMappingCommons {
         if (CollectionUtils.isNotEmpty(openmrsConceptMappings)) {
             for (org.openmrs.ConceptMap openmrsConceptMap : openmrsConceptMappings) {
                 org.openmrs.ConceptReferenceTerm openmrsConceptReferenceTerm = openmrsConceptMap.getConceptReferenceTerm();
-                ConceptReferenceTerm referenceTerm = new ConceptReferenceTerm();
-                referenceTerm.setUuid(openmrsConceptReferenceTerm.getUuid());
-                referenceTerm.setName(openmrsConceptReferenceTerm.getName());
-                referenceTerm.setCode(openmrsConceptReferenceTerm.getCode());
-                referenceTerm.setUri(getReferenceTermUri(openmrsConceptReferenceTerm.getUuid()));
-                referenceTerm.setDescription(openmrsConceptReferenceTerm.getDescription());
-                referenceTerm.setVersion(openmrsConceptReferenceTerm.getVersion());
-                referenceTerm.setRetired(openmrsConceptReferenceTerm.isRetired());
+                final ConceptReferenceTerm referenceTerm = mapReferenceTerm(openmrsConceptReferenceTerm);
                 referenceTerm.setMapType(openmrsConceptMap.getConceptMapType().getName());
-                referenceTerm.setConceptSource(conceptSourceMapper.mapConceptSource(openmrsConceptReferenceTerm.getConceptSource()));
                 referenceTerms.add(referenceTerm);
             }
         }
         return referenceTerms;
+    }
+
+    public ConceptReferenceTerm mapReferenceTerm(org.openmrs.ConceptReferenceTerm openmrsConceptReferenceTerm) {
+        ConceptReferenceTerm referenceTerm = new ConceptReferenceTerm();
+        referenceTerm.setUuid(openmrsConceptReferenceTerm.getUuid());
+        referenceTerm.setName(openmrsConceptReferenceTerm.getName());
+        referenceTerm.setCode(openmrsConceptReferenceTerm.getCode());
+        referenceTerm.setUri(getReferenceTermUri(openmrsConceptReferenceTerm.getUuid()));
+        referenceTerm.setDescription(openmrsConceptReferenceTerm.getDescription());
+        referenceTerm.setVersion(openmrsConceptReferenceTerm.getVersion());
+        referenceTerm.setRetired(openmrsConceptReferenceTerm.isRetired());
+        referenceTerm.setConceptSource(conceptSourceMapper.mapConceptSource(openmrsConceptReferenceTerm.getConceptSource()));
+        return referenceTerm;
     }
 
     private String getReferenceTermUri(String uuid) {

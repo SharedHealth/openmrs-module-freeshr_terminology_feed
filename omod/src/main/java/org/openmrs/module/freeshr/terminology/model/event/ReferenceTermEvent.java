@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
 
 public class ReferenceTermEvent implements TREvent {
 
-    public static final String URL = "/openmrs/ws/rest/v1/conceptreferenceterm/%s?v=custom:(uuid,name,conceptSource,description,code,version,retired,conceptReferenceTermMaps)";
+    public static final String URL = "/openmrs/ws/rest/v1/tr/referenceterms/%s";
 
     private List<String> operations() {
         return asList("saveConceptReferenceTerm", "retireConceptReferenceTerm");
@@ -24,8 +24,7 @@ public class ReferenceTermEvent implements TREvent {
 
     public Event asAtomFeedEvent(Object[] arguments) throws URISyntaxException {
         ConceptReferenceTerm term = (ConceptReferenceTerm) arguments[0];
-        String conceptId = term.getUuid();
-        String url = String.format(URL, conceptId);
+        String url = String.format(URL, term.getUuid());
         return new Event(UUID.randomUUID().toString(), "ConceptReferenceTerm", DateTime.now(), url, url, "ConceptReferenceTerm");
     }
 }

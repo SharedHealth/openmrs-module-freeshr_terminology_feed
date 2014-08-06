@@ -17,18 +17,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ConceptController extends BaseRestController {
 
     private ConceptMapper conceptMapper;
-    private ConceptService conceptService;
+    private ConceptService openmrsConceptService;
 
     @Autowired
     public ConceptController(ConceptMapper conceptMapper, ConceptService conceptService) {
         this.conceptMapper = conceptMapper;
-        this.conceptService = conceptService;
+        this.openmrsConceptService = conceptService;
     }
 
     @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
     @ResponseBody
     public Concept getConcept(@PathVariable("uuid") String uuid) {
-        final org.openmrs.Concept openmrsConcept = conceptService.getConceptByUuid(uuid);
+        final org.openmrs.Concept openmrsConcept = openmrsConceptService.getConceptByUuid(uuid);
         if (openmrsConcept == null) {
             throw new ConceptNotFoundException("No concept found with uuid " + uuid);
         }
