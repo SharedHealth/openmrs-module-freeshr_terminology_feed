@@ -11,8 +11,7 @@ import java.util.Properties;
 @Component
 public class TrServerProperties {
     private static final Logger log = Logger.getLogger(TrServerProperties.class);
-    private static final String PATH_TO_PROPERTIES = "/.OpenMRS/tr-server.properties";
-    private static final java.lang.String CONCEPT_URI = "concept.uri";
+    private static final String CONCEPT_URI = "concept.uri";
     private static final String CONCEPT_REFERENCE_TERM_URI = "concept.reference.term.uri";
 
     @Resource(name = "trServerDefaultProperties")
@@ -21,15 +20,15 @@ public class TrServerProperties {
 
     @PostConstruct
     public void init() {
+        final String configFilePath = defaultProperties.getProperty("config.file.path");
         try {
             Properties envProperties = new Properties();
-            FileInputStream file = new FileInputStream(System.getProperty("user.home") + PATH_TO_PROPERTIES);
+            FileInputStream file = new FileInputStream(configFilePath);
             envProperties.load(file);
             trServerProperties = envProperties;
 
         } catch (Exception ignored) {
-            final String propertyFileLocation = System.getProperty("user.home") + PATH_TO_PROPERTIES;
-            log.info("TR server property file not found at " + propertyFileLocation + ". Using defaults.");
+            log.info(String.format("TR server property file [%s] not found. Using defaults.", configFilePath));
             trServerProperties = defaultProperties;
         }
     }
