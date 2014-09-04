@@ -16,9 +16,9 @@ public class Concept {
     private List<ConceptName> names;
     private List<ConceptReferenceTerm> referenceTerms;
     private ConceptDescription description;
-    private List<String> setMembers;
+    private List<SimpleConceptRepresentation> setMembers;
     private Map<String, String> properties = new HashMap<>();
-    private Set<String> conceptAnswers = new HashSet<>();
+    private Set<SimpleConceptRepresentation> conceptAnswers = new HashSet<>();
 
     public String getUuid() {
         return uuid;
@@ -116,11 +116,11 @@ public class Concept {
         this.description = description;
     }
 
-    public List<String> getSetMembers() {
+    public List<SimpleConceptRepresentation> getSetMembers() {
         return setMembers;
     }
 
-    public void setSetMembers(List<String> setMembers) {
+    public void setSetMembers(List<SimpleConceptRepresentation> setMembers) {
         this.setMembers = setMembers;
     }
 
@@ -140,15 +140,15 @@ public class Concept {
         return properties.get(key);
     }
 
-    public Set<String> getConceptAnswers() {
+    public Set<SimpleConceptRepresentation> getConceptAnswers() {
         return conceptAnswers;
     }
 
-    public void setConceptAnswers(Set<String> conceptAnswers) {
+    public void setConceptAnswers(Set<SimpleConceptRepresentation> conceptAnswers) {
         this.conceptAnswers = conceptAnswers;
     }
 
-    public void addAnswer(String answer) {
+    public void addAnswer(SimpleConceptRepresentation answer) {
         this.conceptAnswers.add(answer);
     }
 }

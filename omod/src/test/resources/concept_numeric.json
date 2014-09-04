@@ -56,7 +56,12 @@
     "description": "description123"
   },
   "setMembers" : [
-     "92efd6da-d0f8-4806-9093-0b099bf56ce8"
+     {
+         "uuid" : "92efd6da-d0f8-4806-9093-0b099bf56ce8",
+         "uri" : "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/92efd6da-d0f8-4806-9093-0b099bf56ce8",
+         "display" : "concept member 1"
+
+     }
   ],
   "set": true,
   "properties": {
@@ -70,6 +75,11 @@
     "NUMERIC_PRECISE": true
   },
   "conceptAnswers": [
-    "72e25536-6b37-4eff-9db8-7201d39fd6b3"
+     {
+          "uuid" : "72e25536-6b37-4eff-9db8-7201d39fd6b3",
+          "uri" : "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/72e25536-6b37-4eff-9db8-7201d39fd6b3",
+          "display" : "concept answer 1"
+
+     }
   ]
 }

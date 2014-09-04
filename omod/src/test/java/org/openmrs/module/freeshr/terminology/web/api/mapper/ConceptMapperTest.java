@@ -20,6 +20,7 @@ import java.util.List;
 
 public class ConceptMapperTest {
 
+    public static final String TR_REST_URL = "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/";
     private ObjectMapper mapper = new ObjectMapper();
     @Mock
     private TrServerProperties trServerProperties;
@@ -35,6 +36,7 @@ public class ConceptMapperTest {
         org.openmrs.module.freeshr.terminology.web.api.Concept expected = mapper.readValue(src, org.openmrs.module.freeshr.terminology.web.api.Concept.class);
         ConceptMapper conceptMapper = buildConceptMapper();
         org.openmrs.module.freeshr.terminology.web.api.Concept actual = conceptMapper.map(buildOpenmrsConcept());
+        //mapper.writeValue(System.out,actual);
         assertConcepts(expected, actual);
     }
 
@@ -44,6 +46,7 @@ public class ConceptMapperTest {
         org.openmrs.module.freeshr.terminology.web.api.Concept expected = mapper.readValue(src, org.openmrs.module.freeshr.terminology.web.api.Concept.class);
         ConceptMapper conceptMapper = buildConceptMapper();
         org.openmrs.module.freeshr.terminology.web.api.Concept actual = conceptMapper.map(buildNumericConcept());
+        //mapper.writeValue(System.out,actual);
         assertConceptNumeric(expected, actual);
     }
 
@@ -53,20 +56,20 @@ public class ConceptMapperTest {
                 new ConceptDescriptionMapper(),
                 new ConceptNameMapper(),
                 buildReferenceTermMapper(),
-                new ConceptSetsMapper(),
-                new ConceptAnswerMapper()
+                new ConceptSetsMapper(trServerProperties),
+                new ConceptAnswerMapper(trServerProperties)
         );
         List<ConceptMappingExtension> extensions = asList((ConceptMappingExtension) new NumericExtension());
         return new ConceptMapper(commonMappings, extensions);
     }
 
     private CommonMappings buildCommonMapper() {
-        when(trServerProperties.getConceptUri()).thenReturn("www.bdshr-tr.com/openmrs/ws/rest/v1/tr/concepts/");
+        when(trServerProperties.getConceptUri()).thenReturn(TR_REST_URL + "concepts/");
         return new CommonMappings(trServerProperties);
     }
 
     private ConceptReferenceTermMapper buildReferenceTermMapper() {
-        when(trServerProperties.getConceptReferenceTermUri()).thenReturn("www.bdshr-tr.com/openmrs/ws/rest/v1/tr/referenceterms/");
+        when(trServerProperties.getConceptReferenceTermUri()).thenReturn(TR_REST_URL + "referenceterms/");
         return new ConceptReferenceTermMapper(trServerProperties, new ConceptSourceMapper());
     }
 }

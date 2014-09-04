@@ -4,11 +4,8 @@ import org.apache.commons.collections.CollectionUtils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import org.openmrs.module.freeshr.terminology.web.api.Concept;
-import org.openmrs.module.freeshr.terminology.web.api.ConceptDescription;
-import org.openmrs.module.freeshr.terminology.web.api.ConceptName;
-import org.openmrs.module.freeshr.terminology.web.api.ConceptReferenceTerm;
-import org.openmrs.module.freeshr.terminology.web.api.ConceptSource;
+
+import org.openmrs.module.freeshr.terminology.web.api.*;
 import org.openmrs.module.freeshr.terminology.web.api.mapper.MappingConstants;
 
 import java.util.List;
@@ -36,7 +33,7 @@ public class TestUtils {
         assertConceptAnswers(c1.getConceptAnswers(), c2.getConceptAnswers());
     }
 
-    private static void assertConceptAnswers(Set<String> conceptAnswers, Set<String> conceptAnswers1) {
+    private static void assertConceptAnswers(Set<SimpleConceptRepresentation> conceptAnswers, Set<SimpleConceptRepresentation> conceptAnswers1) {
         assertTrue(CollectionUtils.isEqualCollection(conceptAnswers, conceptAnswers1));
     }
 
@@ -56,7 +53,7 @@ public class TestUtils {
         assertEquals(c1.getProperty(MappingConstants.NUMERIC_UNITS.name()), c2.getProperty(MappingConstants.NUMERIC_UNITS.name()));
     }
 
-    private static void assertConceptSetMembers(List<String> setMembers, List<String> members) {
+    private static void assertConceptSetMembers(List<SimpleConceptRepresentation> setMembers, List<SimpleConceptRepresentation> members) {
         assertTrue(CollectionUtils.isEqualCollection(setMembers, members));
     }
 

@@ -76,6 +76,7 @@ public class ConceptBuilder {
         ConceptAnswer answer = new ConceptAnswer();
         Concept concept = new Concept();
         concept.setUuid("72e25536-6b37-4eff-9db8-7201d39fd6b3");
+        concept.addName(new ConceptName("concept answer 1",ENGLISH));
         answer.setAnswerConcept(concept);
         return answer;
     }
@@ -97,6 +98,7 @@ public class ConceptBuilder {
     private static Concept buildSetMember() {
         Concept concept = new Concept();
         concept.setUuid("92efd6da-d0f8-4806-9093-0b099bf56ce8");
+        concept.addName(new ConceptName("concept member 1",ENGLISH));
         return concept;
     }
 
