@@ -9,12 +9,12 @@
         </sql>
     </changeSet>
     <changeSet id="BD-201411181657" author="neha" context="setup">
-        <comment>Add chunking history</comment>
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 select count(*) from chunking_history;
             </sqlCheck>
         </preConditions>
+        <comment>Add chunking history</comment>
         <sql>
             insert into chunking_history (id, chunk_length, start) values (1, 100, 1);
         </sql>
