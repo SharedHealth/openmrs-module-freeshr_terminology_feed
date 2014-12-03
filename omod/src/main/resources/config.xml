@@ -25,6 +25,11 @@
         <class>org.openmrs.module.freeshr.terminology.advice.TREventInterceptor</class>
     </advice>
 
+    <advice>
+        <point>org.openmrs.api.ConceptService</point>
+        <class>org.openmrs.module.freeshr.terminology.advice.TRConceptBeforeAdvice</class>
+    </advice>
+
     <!-- Internationalization -->
     <!-- All message codes should start with ${project.parent.artifactId}. -->
     <messages>

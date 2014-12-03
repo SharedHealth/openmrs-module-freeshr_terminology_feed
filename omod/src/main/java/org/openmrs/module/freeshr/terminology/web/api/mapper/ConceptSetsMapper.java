@@ -29,10 +29,8 @@ public class ConceptSetsMapper implements ConceptMappingCommons {
     }
 
     private List<SimpleConceptRepresentation> mapSetMembers(Collection<ConceptSet> conceptSets) {
-        //List<String> conceptSetMembers = new ArrayList<>();
         List<SimpleConceptRepresentation> conceptSetMembers = new ArrayList<>();
         for (ConceptSet conceptSet : conceptSets) {
-            //conceptSetMembers.add(conceptSet.getConcept().getUuid());
             conceptSetMembers.add(getSimplifiedConcept(conceptSet.getConcept()));
         }
         return conceptSetMembers;
