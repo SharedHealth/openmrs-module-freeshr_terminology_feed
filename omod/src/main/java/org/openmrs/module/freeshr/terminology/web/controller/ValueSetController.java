@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping(value = "/rest/v1/tr/vs")
@@ -30,16 +31,28 @@ public class ValueSetController extends BaseRestController {
 
     @RequestMapping(value = "/{vsName}", method = RequestMethod.GET)
     @ResponseBody
-    public ValueSet getValueSetByName(@PathVariable("vsName") String vsName) {
-        String tentativeName = vsName.replaceAll("-", " ");
-        final org.openmrs.Concept mrsConcept = openmrsConceptService.getConceptByName(tentativeName);
+    public ValueSet getValueSet(@PathVariable("vsName") String vsNameOrUUID) {
+        org.openmrs.Concept mrsConcept;  //removed final
+
+        try{
+            UUID.fromString(vsNameOrUUID);
+            mrsConcept = openmrsConceptService.getConceptByUuid(vsNameOrUUID);
+        }catch (IllegalArgumentException e){
+            mrsConcept = null;
+            //Go for a name check
+        }
+
+        if(mrsConcept == null){
+            String tentativeName = vsNameOrUUID.replaceAll("-", " ");
+            mrsConcept = openmrsConceptService.getConceptByName(tentativeName);
+        }
 
         if (mrsConcept == null) {
-            throw new ConceptNotFoundException(String.format("Can not find ValueSet [%s]", vsName));
+            throw new ConceptNotFoundException(String.format("Can not find ValueSet [%s]", vsNameOrUUID));
         }
 
         if (!isValueSet(mrsConcept)) {
-            throw new ConceptNotFoundException(String.format("Can not find ValueSet [%s]", vsName));
+            throw new ConceptNotFoundException(String.format("Can not find ValueSet [%s]", vsNameOrUUID));
         }
 
         ValueSet valueSet = new ValueSet(getIdentifier(mrsConcept),
