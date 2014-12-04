@@ -71,4 +71,52 @@
         <sqlFile splitStatements="false" path="storedProcedures/AddConceptNumericProc.sql"/>
     </changeSet>
 
+    <changeSet id="BD-201412031409" author="utsab" context="setup">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_reference_source where name = 'ICD10-BD';
+            </sqlCheck>
+        </preConditions>
+        <insert tableName="concept_reference_source">
+            <column name="name" value="ICD10-BD"/>
+            <column name="description" value="ICD10-BD"/>
+            <column name="hl7_code" value="ICD10-BD"/>
+            <column name="creator" value="1"/>
+            <column name="date_created" valueDate=" now()"/>
+            <column name="uuid" valueComputed=" uuid()"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="BD-201412031412" author="utsab" context="setup">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_reference_source where name = 'SNOMED-BD';
+            </sqlCheck>
+        </preConditions>
+        <insert tableName="concept_reference_source">
+            <column name="name" value="SNOMED-BD"/>
+            <column name="description" value="Systematized Nomenclature of Medicine Clinical Terms for Bangladesh"/>
+            <column name="hl7_code" value="SNOMED-BD"/>
+            <column name="creator" value="1"/>
+            <column name="date_created" valueDate=" now()"/>
+            <column name="uuid" valueComputed=" uuid()"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="BD-201412031415" author="utsab" context="setup">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_reference_source where name = 'LOINC';
+            </sqlCheck>
+        </preConditions>
+        <insert tableName="concept_reference_source">
+            <column name="name" value="LOINC"/>
+            <column name="description" value="These are codes for tests"/>
+            <column name="hl7_code" value="LOINC"/>
+            <column name="creator" value="1"/>
+            <column name="date_created" valueDate=" now()"/>
+            <column name="uuid" valueComputed=" uuid()"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>
