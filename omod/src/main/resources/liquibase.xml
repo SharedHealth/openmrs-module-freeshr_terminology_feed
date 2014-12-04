@@ -71,6 +71,16 @@
         <sqlFile splitStatements="false" path="storedProcedures/AddConceptNumericProc.sql"/>
     </changeSet>
 
+    <changeSet id="BD-201412041217" author="utsab" context="setup">
+        <comment>Add concept event proc</comment>
+        <sqlFile splitStatements="false" path="storedProcedures/AddConceptEventsProc.sql"/>
+    </changeSet>
+
+    <changeSet id="BD-201412041221" author="utsab" context="setup">
+        <comment>Add concept reference event proc</comment>
+        <sqlFile splitStatements="false" path="storedProcedures/AddConceptReferenceEventProc.sql"/>
+    </changeSet>
+
     <changeSet id="BD-201412031409" author="utsab" context="setup">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
