@@ -32,17 +32,13 @@ public class ValueSetController extends BaseRestController {
     @RequestMapping(value = "/{vsName}", method = RequestMethod.GET)
     @ResponseBody
     public ValueSet getValueSet(@PathVariable("vsName") String vsNameOrUUID) {
-        org.openmrs.Concept mrsConcept;  //removed final
+        org.openmrs.Concept mrsConcept = null;
 
-        try{
-            UUID.fromString(vsNameOrUUID);
+        if (isUUID(vsNameOrUUID)) {
             mrsConcept = openmrsConceptService.getConceptByUuid(vsNameOrUUID);
-        }catch (IllegalArgumentException e){
-            mrsConcept = null;
-            //Go for a name check
         }
 
-        if(mrsConcept == null){
+        if (mrsConcept == null) {
             String tentativeName = vsNameOrUUID.replaceAll("-", " ");
             mrsConcept = openmrsConceptService.getConceptByName(tentativeName);
         }
@@ -58,8 +54,17 @@ public class ValueSetController extends BaseRestController {
         ValueSet valueSet = new ValueSet(getIdentifier(mrsConcept),
                 getConceptDisplay(mrsConcept),
                 getDescription(mrsConcept),
-                getStatus(mrsConcept),getDefinition(mrsConcept));
+                getStatus(mrsConcept), getDefinition(mrsConcept));
         return valueSet;
+    }
+
+    private boolean isUUID(String vsNameOrUUID) {
+        try {
+            UUID.fromString(vsNameOrUUID);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
     }
 
     private boolean isValueSet(org.openmrs.Concept mrsConcept) {
@@ -86,9 +91,8 @@ public class ValueSetController extends BaseRestController {
     }
 
 
-
     private String getStatus(org.openmrs.Concept mrsConcept) {
-        return  mrsConcept.isRetired()? "retired" : "active";
+        return mrsConcept.isRetired() ? "retired" : "active";
     }
 
     private ValueSetDefinition getDefinition(org.openmrs.Concept mrsConcept) {
@@ -99,9 +103,9 @@ public class ValueSetController extends BaseRestController {
             for (ConceptAnswer answer : answers) {
                 Concept codedAnswer = answer.getAnswerConcept();
                 valueSetConcepts.add(new ValueSetConcept(
-                            getConceptCode(codedAnswer),
-                            getConceptDisplay(codedAnswer),
-                            getDescription(codedAnswer)));
+                        getConceptCode(codedAnswer),
+                        getConceptDisplay(codedAnswer),
+                        getDescription(codedAnswer)));
 
             }
             return new ValueSetDefinition(getIdentifier(mrsConcept), true, valueSetConcepts);
