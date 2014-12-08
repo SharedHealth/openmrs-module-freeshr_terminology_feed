@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+
+    <concept_class concept_class_id="3" name="Drug" description="Drug" creator="1" date_created="2010-10-10 00:00:00.0" retired="0" uuid="8d490dfc-c2cc-11de-8d13-0010c6dffd0f" />
+    <concept_class concept_class_id="4" name="Misc" description="misc" creator="1" date_created="2010-10-10 00:00:00.0" retired="0" uuid="xft90dfc-c2cc-11de-8d13-0010c6dffd0f" />
+
+    <concept concept_id="1200" retired="false" datatype_id="4" class_id="3" is_set="false" creator="1" date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="99110684-c97a-4a3b-9dad-5e5bf146867a"/>
+    <concept_name concept_name_id="1035" concept_id="1200" name="Paracetamol" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="false" uuid="3803d71e-adc6-41b9-a6c4-392a9593686c"/>
+
+    <concept concept_id="1201" retired="false" datatype_id="4" class_id="3" is_set="false" creator="1" date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="ddea03a4-c986-4bcd-b5d7-212b9fc52581"/>
+    <concept_name concept_name_id="1036" concept_id="1201" name="diphenhydramine" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="false" uuid="3031b038-2b77-4634-8614-35259e8d2e66"/>
+
+    <concept concept_id="1203" retired="false" datatype_id="4" class_id="4" is_set="false" creator="1" date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="99110684-c97a-4a3b-9dad-5e5bf1469x0d"/>
+    <concept_name concept_name_id="1037" concept_id="1203" name="Tablet" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="false" uuid="3803d71e-adc6-41b9-a6c4-392a95938df0"/>
+
+    <concept concept_id="1204" retired="false" datatype_id="4" class_id="4" is_set="false" creator="1" date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="ddea03a4-c986-4bcd-b5d7-212b9fc545dx"/>
+    <concept_name concept_name_id="1038" concept_id="1204" name="Liquid" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="false" uuid="3xd0b038-2b77-4634-8614-35259e8d2e66"/>
+
+    <drug drug_id="1010" concept_id="1200" name="Crocin 500mg" dosage_form="1203" combination="0" creator="1" date_created="2004-08-12 00:00:00.0" retired="0" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="ada47e63-5988-4f51-8282-e22fb66a7332"/>
+    <drug drug_id="1011" concept_id="1201" name="Benedryl"     dosage_form="1204" combination="0" creator="1" date_created="2004-08-12 00:00:00.0" retired="0" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="04558a65-0e18-4fc4-bb8d-4f9a89fbec5c"/>
+
+
+    <!--<concept concept_id="1000" retired="false" datatype_id="2" class_id="16" is_set="false" creator="1" date_created="2014-11-11 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="8d4a4488-c2cc-11de-8d13-0010c6dffd0f"/>-->
+    <!--<concept_name concept_id="1000" concept_name_id="1001" name="Patient Contact Relationship" locale="en" creator="1" date_created="2014-11-11 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="false" uuid="8d4a5e96-c2cc-11de-8d13-0010c6dffd0f"/>-->
+    <!--<concept_name concept_id="1000" concept_name_id="1002" name="Relationship" locale="en" creator="1" date_created="2014-11-11 00:00:00.0" concept_name_type="SHORT" locale_preferred="0" voided="false" uuid="ff99e6f9-e7b6-4d39-9940-6c953b24be52"/>-->
+    <!--<concept_description concept_id="1000" concept_description_id="1001" description="values of all relationships as contacts for a patient" locale="en" creator="1" date_created="2014-11-11 00:00:00.0" uuid="a0b25561-6105-47a1-8d08-c9484109c698"/>-->
+
+
+    <!--<concept concept_id="1010" retired="false" datatype_id="2" class_id="16" is_set="false" creator="1" date_created="2014-11-11 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="d8c9ac01-6d1e-4ec4-a45c-bf33fa56c754"/>-->
+    <!--<concept_name concept_name_id="10101" concept_id="1010" name="Emergency" locale="en" creator="1" date_created="2014-11-11 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="false" uuid="54243bec-6f9d-4488-ae59-cc906f6d2641"/>-->
+
+    <!--<concept concept_id="1011" retired="false" datatype_id="2" class_id="16" is_set="false" creator="1" date_created="2014-11-11 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="9165de8c-4438-4358-b174-9a108ccdf0dd"/>-->
+    <!--<concept_name concept_name_id="10102" concept_id="1011" name="Friend" locale="en" creator="1" date_created="2014-11-11 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="false" uuid="8d4918b0-c2cc-11de-8d13-0010c6dffd0f"/>-->
+
+
+    <!--<concept_answer concept_answer_id="10001" concept_id="1000" answer_concept="1010" sort_weight="1" creator="1" date_created="2014-11-11 00:00:00.0" uuid="ef1cc2e0-4540-4984-bc18-1ae79af6981a" />-->
+    <!--<concept_answer concept_answer_id="10002" concept_id="1000" answer_concept="1011" sort_weight="2" creator="1" date_created="2014-11-11 00:00:00.0" uuid="b98a8818-9273-4680-afe5-603ed4bcca31" />-->
+
+</dataset>
