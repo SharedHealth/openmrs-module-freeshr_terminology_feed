@@ -20,9 +20,8 @@ BEGIN
 
   SELECT count(distinct concept_id) into @concept_count from concept_name where name = name_of_concept and concept_name_type='FULLY_SPECIFIED';
   IF @concept_count > 0 THEN
---    SIGNAL SQLSTATE '45000'
---      SET MESSAGE_TEXT = 'Concept Already Exists';
-      CALL throw_error;
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Concept Already Exists';
   ELSE
     SELECT concept_datatype_id INTO data_type_id FROM concept_datatype WHERE name = data_type_name;
     SELECT concept_class_id INTO class_id FROM concept_class WHERE name = class_name;

@@ -129,4 +129,75 @@
         </insert>
     </changeSet>
 
+    <changeSet id="BD-201412041450" author="utsab">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Death note';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            set @concept_id_death_note = 0;
+            set @concept_name_short_id_death_note = 0;
+            set @concept_name_full_id_death_note = 0;
+
+            set @reference_term = '419620001';
+            set @reference_name = 'Death Alert';
+
+
+            set @concept_id_date_of_death = 0;
+            set @concept_name_short_id_date_of_death = 0;
+            set @concept_name_full_id_date_of_death = 0;
+
+            set @concept_id_cause_of_death = 0;
+            set @concept_name_short_id_cause_of_death = 0;
+            set @concept_name_full_id_cause_of_death = 0;
+
+            set @concept_id_Circumstances_of_death = 0;
+            set @concept_name_short_id_circumstances_of_death = 0;
+            set @concept_name_full_id_circumstances_of_death = 0;
+
+            call add_concept(@concept_id_death_note, @concept_name_short_id_death_note, @concept_name_full_id_death_note,
+            'Death Note', 'Death Note', 'N/A', 'ConvSet', true);
+
+            select concept_source_id into @concept_source_id_for_SNOWMED from concept_reference_source where name = 'SNOMED-BD';
+            select concept_map_type_id into @concept_map_type_id_for_SAMEAS from concept_map_type where name = 'SAME-AS';
+
+            call add_concept_reference_map(@concept_id_death_note, @concept_source_id_for_SNOWMED, @reference_term, @reference_name,
+            @concept_map_type_id_for_SAMEAS);
+
+            select MAX(concept_reference_term_id) into @concept_reference_term_id from concept_reference_term;
+
+            call add_concept(@concept_id_date_of_death, @concept_name_short_id_date_of_death, @concept_name_full_id_date_of_death,
+            'Date of death', 'date of death', 'Date', 'Question', false);
+
+            call add_concept(@concept_id_cause_of_death, @concept_name_short_id_cause_of_death, @concept_name_full_id_cause_of_death,
+            'Cause of Death', 'Cause of Death', 'Coded', 'Misc', false);
+
+            call add_concept(@concept_id_circumstances_of_death, @concept_name_short_id_circumstances_of_death,
+            @concept_name_full_id_circumstances_of_death, 'Circumstances of Death', 'Death Circumstances', 'Text', 'Question', false);
+
+            call add_concept_set_members(@concept_id_death_note, @concept_id_date_of_death, 1);
+            call add_concept_set_members(@concept_id_death_note, @concept_id_cause_of_death, 2);
+            call add_concept_set_members(@concept_id_death_note, @concept_id_circumstances_of_death, 3);
+
+            call add_concept_word(@concept_id_death_note, @concept_name_short_id_death_note, 'DEATH', '1');
+            call add_concept_word(@concept_id_death_note, @concept_name_full_id_death_note, 'NOTE', '1');
+
+            call add_concept_word(@concept_id_date_of_death, @concept_name_short_id_cause_of_death, 'DATE', '1');
+            call add_concept_word(@concept_id_date_of_death, @concept_name_full_id_date_of_death, 'DEATH', '1');
+
+            call add_concept_word(@concept_id_cause_of_death, @concept_name_short_id_cause_of_death, 'CAUSE', '1');
+            call add_concept_word(@concept_id_cause_of_death, @concept_name_full_id_cause_of_death, 'DEATH', '1');
+
+            call add_concept_word(@concept_id_circumstances_of_death, @concept_name_short_id_circumstances_of_death, 'CIRCUMSTANCE', '1');
+            call add_concept_word(@concept_id_circumstances_of_death, @concept_name_full_id_circumstances_of_death, 'DEATH', '1');
+
+            call add_concept_reference_events(@concept_reference_term_id);
+            call add_concept_events(@concept_id_death_note, 'ConvSet');
+            call add_concept_events(@concept_id_date_of_death, 'Question');
+            call add_concept_events(@concept_id_cause_of_death, 'Misc');
+            call add_concept_events(@concept_id_circumstances_of_death, 'Question');
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
