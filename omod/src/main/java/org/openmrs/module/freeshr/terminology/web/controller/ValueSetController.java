@@ -2,10 +2,12 @@ package org.openmrs.module.freeshr.terminology.web.controller;
 
 import org.openmrs.*;
 import org.openmrs.api.ConceptService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSet;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetConcept;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetDefinition;
+import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -72,8 +74,10 @@ public class ValueSetController extends BaseRestController {
     }
 
     private String getIdentifier(org.openmrs.Concept mrsConcept) {
+        String uriPrefix = Context.getAdministrationService().getGlobalProperty(
+                RestConstants.URI_PREFIX_GLOBAL_PROPERTY_NAME);
         String name = getConceptDisplay(mrsConcept);
-        return "/rest/v1/tr/vs/" + name.replaceAll(" ", "-").toLowerCase();
+        return uriPrefix + "/rest/v1/tr/vs/" + name.replaceAll(" ", "-").toLowerCase();
     }
 
     private String getDescription(org.openmrs.Concept mrsConcept) {

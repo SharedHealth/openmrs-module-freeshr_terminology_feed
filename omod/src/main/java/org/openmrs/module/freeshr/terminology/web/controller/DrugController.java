@@ -3,11 +3,13 @@ package org.openmrs.module.freeshr.terminology.web.controller;
 
 import org.openmrs.*;
 import org.openmrs.api.ConceptService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.model.CodeableConcept;
 import org.openmrs.module.freeshr.terminology.model.Coding;
 import org.openmrs.module.freeshr.terminology.model.drug.Medication;
 import org.openmrs.module.freeshr.terminology.model.drug.MedicationProduct;
+import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,15 +40,15 @@ public class DrugController extends BaseRestController {
         if (drug == null) {
             throw new ConceptNotFoundException("No drug found with uuid " + uuid);
         }
-
-        CodeableConcept code = new CodeableConcept(null);
-        code.addCoding(getConceptCoding(drug.getConcept()));
-        Coding medicationForm = getConceptCoding(drug.getDosageForm());
-
+        String uriPrefix = Context.getAdministrationService().getGlobalProperty(
+                RestConstants.URI_PREFIX_GLOBAL_PROPERTY_NAME);
+        CodeableConcept code = getConceptCoding(drug.getConcept(), uriPrefix);
+        CodeableConcept medicationForm = getConceptCoding(drug.getDosageForm(), uriPrefix);
         return new Medication(drug.getName(), code, new MedicationProduct(medicationForm));
     }
 
-    private Coding getConceptCoding(Concept concept) {
+    private CodeableConcept getConceptCoding(Concept concept, String uriPrefix) {
+        CodeableConcept codeableConcept = new CodeableConcept(null);
         if (concept == null) {
             return null;
         }
@@ -58,11 +60,12 @@ public class DrugController extends BaseRestController {
             }
 
             ConceptReferenceTerm referenceTerm = conceptMap.getConceptReferenceTerm();
-            String system = "/rest/v1/tr/referenceterms/" + referenceTerm.getUuid();
-            return new Coding(system, referenceTerm.getCode(), referenceTerm.getName());
+            String system = uriPrefix + "/rest/v1/tr/referenceterms/" + referenceTerm.getUuid();
+            codeableConcept.addCoding(new Coding(system, referenceTerm.getCode(), referenceTerm.getName()));
         }
 
         Collection<ConceptName> names = concept.getNames();
-        return new Coding("/rest/v1/tr/concepts/" + concept.getUuid(), concept.getUuid(), concept.getName().getName());
+        codeableConcept.addCoding(new Coding(uriPrefix + "/rest/v1/tr/concepts/" + concept.getUuid(), concept.getUuid(), concept.getName().getName()));
+        return codeableConcept;
     }
 }
