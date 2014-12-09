@@ -10,6 +10,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
+import org.openmrs.Drug;
 import org.openmrs.api.ConceptService;
 import org.openmrs.module.atomfeed.transaction.support.AtomFeedSpringTransactionManager;
 
@@ -107,5 +108,16 @@ public class TREventInterceptorTest {
         verify(atomFeedSpringTransactionManager).executeWithTransaction(captor.capture());
 
         assertEquals(AFTransactionWork.PropagationDefinition.PROPAGATION_REQUIRED, captor.getValue().getTxPropagationDefinition());
+    }
+
+    @Test
+    public void shouldPublishMedicationUpdateEvent() throws Throwable {
+        Method method = ConceptService.class.getMethod("saveDrug", Drug.class);
+        Drug drug = new Drug();
+        drug.setConcept(concept);
+
+        Object[] objects = new Object[]{drug};
+        publishedFeed.afterReturning(null, method, objects, null);
+        verify(atomFeedSpringTransactionManager, times(1)).executeWithTransaction(any(AFTransactionWorkWithoutResult.class));
     }
 }

@@ -3,6 +3,7 @@ package org.openmrs.module.freeshr.terminology.model.event;
 public class TREventFactory {
 
     static final String CONCEPT_URL = "/openmrs/ws/rest/v1/tr/concepts/%s";
+    public static final String VALUESET_URL = "/openmrs/ws/rest/v1/tr/vs/%s";
 
     public static TREvent conceptEvent() {
         return new ConceptEvent("concept", "concept", CONCEPT_URL);
@@ -50,5 +51,13 @@ public class TREventFactory {
 
     public static TREvent referenceTermEvent() {
         return new ReferenceTermEvent();
+    }
+
+    public static TREvent valueSetEvent() {
+        return new ConceptEvent("Valueset", "Valueset", VALUESET_URL);
+    }
+
+    public static TREvent medicationEvent() {
+        return new MedicationEvent();
     }
 }

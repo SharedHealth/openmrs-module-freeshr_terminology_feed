@@ -9,18 +9,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.apache.commons.collections.CollectionUtils.addIgnoreNull;
-import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.conceptEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.diagnosisEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.drugEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.findingEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.labSetEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.medSetEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.procedureEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.questionEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.referenceTermEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.symptomAndFindingEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.symptomEvent;
-import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.testEvent;
+import static org.openmrs.module.freeshr.terminology.model.event.TREventFactory.*;
 
 public class Operation {
 
@@ -36,7 +25,9 @@ public class Operation {
             medSetEvent(),
             symptomEvent(),
             symptomAndFindingEvent(),
-            referenceTermEvent());
+            referenceTermEvent(),
+            valueSetEvent(),
+            medicationEvent());
 
 
     public Operation(Method method) {
