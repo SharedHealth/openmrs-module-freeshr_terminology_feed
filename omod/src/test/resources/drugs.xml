@@ -16,8 +16,8 @@
     <concept concept_id="1204" retired="false" datatype_id="4" class_id="4" is_set="false" creator="1" date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="ddea03a4-c986-4bcd-b5d7-212b9fc545dx"/>
     <concept_name concept_name_id="1038" concept_id="1204" name="Liquid" locale="en" creator="1" date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1" voided="false" uuid="3xd0b038-2b77-4634-8614-35259e8d2e66"/>
 
-    <drug drug_id="1010" concept_id="1200" name="Crocin 500mg" dosage_form="1203" combination="0" creator="1" date_created="2004-08-12 00:00:00.0" retired="0" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="ada47e63-5988-4f51-8282-e22fb66a7332"/>
-    <drug drug_id="1011" concept_id="1201" name="Benedryl"     dosage_form="1204" combination="0" creator="1" date_created="2004-08-12 00:00:00.0" retired="0" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="04558a65-0e18-4fc4-bb8d-4f9a89fbec5c"/>
+    <drug drug_id="1010" concept_id="1200" name="Crocin 500mg" dosage_form="1203" dose_strength="500" units="mg" combination="0" creator="1" date_created="2004-08-12 00:00:00.0" retired="0" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="ada47e63-5988-4f51-8282-e22fb66a7332"/>
+    <drug drug_id="1011" concept_id="1201" name="Benedryl"     dosage_form="1204" dose_strength="20" units="ml" combination="0" creator="1" date_created="2004-08-12 00:00:00.0" retired="0" changed_by="1" date_changed="2005-02-25 11:43:43.0" uuid="04558a65-0e18-4fc4-bb8d-4f9a89fbec5c"/>
 
     <concept_reference_source concept_source_id="100" name="WHO DD ATC" description="WHO DD ATC" hl7_code="WHO-ATC" creator="1" date_created="2004-08-12 00:00:00.0" retired="0" uuid="62fddb4e-9a47-4a7c-af26-5098b488d44b"/>
     <concept_reference_term concept_reference_term_id="1100" concept_source_id="100" name="Paracetamol" code="N02BE01" creator="1" date_created="2004-08-12 00:00:00.0" retired="0" uuid="df2d10af-7bbd-49fe-951d-46f614ff6100"/>

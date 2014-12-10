@@ -7,6 +7,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.model.CodeableConcept;
 import org.openmrs.module.freeshr.terminology.model.Coding;
+import org.openmrs.module.freeshr.terminology.model.ResourceExtension;
 import org.openmrs.module.freeshr.terminology.model.drug.Medication;
 import org.openmrs.module.freeshr.terminology.model.drug.MedicationProduct;
 import org.openmrs.module.webservices.rest.web.RestConstants;
@@ -44,7 +45,10 @@ public class DrugController extends BaseRestController {
                 RestConstants.URI_PREFIX_GLOBAL_PROPERTY_NAME);
         CodeableConcept code = getConceptCoding(drug.getConcept(), uriPrefix);
         CodeableConcept medicationForm = getConceptCoding(drug.getDosageForm(), uriPrefix);
-        return new Medication(drug.getName(), code, new MedicationProduct(medicationForm));
+        Medication medication = new Medication(drug.getName(), code, new MedicationProduct(medicationForm));
+        String extensionURI = uriPrefix + "/rest/v1/tr/medication#";
+        medication.addExtension(new ResourceExtension(extensionURI + "med-extension-strength", drug.getDoseStrength().toString()));
+        return medication;
     }
 
     private CodeableConcept getConceptCoding(Concept concept, String uriPrefix) {

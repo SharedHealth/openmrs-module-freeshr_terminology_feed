@@ -1,10 +1,12 @@
 package org.openmrs.module.freeshr.terminology.web.controller;
 
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.ConceptService;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.model.Coding;
+import org.openmrs.module.freeshr.terminology.model.ResourceExtension;
 import org.openmrs.module.freeshr.terminology.model.drug.Medication;
 import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
 
@@ -40,6 +42,7 @@ public class DrugControllerIntegrationTest extends BaseModuleWebContextSensitive
         assertNotNull(medication);
         assertEquals("Benedryl", medication.getName());
 
+        assertEquals("20.0", medication.getExtension().get(0).getValueString());
 
         assertCoding("ddea03a4-c986-4bcd-b5d7-212b9fc52581", "diphenhydramine", "/rest/v1/tr/concepts/ddea03a4-c986-4bcd-b5d7-212b9fc52581", medicationCode);
         assertCoding("ddea03a4-c986-4bcd-b5d7-212b9fc545dx", "Liquid", "/rest/v1/tr/concepts/ddea03a4-c986-4bcd-b5d7-212b9fc545dx", medicationProductForm);
@@ -62,6 +65,8 @@ public class DrugControllerIntegrationTest extends BaseModuleWebContextSensitive
         Coding medicationProductForm = medication.getProduct().getForm().getCoding().get(0);
         assertNotNull(medication);
         assertEquals("Crocin 500mg", medication.getName());
+
+        assertEquals("500.0", medication.getExtension().get(0).getValueString());
 
         assertCoding("N02BE01", "Paracetamol", "/rest/v1/tr/referenceterms/df2d10af-7bbd-49fe-951d-46f614ff6100", medicationCode);
         assertCoding("99110684-c97a-4a3b-9dad-5e5bf146867a", "Paracetamol", "/rest/v1/tr/concepts/99110684-c97a-4a3b-9dad-5e5bf146867a", medicationCode1);
