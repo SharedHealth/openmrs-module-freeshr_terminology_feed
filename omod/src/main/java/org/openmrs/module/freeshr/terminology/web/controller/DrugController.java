@@ -47,7 +47,8 @@ public class DrugController extends BaseRestController {
         CodeableConcept medicationForm = getConceptCoding(drug.getDosageForm(), uriPrefix);
         Medication medication = new Medication(drug.getName(), code, new MedicationProduct(medicationForm));
         String extensionURI = uriPrefix + "/rest/v1/tr/medication#";
-        medication.addExtension(new ResourceExtension(extensionURI + "med-extension-strength", drug.getDoseStrength().toString()));
+        medication.addExtension(new ResourceExtension(extensionURI + "strength", drug.getDoseStrength().toString()));
+        medication.addExtension(new ResourceExtension(extensionURI + "retired", drug.isRetired().toString()));
         return medication;
     }
 
