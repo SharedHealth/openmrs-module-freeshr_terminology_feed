@@ -10,6 +10,7 @@ import org.openmrs.module.freeshr.terminology.model.Coding;
 import org.openmrs.module.freeshr.terminology.model.ResourceExtension;
 import org.openmrs.module.freeshr.terminology.model.drug.Medication;
 import org.openmrs.module.freeshr.terminology.model.drug.MedicationProduct;
+import org.openmrs.module.freeshr.terminology.utils.Constants;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import java.util.Collection;
 public class DrugController extends BaseRestController {
 
     private ConceptService openmrsConceptService;
-    private static final String CONCEPT_MAP_TYPE_SAME_AS_UUID = "35543629-7d8c-11e1-909d-c80aa9edcf4e";
+
 
     @Autowired
     public DrugController(ConceptService conceptService) {
@@ -60,7 +61,7 @@ public class DrugController extends BaseRestController {
 
         Collection<ConceptMap> conceptMappings = concept.getConceptMappings();
         for (ConceptMap conceptMap : conceptMappings) {
-            if (!conceptMap.getConceptMapType().getUuid().equals(CONCEPT_MAP_TYPE_SAME_AS_UUID)) {
+            if (!conceptMap.getConceptMapType().getUuid().equals(Constants.CONCEPT_MAP_TYPE_SAME_AS_UUID)) {
                 continue;
             }
 

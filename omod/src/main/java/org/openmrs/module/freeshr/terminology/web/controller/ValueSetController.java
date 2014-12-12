@@ -7,6 +7,7 @@ import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSet;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetConcept;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetDefinition;
+import org.openmrs.module.freeshr.terminology.utils.Constants;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +91,10 @@ public class ValueSetController extends BaseRestController {
     }
 
     private String getConceptCode(org.openmrs.Concept mrsConcept) {
+        String code = getReferenceCode(mrsConcept);
+        if (code != null) {
+            return code;
+        }
         Collection<ConceptName> shortNames = mrsConcept.getShortNames();
         return shortNames.isEmpty() ? mrsConcept.getName().getName() : ((ConceptName) shortNames.toArray()[0]).getName();
     }
@@ -115,6 +120,16 @@ public class ValueSetController extends BaseRestController {
             return new ValueSetDefinition(getIdentifier(mrsConcept), true, valueSetConcepts);
         }
         return new ValueSetDefinition(getIdentifier(mrsConcept), true, new ArrayList<ValueSetConcept>());
+    }
+
+    private String getReferenceCode(Concept codedAnswer) {
+        Collection<ConceptMap> conceptMaps = codedAnswer.getConceptMappings();
+        for (ConceptMap conceptMap : conceptMaps) {
+            if (conceptMap.getConceptMapType().getUuid().equals(Constants.CONCEPT_MAP_TYPE_SAME_AS_UUID)) {
+                return conceptMap.getConceptReferenceTerm().getCode();
+            }
+        }
+        return null;
     }
 
 
