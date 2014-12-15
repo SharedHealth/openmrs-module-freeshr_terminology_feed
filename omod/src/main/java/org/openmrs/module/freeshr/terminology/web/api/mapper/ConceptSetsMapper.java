@@ -24,14 +24,14 @@ public class ConceptSetsMapper implements ConceptMappingCommons {
 
     @Override
     public Concept map(Concept concept, org.openmrs.Concept openmrsConcept) {
-        concept.setSetMembers(mapSetMembers(openmrsConcept.getConceptSets()));
+        concept.setSetMembers(mapSetMembers(openmrsConcept.getSetMembers()));
         return concept;
     }
 
-    private List<SimpleConceptRepresentation> mapSetMembers(Collection<ConceptSet> conceptSets) {
+    private List<SimpleConceptRepresentation> mapSetMembers(List<org.openmrs.Concept> members) {
         List<SimpleConceptRepresentation> conceptSetMembers = new ArrayList<>();
-        for (ConceptSet conceptSet : conceptSets) {
-            conceptSetMembers.add(getSimplifiedConcept(conceptSet.getConcept()));
+        for (org.openmrs.Concept member : members) {
+            conceptSetMembers.add(getSimplifiedConcept(member));
         }
         return conceptSetMembers;
     }

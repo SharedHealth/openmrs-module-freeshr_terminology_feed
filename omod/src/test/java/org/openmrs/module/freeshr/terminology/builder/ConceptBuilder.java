@@ -5,6 +5,9 @@ import org.openmrs.*;
 import org.openmrs.api.ConceptNameType;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.TreeSet;
 
 import static java.util.Arrays.asList;
 import static java.util.Locale.ENGLISH;
@@ -12,8 +15,8 @@ import static org.openmrs.api.ConceptNameType.*;
 
 public class ConceptBuilder {
 
-    public static Concept buildOpenmrsConcept() {
-        Concept openmrsConcept = new Concept();
+    public static Concept buildOpenmrsConcept(String dataType) {
+        Concept openmrsConcept = createConcept(dataType);
         openmrsConcept.setUuid("216c8246-202c-4376-bfa8-3278d1049630");
         openmrsConcept.setVersion("1.1.1");
         openmrsConcept.setSet(true);
@@ -22,7 +25,7 @@ public class ConceptBuilder {
         openmrsConcept.setFullySpecifiedName(new ConceptName("tbtest", ENGLISH));
 
         final ConceptDatatype conceptDatatype = new ConceptDatatype();
-        conceptDatatype.setName("Text");
+        conceptDatatype.setName(dataType);
         openmrsConcept.setDatatype(conceptDatatype);
 
         final ConceptClass conceptClass = new ConceptClass();
@@ -72,6 +75,14 @@ public class ConceptBuilder {
         return openmrsConcept;
     }
 
+    private static Concept createConcept(String dataType) {
+        if (dataType.equalsIgnoreCase("Numeric")) {
+            return new ConceptNumeric();
+        } else {
+            return new Concept();
+        }
+    }
+
     private static ConceptAnswer buildAnswer() {
         ConceptAnswer answer = new ConceptAnswer();
         Concept concept = new Concept();
@@ -82,8 +93,7 @@ public class ConceptBuilder {
     }
 
     public static Concept buildNumericConcept() {
-        ConceptNumeric conceptNumeric = new ConceptNumeric(buildOpenmrsConcept());
-        conceptNumeric.getDatatype().setName("Numeric");
+        ConceptNumeric conceptNumeric = (ConceptNumeric) buildOpenmrsConcept("Numeric");
         conceptNumeric.setHiAbsolute(10d);
         conceptNumeric.setHiCritical(11d);
         conceptNumeric.setHiNormal(12d);

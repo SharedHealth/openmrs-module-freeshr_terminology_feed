@@ -35,7 +35,7 @@ public class ConceptMapperTest {
         File src = new File(URLClassLoader.getSystemResource("concept.json").getFile());
         org.openmrs.module.freeshr.terminology.web.api.Concept expected = mapper.readValue(src, org.openmrs.module.freeshr.terminology.web.api.Concept.class);
         ConceptMapper conceptMapper = buildConceptMapper();
-        org.openmrs.module.freeshr.terminology.web.api.Concept actual = conceptMapper.map(buildOpenmrsConcept());
+        org.openmrs.module.freeshr.terminology.web.api.Concept actual = conceptMapper.map(buildOpenmrsConcept("Text"));
         //mapper.writeValue(System.out,actual);
         assertConcepts(expected, actual);
     }
