@@ -11,6 +11,7 @@ import org.openmrs.module.freeshr.terminology.model.ResourceExtension;
 import org.openmrs.module.freeshr.terminology.model.drug.Medication;
 import org.openmrs.module.freeshr.terminology.model.drug.MedicationProduct;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
+import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +24,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Collection;
 
 @Controller
-@RequestMapping(value = "/rest/v1/tr/drugs")
+@RequestMapping(value = Constants.REST_URL_DRUG)
 public class DrugController extends BaseRestController {
 
     private ConceptService openmrsConceptService;
+    private TrServerProperties trServerProperties;
 
 
     @Autowired
-    public DrugController(ConceptService conceptService) {
+    public DrugController(ConceptService conceptService, TrServerProperties trServerProperties) {
         this.openmrsConceptService = conceptService;
+        this.trServerProperties = trServerProperties;
     }
 
     @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
@@ -42,8 +45,9 @@ public class DrugController extends BaseRestController {
         if (drug == null) {
             throw new ConceptNotFoundException("No drug found with uuid " + uuid);
         }
-        String uriPrefix = Context.getAdministrationService().getGlobalProperty(
-                RestConstants.URI_PREFIX_GLOBAL_PROPERTY_NAME);
+
+        String uriPrefix = trServerProperties.getRestUriPrefix();
+
         CodeableConcept code = getConceptCoding(drug.getConcept(), uriPrefix);
         CodeableConcept medicationForm = getConceptCoding(drug.getDosageForm(), uriPrefix);
         Medication medication = new Medication(drug.getName(), code, new MedicationProduct(medicationForm));

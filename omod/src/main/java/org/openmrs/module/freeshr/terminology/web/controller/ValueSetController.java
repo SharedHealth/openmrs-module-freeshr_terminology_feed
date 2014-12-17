@@ -8,6 +8,7 @@ import org.openmrs.module.freeshr.terminology.model.valueset.ValueSet;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetConcept;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetDefinition;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
+import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,15 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping(value = "/rest/v1/tr/vs")
+@RequestMapping(value = Constants.REST_URL_VS)
 public class ValueSetController extends BaseRestController {
     private final ConceptService openmrsConceptService;
+    private TrServerProperties trServerProperties;
 
     @Autowired
-    public ValueSetController(ConceptService conceptService) {
+    public ValueSetController(ConceptService conceptService, TrServerProperties trServerProperties) {
         this.openmrsConceptService = conceptService;
+        this.trServerProperties = trServerProperties;
     }
 
     @RequestMapping(value = "/{vsName}", method = RequestMethod.GET)
@@ -75,8 +78,7 @@ public class ValueSetController extends BaseRestController {
     }
 
     private String getIdentifier(org.openmrs.Concept mrsConcept) {
-        String uriPrefix = Context.getAdministrationService().getGlobalProperty(
-                RestConstants.URI_PREFIX_GLOBAL_PROPERTY_NAME);
+        String uriPrefix = trServerProperties.getRestUriPrefix();
         String name = getConceptDisplay(mrsConcept);
         return uriPrefix + "/rest/v1/tr/vs/" + name.replaceAll(" ", "-").toLowerCase();
     }

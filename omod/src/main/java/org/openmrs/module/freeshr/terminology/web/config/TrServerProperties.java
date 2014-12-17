@@ -11,8 +11,9 @@ import java.util.Properties;
 @Component
 public class TrServerProperties {
     private static final Logger log = Logger.getLogger(TrServerProperties.class);
-    private static final String CONCEPT_URI = "concept.uri";
-    private static final String CONCEPT_REFERENCE_TERM_URI = "concept.reference.term.uri";
+    private static final String REST_URI_PREFIX = "webservices.rest.uriPrefix";
+    private static final String CONCEPT_URI_CONTEXT_PATH = "concept.uri";
+    private static final String CONCEPT_REFERENCE_TERM_URI_CONTEXT_PATH = "concept.reference.term.uri";
 
     @Resource(name = "trServerDefaultProperties")
     private Properties defaultProperties;
@@ -34,10 +35,14 @@ public class TrServerProperties {
     }
 
     public String getConceptUri() {
-        return trServerProperties.getProperty(CONCEPT_URI);
+        return getRestUriPrefix() + trServerProperties.getProperty(CONCEPT_URI_CONTEXT_PATH);
     }
 
     public String getConceptReferenceTermUri() {
-        return trServerProperties.getProperty(CONCEPT_REFERENCE_TERM_URI);
+        return getRestUriPrefix() + trServerProperties.getProperty(CONCEPT_REFERENCE_TERM_URI_CONTEXT_PATH);
+    }
+
+    public String getRestUriPrefix() {
+        return trServerProperties.getProperty(REST_URI_PREFIX);
     }
 }

@@ -2,6 +2,7 @@ package org.openmrs.module.freeshr.terminology.web.controller;
 
 import org.openmrs.api.ConceptService;
 import org.openmrs.module.freeshr.terminology.exception.ReferenceTermNotFoundException;
+import org.openmrs.module.freeshr.terminology.utils.Constants;
 import org.openmrs.module.freeshr.terminology.web.api.ConceptReferenceTerm;
 import org.openmrs.module.freeshr.terminology.web.api.mapper.ConceptReferenceTermMapper;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = "/rest/v1/tr/referenceterms")
+@RequestMapping(value = Constants.REST_URL_REF_TERM)
 public class ReferenceTermController extends BaseRestController {
 
     private final ConceptReferenceTermMapper mapper;

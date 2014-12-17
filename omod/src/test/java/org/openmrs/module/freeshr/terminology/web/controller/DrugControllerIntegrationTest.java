@@ -8,7 +8,9 @@ import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException
 import org.openmrs.module.freeshr.terminology.model.Coding;
 import org.openmrs.module.freeshr.terminology.model.ResourceExtension;
 import org.openmrs.module.freeshr.terminology.model.drug.Medication;
+import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -18,11 +20,12 @@ import static org.junit.Assert.assertNotNull;
 public class DrugControllerIntegrationTest extends BaseModuleWebContextSensitiveTest {
     private DrugController drugController;
     private ConceptService conceptService;
-
+    @Autowired
+    private TrServerProperties trServerProperties;
     @Before
     public void setUp() {
         conceptService = org.openmrs.api.context.Context.getConceptService();
-        drugController = new DrugController(conceptService);
+        drugController = new DrugController(conceptService, trServerProperties);
     }
 
 

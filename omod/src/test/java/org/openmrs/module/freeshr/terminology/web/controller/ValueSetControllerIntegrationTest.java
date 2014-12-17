@@ -6,7 +6,9 @@ import org.junit.Test;
 import org.openmrs.api.ConceptService;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSet;
+import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -17,11 +19,13 @@ public class ValueSetControllerIntegrationTest extends BaseModuleWebContextSensi
     ValueSetController vsController;
 
     ConceptService conceptService;
+    @Autowired
+    TrServerProperties trServerProperties;
 
     @Before
     public void setUp() {
         conceptService = org.openmrs.api.context.Context.getConceptService();
-        vsController = new ValueSetController(conceptService);
+        vsController = new ValueSetController(conceptService, trServerProperties);
 
     }
 
