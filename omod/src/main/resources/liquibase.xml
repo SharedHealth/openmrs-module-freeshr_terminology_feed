@@ -200,4 +200,205 @@
         </sql>
     </changeSet>
 
+    <changeSet id="BD-201412171455" author="utsab">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Units of Time';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            set @concept_id_units_of_time = 0;
+            set @concept_name_short_id_units_of_time = 0;
+            set @concept_name_full_id_units_of_time = 0;
+
+            set @concept_id_second = 0;
+            set @concept_name_short_id_second = 0;
+            set @concept_name_full_id_second = 0;
+
+            set @concept_id_minute = 0;
+            set @concept_name_short_id_minute = 0;
+            set @concept_name_full_id_minute = 0;
+
+            set @concept_id_hour = 0;
+            set @concept_name_short_id_hour = 0;
+            set @concept_name_full_id_hour = 0;
+
+            set @concept_id_day = 0;
+            set @concept_name_short_id_day = 0;
+            set @concept_name_full_id_day = 0;
+
+            set @concept_id_week = 0;
+            set @concept_name_short_id_week = 0;
+            set @concept_name_full_id_week = 0;
+
+            set @concept_id_month = 0;
+            set @concept_name_short_id_month = 0;
+            set @concept_name_full_id_month = 0;
+
+            set @concept_id_year = 0;
+            set @concept_name_short_id_year = 0;
+            set @concept_name_full_id_year = 0;
+
+
+            call add_concept(@concept_id_units_of_time, @concept_name_short_id_units_of_time, @concept_name_full_id_units_of_time,
+            'Units of Time', 'Units of Time', 'Coded', 'Valueset', false);
+
+            call add_concept(@concept_id_second, @concept_name_short_id_second, @concept_name_full_id_second, 'second', 's', 'N/A', 'Misc', false);
+            call add_concept(@concept_id_minute, @concept_name_short_id_minute, @concept_name_full_id_minute, 'minute', 'm', 'N/A', 'Misc', false);
+            call add_concept(@concept_id_hour, @concept_name_short_id_hour, @concept_name_full_id_hour, 'hour', 'h', 'N/A', 'Misc', false);
+            call add_concept(@concept_id_day, @concept_name_short_id_day, @concept_name_full_id_day, 'day', 'd', 'N/A', 'Misc', false);
+            call add_concept(@concept_id_week, @concept_name_short_id_week, @concept_name_full_id_week, 'week', 'wk', 'N/A', 'Misc', false);
+            call add_concept(@concept_id_month, @concept_name_short_id_month, @concept_name_full_id_month, 'month', 'mo', 'N/A', 'Misc', false);
+            call add_concept(@concept_id_year, @concept_name_short_id_year, @concept_name_full_id_year, 'year', 'a', 'N/A', 'Misc', false);
+
+            call add_concept_answer(@concept_id_units_of_time, @concept_id_second, 1);
+            call add_concept_answer(@concept_id_units_of_time, @concept_id_minute, 2);
+            call add_concept_answer(@concept_id_units_of_time, @concept_id_hour, 3);
+            call add_concept_answer(@concept_id_units_of_time, @concept_id_day, 4);
+            call add_concept_answer(@concept_id_units_of_time, @concept_id_week, 5);
+            call add_concept_answer(@concept_id_units_of_time, @concept_id_month, 6);
+            call add_concept_answer(@concept_id_units_of_time, @concept_id_year, 7);
+
+            call add_concept_word(@concept_id_units_of_time, @concept_name_short_id_units_of_time, 'UNIT', 1);
+            call add_concept_word(@concept_id_units_of_time, @concept_name_full_id_units_of_time, 'TIME', 1);
+
+            call add_concept_word(@concept_id_second, @concept_name_full_id_second, 'SECOND', 1);
+            call add_concept_word(@concept_id_minute, @concept_name_full_id_minute, 'MINUTE', 1);
+            call add_concept_word(@concept_id_hour, @concept_name_full_id_hour, 'HOUR', 1);
+            call add_concept_word(@concept_id_day, @concept_name_full_id_day, 'DAY', 1);
+            call add_concept_word(@concept_id_week, @concept_name_full_id_week, 'WEEK', 1);
+            call add_concept_word(@concept_id_month, @concept_name_full_id_month, 'MONTH', 1);
+            call add_concept_word(@concept_id_year, @concept_name_full_id_year, 'YEAR', 1);
+
+            call add_concept_events(@concept_id_units_of_time, 'Valueset');
+            call add_concept_events(@concept_id_second, 'Misc');
+            call add_concept_events(@concept_id_minute, 'Misc');
+            call add_concept_events(@concept_id_hour, 'Misc');
+            call add_concept_events(@concept_id_day, 'Misc');
+            call add_concept_events(@concept_id_week, 'Misc');
+            call add_concept_events(@concept_id_month, 'Misc');
+            call add_concept_events(@concept_id_year, 'Misc');
+        </sql>
+    </changeSet>
+
+    <changeSet id="BD-201412171635" author="utsab">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Quantity Units';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            set @concept_id_quantity_units = 0;
+            set @concept_name_short_id_quantity_units = 0;
+            set @concept_name_full_id_quantity_units = 0;
+
+            set @concept_id_gram = 0;
+            set @concept_name_short_id_gram = 0;
+            set @concept_name_full_id_gram = 0;
+
+            set @concept_id_milligram = 0;
+            set @concept_name_short_id_milligram = 0;
+            set @concept_name_full_id_milligram = 0;
+
+            set @concept_id_microgram = 0;
+            set @concept_name_short_id_microgram = 0;
+            set @concept_name_full_id_microgram = 0;
+
+            set @concept_id_unit = 0;
+            set @concept_name_short_id_unit = 0;
+            set @concept_name_full_id_unit = 0;
+
+            set @concept_id_thousand_units = 0;
+            set @concept_name_short_id_thousand_units = 0;
+            set @concept_name_full_id_thousand_units = 0;
+
+            set @concept_id_million_units = 0;
+            set @concept_name_short_id_million_units = 0;
+            set @concept_name_full_id_million_units = 0;
+
+            set @concept_id_millimole = 0;
+            set @concept_name_short_id_millimole = 0;
+            set @concept_name_full_id_millimole = 0;
+
+            set @concept_id_millilitre = 0;
+            set @concept_name_short_id_millilitre = 0;
+            set @concept_name_full_id_millilitre = 0;
+
+
+            call add_concept(@concept_id_quantity_units, @concept_name_short_id_quantity_units, @concept_name_full_id_quantity_units,
+            'Quantity Units', 'Quantity Units', 'Coded', 'Valueset', false);
+
+            call add_concept(@concept_id_gram, @concept_name_short_id_gram, @concept_name_full_id_gram, 'gram', 'g', 'N/A', 'Misc', false);
+            call add_concept(@concept_id_milligram, @concept_name_short_id_milligram, @concept_name_full_id_milligram, 'milligram', 'mg', 'N/A', 'Misc', false);
+            call add_concept(@concept_id_microgram, @concept_name_short_id_microgram, @concept_name_full_id_microgram, 'microgram', 'mcg', 'N/A', 'Misc', false);
+            call add_concept(@concept_id_unit, @concept_name_short_id_unit, @concept_name_full_id_unit, 'unit', 'U', 'N/A', 'Misc', false);
+            call add_concept(@concept_id_thousand_units, @concept_name_short_id_thousand_units, @concept_name_full_id_thousand_units, 'thousand units', 'TU', 'N/A', 'Misc', false);
+            call add_concept(@concept_id_million_units, @concept_name_short_id_million_units, @concept_name_full_id_million_units, 'million units', 'MU', 'N/A', 'Misc', false);
+            call add_concept(@concept_id_millimole, @concept_name_short_id_millimole, @concept_name_full_id_millimole, 'millimole', 'mmol', 'N/A', 'Misc', false);
+            call add_concept(@concept_id_millilitre, @concept_name_short_id_millilitre, @concept_name_full_id_millilitre, 'millilitre', 'ml', 'N/A', 'Misc', false);
+
+            call add_concept_answer(@concept_id_quantity_units, @concept_id_gram, 1);
+            call add_concept_answer(@concept_id_quantity_units, @concept_id_milligram, 2);
+            call add_concept_answer(@concept_id_quantity_units, @concept_id_microgram, 3);
+            call add_concept_answer(@concept_id_quantity_units, @concept_id_unit, 4);
+            call add_concept_answer(@concept_id_quantity_units, @concept_id_thousand_units, 5);
+            call add_concept_answer(@concept_id_quantity_units, @concept_id_million_units, 6);
+            call add_concept_answer(@concept_id_quantity_units, @concept_id_millimole, 7);
+            call add_concept_answer(@concept_id_quantity_units, @concept_id_millilitre, 8);
+
+            call add_concept_word(@concept_id_quantity_units, @concept_name_short_id_quantity_units, 'UNIT', 1);
+            call add_concept_word(@concept_id_quantity_units, @concept_name_full_id_quantity_units, 'QUANTITY', 1);
+
+            call add_concept_word(@concept_id_gram, @concept_name_full_id_gram, 'GRAM', 1);
+            call add_concept_word(@concept_id_milligram, @concept_name_full_id_milligram, 'MILLIGRAM', 1);
+            call add_concept_word(@concept_id_microgram, @concept_name_full_id_microgram, 'MICROGRAM', 1);
+            call add_concept_word(@concept_id_unit, @concept_name_full_id_unit, 'UNIT', 1);
+            call add_concept_word(@concept_id_thousand_units, @concept_name_full_id_thousand_units, 'THOUSAND', 1);
+            call add_concept_word(@concept_id_thousand_units, @concept_name_short_id_thousand_units, 'UNITS', 1);
+            call add_concept_word(@concept_id_million_units, @concept_name_full_id_million_units, 'MILLION', 1);
+            call add_concept_word(@concept_id_million_units, @concept_name_short_id_million_units, 'UNITS', 1);
+            call add_concept_word(@concept_id_millimole, @concept_name_full_id_millimole, 'MILLIMOLE', 1);
+            call add_concept_word(@concept_id_millilitre, @concept_name_full_id_millilitre, 'MILLILITRE', 1);
+
+            call add_concept_events(@concept_id_quantity_units, 'Valueset');
+            call add_concept_events(@concept_id_gram, 'Misc');
+            call add_concept_events(@concept_id_milligram, 'Misc');
+            call add_concept_events(@concept_id_microgram, 'Misc');
+            call add_concept_events(@concept_id_unit, 'Misc');
+            call add_concept_events(@concept_id_thousand_units, 'Misc');
+            call add_concept_events(@concept_id_million_units, 'Misc');
+            call add_concept_events(@concept_id_millimole, 'Misc');
+            call add_concept_events(@concept_id_millilitre, 'Misc');
+        </sql>
+    </changeSet>
+
+
+    <changeSet id="BD-201412171735" author="utsab">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Route of Administration';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            set @concept_id_route_of_administration = 0;
+            set @concept_name_short_id_route_of_administration = 0;
+            set @concept_name_full_id_route_of_administration = 0;
+
+            set @concept_id_implant = 0;
+            set @concept_name_short_id_implant = 0;
+            set @concept_name_full_id_implant = 0;
+
+            call add_concept(@concept_id_route_of_administration, @concept_name_short_id_route_of_administration, @concept_name_full_id_route_of_administration,
+            'Route of Administration', 'Route of Administration', 'Coded', 'Valueset', false);
+            call add_concept_word(@concept_id_route_of_administration, @concept_name_short_id_route_of_administration, 'ROUTE', 1);
+            call add_concept_word(@concept_id_route_of_administration, @concept_name_full_id_route_of_administration, 'ADMINISTRATION', 1);
+            call add_concept_events(@concept_id_route_of_administration, 'Valueset');
+
+            call add_concept(@concept_id_implant, @concept_name_short_id_implant, @concept_name_full_id_implant, 'implant', 'implant', 'N/A', 'Misc', false);
+            call add_concept_answer(@concept_id_route_of_administration, @concept_id_implant, 1);
+            call add_concept_word(@concept_id_implant, @concept_name_short_id_implant, 'IMPLANT', 1);
+            call add_concept_events(@concept_id_implant, 'Misc');
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
