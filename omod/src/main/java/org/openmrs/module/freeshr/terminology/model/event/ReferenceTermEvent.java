@@ -15,7 +15,7 @@ public class ReferenceTermEvent implements TREvent {
     public static final String URL = "/openmrs/ws/rest/v1/tr/referenceterms/%s";
 
     private List<String> operations() {
-        return asList("saveConceptReferenceTerm", "retireConceptReferenceTerm");
+        return asList("saveConceptReferenceTerm", "retireConceptReferenceTerm", "unretireConceptReferenceTerm");
     }
 
     public Boolean isApplicable(String operation) {

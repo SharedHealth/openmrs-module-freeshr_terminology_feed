@@ -16,7 +16,7 @@ public class MedicationEvent implements TREvent {
     public static final String MEDICATION_URL = "/openmrs/ws/rest/v1/tr/drugs/%s";
 
     private List<String> operations() {
-        return asList("saveDrug");
+        return asList("saveDrug", "unretireDrug", "retireDrug");
     }
 
     public Boolean isApplicable(String operation) {
