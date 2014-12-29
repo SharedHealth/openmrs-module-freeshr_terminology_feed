@@ -1,5 +1,12 @@
 package org.openmrs.module.freeshr.terminology.web.api;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.codehaus.jackson.annotate.JsonWriteNullProperties;
+
+import java.util.List;
+
+@JsonPropertyOrder({"uri","uuid","code","name","conceptSource","description","mapType","version","retired","conceptReferenceTermMaps"})
+@JsonWriteNullProperties(false)
 public class ConceptReferenceTerm {
 
     private String uuid;
@@ -11,6 +18,7 @@ public class ConceptReferenceTerm {
     private boolean retired;
     private String mapType;
     private ConceptSource conceptSource;
+    private List<ConceptReferenceTermMap> conceptReferenceTermMaps;
 
     public String getUuid() {
         return uuid;
@@ -82,5 +90,13 @@ public class ConceptReferenceTerm {
 
     public void setConceptSource(ConceptSource conceptSource) {
         this.conceptSource = conceptSource;
+    }
+
+    public List<ConceptReferenceTermMap> getConceptReferenceTermMaps() {
+        return conceptReferenceTermMaps;
+    }
+
+    public void setConceptReferenceTermMaps(List<ConceptReferenceTermMap> conceptReferenceTermMaps) {
+        this.conceptReferenceTermMaps = conceptReferenceTermMaps;
     }
 }
