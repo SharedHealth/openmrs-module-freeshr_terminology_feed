@@ -401,4 +401,109 @@
         </sql>
     </changeSet>
 
+    <changeSet id="BD-201501021144" author="sanjana">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Immunization Incident';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            set @concept_id_immunization_incident = 0;
+            set @concept_id = 0;
+            set @concept_name_short_id = 0;
+            set @concept_name_full_id = 0;
+            set @concept_answer_id=0;
+            set @concept_source_id_for_SNOWMED=0;
+            set @concept_map_type_id_for_SAMEAS=0;
+
+            -- Creating Immunization concept
+            call add_concept(@concept_id_immunization_incident, @concept_name_short_id, @concept_name_full_id,
+            'Immunization Incident', 'Immunization Incident', 'N/A', 'ConvSet', true);
+            call add_concept_word(@concept_id_immunization_incident, @concept_name_short_id, 'IMMUNIZATION', 1);
+            call add_concept_word(@concept_id_immunization_incident, @concept_name_short_id, 'INCIDENT', 1);
+
+            -- Creating Vaccine concept
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Vaccine', 'Vaccine', 'Coded', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'VACCINE', 1);
+            call add_concept_events(@concept_id, 'Misc');
+            call add_concept_set_members(@concept_id_immunization_incident, @concept_id, 1);
+
+            -- Creating Vaccination Date concept
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Vaccination Date', 'Vaccination Date', 'Date', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'VACCINATION', 1);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'DATE', 1);
+            call add_concept_events(@concept_id, 'Misc');
+            call add_concept_set_members(@concept_id_immunization_incident, @concept_id, 2);
+
+            -- Creating Dosage concept
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Dosage', 'Dosage', 'Numeric', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'DOSAGE', 1);
+            call add_concept_events(@concept_id, 'Misc');
+            call add_concept_set_members(@concept_id_immunization_incident, @concept_id, 3);
+
+            -- Adding Quantity concept to immuniztion incident
+            select concept_id from concept_name where name = 'Quantity Units' and concept_name_type='FULLY_SPECIFIED' into @concept_id;
+            call add_concept_set_members(@concept_id_immunization_incident, @concept_id, 4);
+
+            -- Creating Vaccination Reported concept
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Vaccination Reported', 'Vaccination Reported', 'Boolean', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'VACCINATION', 1);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'REPORTED', 1);
+            call add_concept_events(@concept_id, 'Misc');
+            call add_concept_set_members(@concept_id_immunization_incident, @concept_id, 4);
+
+            -- Creating Travel Vaccinations concept
+            call add_concept(@concept_answer_id, @concept_name_short_id, @concept_name_full_id,
+            'Travel vaccinations', 'Travel vaccinations', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_answer_id, @concept_name_short_id, 'TRAVEL', 1);
+            call add_concept_word(@concept_answer_id, @concept_name_short_id, 'VACCINATIONS', 1);
+            call add_concept_events(@concept_answer_id, 'Misc');
+
+            -- Creating Travel Vaccinations Reference term concept
+            select concept_source_id into @concept_source_id_for_SNOWMED from concept_reference_source where name = 'SNOMED-BD';
+            select concept_map_type_id into @concept_map_type_id_for_SAMEAS from concept_map_type where name = 'SAME-AS';
+            call add_concept_reference_map(@concept_answer_id, @concept_source_id_for_SNOWMED, '281657000', 'Travel vaccinations', @concept_map_type_id_for_SAMEAS);
+
+            -- Creating Immunization Reason Valueset concept and adding Travel Vaccinations as answer
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Immunization Reason', 'Immunization Reason', 'Coded', 'Valueset', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'IMMUNIZATION', 1);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'REASON', 1);
+            call add_concept_set_members(@concept_id_immunization_incident, @concept_id, 5);
+            call add_concept_answer(@concept_id, @concept_answer_id, 1);
+            call add_concept_events(@concept_id, 'Valueset');
+
+            -- Creating Vaccination refused concept
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Vaccination Refused', 'Vaccination Refused', 'Boolean', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'VACCINATION', 1);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'REFUSED', 1);
+            call add_concept_events(@concept_id, 'Misc');
+            call add_concept_set_members(@concept_id_immunization_incident, @concept_id, 6);
+
+            -- Creating Patient Objection concept
+            call add_concept(@concept_answer_id, @concept_name_short_id, @concept_name_full_id,
+            'patient objection', 'PATOBJ', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_answer_id, @concept_name_short_id, 'PATIENT', 1);
+            call add_concept_word(@concept_answer_id, @concept_name_short_id, 'OBJECTION', 1);
+            call add_concept_events(@concept_answer_id, 'Misc');
+
+            -- Creating Immunization Reason Valueset concept and adding parent objection as answer
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'No Immunization Reason', 'No Immunization Reason', 'Coded', 'Valueset', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'IMMUNIZATION', 1);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'REASON', 1);
+            call add_concept_set_members(@concept_id_immunization_incident, @concept_id, 7);
+            call add_concept_answer(@concept_id, @concept_answer_id, 1);
+            call add_concept_events(@concept_id, 'Valueset');
+
+            -- Adding immunization incident to event_records
+            call add_concept_events(@concept_id_immunization_incident, 'ConvSet');
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
