@@ -506,4 +506,24 @@
         </sql>
     </changeSet>
 
+    <changeSet id="BD-201501051058" author="sanjana" context="setup">
+        <comment>Fix Add Concept Reference Event Proc</comment>
+        <sql>
+            DROP PROCEDURE IF EXISTS add_concept_reference_map;
+        </sql>
+        <sqlFile splitStatements="false" path="storedProcedures/FixAddConceptReferenceMapProc.sql"/>
+    </changeSet>
+
+    <changeSet id="BD-201501051108" author="sanjana">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from concept_reference_term where name  = 'Travel vaccinations';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            set @reference_term_id = 0;
+            select concept_reference_term_id from concept_reference_term where name  = 'Travel vaccinations' into @reference_term_id;
+            call add_concept_reference_events(@reference_term_id);
+        </sql>
+    </changeSet>
 </databaseChangeLog>
