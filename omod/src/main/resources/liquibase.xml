@@ -526,4 +526,20 @@
             call add_concept_reference_events(@reference_term_id);
         </sql>
     </changeSet>
+
+    <changeSet id="BD-201501061611" author="sanjana">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from concept_name where name  = 'Immunization Incident' and concept_name_type='FULLY_SPECIFIED';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding route of Administration to Immunization incident</comment>
+        <sql>
+            set @route_concept_id = 0;
+            set @immunization_incident_concept_id = 0;
+            select concept_id into @route_concept_id from concept_name where name = 'Route of Administration' and concept_name_type='FULLY_SPECIFIED';
+            select concept_id into @immunization_incident_concept_id from concept_name where name = 'Immunization Incident' and concept_name_type='FULLY_SPECIFIED';
+            call add_concept_set_members(@immunization_incident_concept_id, @route_concept_id, 8);
+        </sql>
+    </changeSet>
 </databaseChangeLog>
