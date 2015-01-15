@@ -542,4 +542,112 @@
             call add_concept_set_members(@immunization_incident_concept_id, @route_concept_id, 8);
         </sql>
     </changeSet>
+    <changeSet id="BD-201501141616" author="sanjana">
+    <preConditions onFail="MARK_RAN">
+        <sqlCheck expectedResult="0">
+            select count(*) from concept_name where name = 'Procedures';
+        </sqlCheck>
+    </preConditions>
+    <sql>
+        set @concept_id_procedures = 0;
+        set @concept_id = 0;
+        set @concept_name_short_id = 0;
+        set @concept_name_full_id = 0;
+        set @concept_source_id_for_ICD_10 = 0;
+        set @concept_map_type_id_for_SAMEAS=0;
+        set @concept_answer_id = 0;
+
+        -- Creating Procedures concept
+        call add_concept(@concept_id_procedures, @concept_name_short_id, @concept_name_full_id,
+        'Procedures', ' Procedures', 'N/A', 'ConvSet', true);
+        call add_concept_word(@concept_id_procedures, @concept_name_short_id, 'PROCEDURES', 1);
+        call add_concept_description(@concept_id_procedures, 'Procedures');
+
+        -- Creating Procedure Start Date concept
+        call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+        'Procedure Start Date', 'Procedure Start Date', 'Date', 'Misc', false);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'PROCEDURE', 1);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'START', 1);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'DATE', 1);
+        call add_concept_description(@concept_id, 'Procedure Start Date');
+        call add_concept_events(@concept_id, 'Misc');
+        call add_concept_set_members(@concept_id_procedures, @concept_id, 1);
+
+        -- Creating Procedure End Date concept
+        call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+        'Procedure End Date', 'Procedure End Date', 'Date', 'Misc', false);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'PROCEDURE', 1);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'END', 1);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'DATE', 1);
+        call add_concept_description(@concept_id, 'Procedures');
+        call add_concept_events(@concept_id, 'Misc');
+        call add_concept_set_members(@concept_id_procedures, @concept_id, 2);
+
+        -- Creating Procedure concept
+        call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+        'Procedure', 'Procedure', 'Coded', 'Misc', false);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'PROCEDURE', 1);
+        call add_concept_events(@concept_id, 'Misc');
+        call add_concept_description(@concept_id, 'Procedure');
+        call add_concept_events(@concept_id, 'Misc');
+        call add_concept_set_members(@concept_id_procedures, @concept_id, 3);
+
+        -- Creating Follow Up
+        call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+        'Follow up', 'Follow up', 'Text', 'Misc', false);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'FOLLOW', 1);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'UP', 1);
+        call add_concept_description(@concept_id, 'Follow up');
+        call add_concept_events(@concept_id, 'Misc');
+        call add_concept_set_members(@concept_id_procedures, @concept_id, 4);
+
+        -- Creating Outcome
+        call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+        'Outcome', 'Outcome', 'Text', 'Misc', false);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'OUTCOME', 1);
+        call add_concept_description(@concept_id, 'Outcome');
+        call add_concept_events(@concept_id, 'Misc');
+        call add_concept_set_members(@concept_id_procedures, @concept_id, 5);
+
+        -- Creating Diagnostic Study
+        set @concept_diagnosis_study=0;
+        call add_concept(@concept_diagnosis_study, @concept_name_short_id, @concept_name_full_id,
+        'Diagnostic Study', 'Diagnostic Study', 'N/A', 'ConvSet', true);
+        call add_concept_word(@concept_diagnosis_study, @concept_name_short_id, 'Diagnostic', 1);
+        call add_concept_word(@concept_diagnosis_study, @concept_name_short_id, 'Study', 1);
+        call add_concept_description(@concept_diagnosis_study, 'Diagnostic Study');
+
+        -- Create Diagnostic Test concept
+        call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+        'Diagnostic Test', 'Diagnostic Test', 'Coded', 'Misc', false);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'Diagnostic', 1);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'Test', 1);
+        call add_concept_description(@concept_id, 'Diagnostic Test');
+        call add_concept_set_members(@concept_diagnosis_study, @concept_id, 1);
+        call add_concept_events(@concept_id, 'Misc');
+
+        -- Create Diagnosis Result concept
+        call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+        'Result', 'Result', 'Text', 'Misc', false);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'Result', 1);
+        call add_concept_description(@concept_id, 'Result');
+        call add_concept_set_members(@concept_diagnosis_study, @concept_id, 2);
+        call add_concept_events(@concept_id, 'Misc');
+
+
+        -- Creating Diagnosis
+        call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+        'Diagnosis', 'Diagnosis', 'Coded', 'Misc', false);
+        call add_concept_word(@concept_id, @concept_name_short_id, 'DIAGNOSIS', 1);
+        call add_concept_events(@concept_id, 'Misc');
+        call add_concept_description(@concept_id, 'Diagnosis');
+        call add_concept_set_members(@concept_diagnosis_study, @concept_id, 3);
+
+        call add_concept_set_members(@concept_id_procedures, @concept_diagnosis_study, 6);
+        call add_concept_events(@concept_diagnosis_study, 'ConvSet');
+
+        -- create event created for Procedures
+        call add_concept_events(@concept_id_procedures, 'ConvSet');
+    </sql>
+    </changeSet>
 </databaseChangeLog>
