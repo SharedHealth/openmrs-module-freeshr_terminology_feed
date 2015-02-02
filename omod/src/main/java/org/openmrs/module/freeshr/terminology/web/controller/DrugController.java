@@ -3,6 +3,7 @@ package org.openmrs.module.freeshr.terminology.web.controller;
 
 import org.openmrs.*;
 import org.openmrs.api.ConceptService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.model.CodeableConcept;
 import org.openmrs.module.freeshr.terminology.model.Coding;
@@ -11,6 +12,7 @@ import org.openmrs.module.freeshr.terminology.model.drug.Medication;
 import org.openmrs.module.freeshr.terminology.model.drug.MedicationProduct;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
+import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,7 +50,7 @@ public class DrugController extends BaseRestController {
 
         CodeableConcept code = getConceptCoding(drug.getConcept(), uriPrefix);
         CodeableConcept medicationForm = getConceptCoding(drug.getDosageForm(), uriPrefix);
-        Medication medication = new Medication(drug.getUuid(), drug.getName(), code, new MedicationProduct(medicationForm));
+        Medication medication = new Medication(drug.getName(), code, new MedicationProduct(medicationForm));
         String extensionURI = uriPrefix + "/rest/v1/tr/medication#";
         medication.addExtension(new ResourceExtension(extensionURI + "strength", drug.getStrength()));
         medication.addExtension(new ResourceExtension(extensionURI + "retired", drug.isRetired().toString()));

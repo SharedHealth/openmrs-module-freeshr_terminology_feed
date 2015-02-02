@@ -10,15 +10,13 @@ import java.util.List;
 
 @JsonPropertyOrder({"resourceType","name", "code", "product"})
 public class Medication {
-    private String uuid;
     private String resourceType = "Medication";
     private String name;
     private CodeableConcept code;
     private MedicationProduct product;
     private List<ResourceExtension> extension;
 
-    public Medication(String uuid, String name, CodeableConcept code, MedicationProduct product) {
-        this.uuid = uuid;
+    public Medication(String name, CodeableConcept code, MedicationProduct product) {
         this.name = name;
         this.code = code;
         this.product = product;
