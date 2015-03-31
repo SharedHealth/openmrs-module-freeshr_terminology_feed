@@ -3,6 +3,7 @@ package org.openmrs.module.freeshr.terminology.model.event;
 import org.ict4h.atomfeed.server.service.Event;
 import org.joda.time.DateTime;
 import org.openmrs.Concept;
+import org.openmrs.module.freeshr.terminology.utils.StringUtil;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -19,7 +20,7 @@ public class ConceptEvent implements TREvent {
     public ConceptEvent(String title, String category, String url) {
         this.title = title;
         this.category = category;
-        this.url = url;
+        this.url = StringUtil.ensureSuffix(url, "/");
     }
 
     private List<String> operations() {
@@ -34,8 +35,8 @@ public class ConceptEvent implements TREvent {
     public Event asAtomFeedEvent(Object[] arguments) throws URISyntaxException {
         Concept concept = (Concept) arguments[0];
         if (isMatchingCategory(concept, this.title)) {
-            String url = String.format(this.url, concept.getUuid());
-            return new Event(UUID.randomUUID().toString(), this.title, DateTime.now(), url, url, this.category);
+            String eventUrl = this.url + concept.getUuid();
+            return new Event(UUID.randomUUID().toString(), this.title, DateTime.now(), eventUrl, eventUrl, this.category);
         }
         return null;
     }

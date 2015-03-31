@@ -8,6 +8,7 @@ import org.openmrs.module.freeshr.terminology.model.valueset.ValueSet;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetConcept;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetDefinition;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
+import org.openmrs.module.freeshr.terminology.utils.StringUtil;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
@@ -78,9 +79,9 @@ public class ValueSetController extends BaseRestController {
     }
 
     private String getIdentifier(org.openmrs.Concept mrsConcept) {
-        String uriPrefix = trServerProperties.getRestUriPrefix();
+        String uriPrefix = StringUtil.removeSuffix(trServerProperties.getRestUriPrefix(), "/");
         String name = getConceptDisplay(mrsConcept);
-        return uriPrefix + "/rest/v1/tr/vs/" + name.replaceAll(" ", "-").toLowerCase();
+        return uriPrefix + StringUtil.ensureSuffix(Constants.REST_URL_VS, "/") + name.replaceAll(" ", "-").toLowerCase();
     }
 
     private String getDescription(org.openmrs.Concept mrsConcept) {

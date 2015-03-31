@@ -11,6 +11,7 @@ import org.openmrs.module.freeshr.terminology.model.ResourceExtension;
 import org.openmrs.module.freeshr.terminology.model.drug.Medication;
 import org.openmrs.module.freeshr.terminology.model.drug.MedicationProduct;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
+import org.openmrs.module.freeshr.terminology.utils.StringUtil;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
@@ -46,7 +47,7 @@ public class DrugController extends BaseRestController {
             throw new ConceptNotFoundException("No drug found with uuid " + uuid);
         }
 
-        String uriPrefix = trServerProperties.getRestUriPrefix();
+        String uriPrefix = StringUtil.removeSuffix(trServerProperties.getRestUriPrefix(), "/");
 
         CodeableConcept code = getConceptCoding(drug.getConcept(), uriPrefix);
         CodeableConcept medicationForm = getConceptCoding(drug.getDosageForm(), uriPrefix);
@@ -70,12 +71,14 @@ public class DrugController extends BaseRestController {
             }
 
             ConceptReferenceTerm referenceTerm = conceptMap.getConceptReferenceTerm();
-            String system = uriPrefix + "/rest/v1/tr/referenceterms/" + referenceTerm.getUuid();
+            String system = uriPrefix + StringUtil.ensureSuffix(Constants.REST_URL_REF_TERM, "/") + referenceTerm.getUuid();
             codeableConcept.addCoding(new Coding(system, referenceTerm.getCode(), referenceTerm.getName()));
         }
 
         Collection<ConceptName> names = concept.getNames();
-        codeableConcept.addCoding(new Coding(uriPrefix + "/rest/v1/tr/concepts/" + concept.getUuid(), concept.getUuid(), concept.getName().getName()));
+
+        String conceptUrl = uriPrefix + StringUtil.ensureSuffix(Constants.REST_URL_CONCEPT, "/") + concept.getUuid();
+        codeableConcept.addCoding(new Coding(conceptUrl, concept.getUuid(), concept.getName().getName()));
         return codeableConcept;
     }
 }

@@ -1,6 +1,7 @@
 package org.openmrs.module.freeshr.terminology.web.config;
 
 import org.apache.log4j.Logger;
+import org.openmrs.module.freeshr.terminology.utils.StringUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -35,14 +36,14 @@ public class TrServerProperties {
     }
 
     public String getConceptUri() {
-        return getRestUriPrefix() + trServerProperties.getProperty(CONCEPT_URI_CONTEXT_PATH);
+        return getRestUriPrefix() + StringUtil.removePrefix(trServerProperties.getProperty(CONCEPT_URI_CONTEXT_PATH), "/");
     }
 
     public String getConceptReferenceTermUri() {
-        return getRestUriPrefix() + trServerProperties.getProperty(CONCEPT_REFERENCE_TERM_URI_CONTEXT_PATH);
+        return getRestUriPrefix() + StringUtil.removePrefix(trServerProperties.getProperty(CONCEPT_REFERENCE_TERM_URI_CONTEXT_PATH), "/");
     }
 
     public String getRestUriPrefix() {
-        return trServerProperties.getProperty(REST_URI_PREFIX);
+        return StringUtil.ensureSuffix(trServerProperties.getProperty(REST_URI_PREFIX), "/");
     }
 }

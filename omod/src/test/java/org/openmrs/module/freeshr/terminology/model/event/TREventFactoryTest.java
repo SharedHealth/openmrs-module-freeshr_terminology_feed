@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
+import org.openmrs.module.freeshr.terminology.utils.StringUtil;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -42,7 +43,7 @@ public class TREventFactoryTest {
         assertThat(event.getCategory(), is("Diagnosis"));
         assertThat(event.getTitle(), is("Diagnosis"));
 
-        final String url = String.format(CONCEPT_URL, concept.getUuid());
+        final String url = StringUtil.ensureSuffix(CONCEPT_URL, "/") + concept.getUuid();
         assertThat(event.getContents(), is(url));
         assertThat(event.getUri().toString(), is(url));
     }

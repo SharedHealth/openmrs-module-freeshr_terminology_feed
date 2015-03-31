@@ -1,9 +1,12 @@
 package org.openmrs.module.freeshr.terminology.model.event;
 
+import org.openmrs.module.freeshr.terminology.utils.Constants;
+import org.openmrs.module.freeshr.terminology.utils.StringUtil;
+
 public class TREventFactory {
 
-    static final String CONCEPT_URL = "/openmrs/ws/rest/v1/tr/concepts/%s";
-    public static final String VALUESET_URL = "/openmrs/ws/rest/v1/tr/vs/%s";
+    static final String CONCEPT_URL = Constants.WS_CONTEXT + Constants.REST_URL_CONCEPT;
+    public static final String VALUESET_URL = Constants.WS_CONTEXT + Constants.REST_URL_VS;
 
     public static TREvent conceptEvent() {
         return new ConceptEvent("concept", "concept", CONCEPT_URL);
