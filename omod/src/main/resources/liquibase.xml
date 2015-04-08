@@ -650,4 +650,25 @@
         call add_concept_events(@concept_id_procedures, 'ConvSet');
     </sql>
     </changeSet>
+
+    <changeSet id="BD-201504081208" author="angshu" context="setup">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from role where role  = 'TR API CONSUMER';
+            </sqlCheck>
+        </preConditions>
+        <comment>Add TR API CONSUMER role</comment>
+        <sql>
+            insert into role (role, description) values ('TR API CONSUMER', 'Terminologies REST API User. This is meant for public');
+            delete from role_privilege where role = 'TR API CONSUMER';
+            insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concept Classes');
+            insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concept Datatypes');
+            insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concept Sources');
+            insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concept Map Types');
+            insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concept Reference Terms');
+            insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concepts');
+            insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View RESTWS');
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
