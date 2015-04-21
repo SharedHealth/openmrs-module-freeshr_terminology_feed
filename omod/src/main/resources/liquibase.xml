@@ -494,7 +494,7 @@
     <changeSet id="BD-201505211432" author="neha">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
-                select count(*) from concept_name where name = 'Immunization Reason';
+                select count(*) from concept_name where name = 'No Immunization Reason';
             </sqlCheck>
         </preConditions>
         <comment>Creating Travel Vaccinations Valueset</comment>
