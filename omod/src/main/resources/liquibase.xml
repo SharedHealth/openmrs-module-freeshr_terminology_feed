@@ -684,4 +684,28 @@
             call add_concept_events(@encounter_type_concept_id, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
         </sql>
     </changeSet>
+    <changeSet id="BD-201505211752" author="neha" context="setup">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from concept_reference_source where name = 'SNOMED-BD';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding SNOMED-BD concept reference source</comment>
+        <sql>
+            update concept_reference_source set name = 'SNOMED-CT-BD', hl7_code = 'SNOMED-CT-BD'
+            where name = 'SNOMED-BD';
+        </sql>
+    </changeSet>
+    <changeSet id="BD-201505211755" author="neha" context="setup">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from concept_reference_source where name = 'LOINC';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding SNOMED-BD concept reference source</comment>
+        <sql>
+            update concept_reference_source set name = 'LOINC-BD', hl7_code = 'LOINC-BD'
+            where name = 'LOINC';
+        </sql>
+    </changeSet>
 </databaseChangeLog>
