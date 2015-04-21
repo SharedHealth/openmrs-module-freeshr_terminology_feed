@@ -507,7 +507,7 @@
             set @concept_map_type_id_for_SAMEAS=0;
 
             -- Creating Patient Objection concept
-            call add_concept(@concept_answer_id, @concept_name_short_id, @concept_name_full_id,
+            call add_concept(@concept_patient_obj_id, @concept_name_short_id, @concept_name_full_id,
             'patient objection', 'PATOBJ', 'N/A', 'Misc', false);
             call add_concept_word(@concept_patient_obj_id, @concept_name_short_id, 'PATIENT', 1);
             call add_concept_word(@concept_patient_obj_id, @concept_name_short_id, 'OBJECTION', 1);
