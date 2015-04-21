@@ -543,5 +543,145 @@
             insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View RESTWS');
         </sql>
     </changeSet>
+    <changeSet id="BD-201504211613" author="neha">
+        <comment>Changing date of death concept datatype to datetime</comment>
+        <sql>
+            set @date_of_death_concept_id = 0;
+            set @concept_datatype_datetime_id = 0;
+            select concept_id from concept_name where name = 'Date of death' and concept_name_type='FULLY_SPECIFIED' into @date_of_death_concept_id;
+            select concept_datatype_id from concept_datatype where name = 'Datetime' into @concept_datatype_datetime_id;
+            update concept set datatype_id = @concept_datatype_datetime_id where concept_id = @date_of_death_concept_id;
+        </sql>
+    </changeSet>
+    <changeSet id="BD-201504211724" author="neha">
+        <preConditions>
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Place of Death' and concept_name_type='FULLY_SPECIFIED';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding Place of death concept to Death Note</comment>
+        <sql>
+            set @death_note_concept_id = 0;
+            set @concept_id = 0;
+            set @concept_name_full_id = 0;
+            set @concept_name_short_id = 0;
+            select concept_id from concept_name where name = 'Death Note' and concept_name_type='FULLY_SPECIFIED' into @death_note_concept_id;
 
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Place of Death', 'Place of Death', 'Text', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'PLACE', 1);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'DEATH', 1);
+            call add_concept_set_members(@death_note_concept_id, @concept_id, 4);
+            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+
+            call add_concept_events(@death_note_concept_id, 'ConvSet', '/openmrs/ws/rest/v1/tr/concepts/');
+        </sql>
+    </changeSet>
+    <changeSet id="BD-201504211623" author="neha">
+        <preConditions>
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Relationship Type' and concept_name_type='FULLY_SPECIFIED';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding Relation Valueset</comment>
+        <sql>
+            set @relationship_type_concept_id = 0;
+            set @concept_id = 0;
+            set @concept_name_short_id = 0;
+            set @concept_name_full_id = 0;
+
+            call add_concept(@relationship_type_concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Relationship Type', 'relationship type', 'Coded', 'Valueset', false);
+            call add_concept_word(@relationship_type_concept_id, @concept_name_short_id, 'Relationship', 1);
+            call add_concept_word(@relationship_type_concept_id, @concept_name_short_id, 'Type', 1);
+
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'father', 'FTH', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'FATHER', 1);
+            call add_concept_answer(@relationship_type_concept_id, @concept_id, 1);
+            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'mother', 'MTH', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'MOTHER', 1);
+            call add_concept_answer(@relationship_type_concept_id, @concept_id, 2);
+            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'child', 'CHILD', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'CHILD', 1);
+            call add_concept_answer(@relationship_type_concept_id, @concept_id, 3);
+            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'spouse', 'SPS', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'SPOUSE', 1);
+            call add_concept_answer(@relationship_type_concept_id, @concept_id, 4);
+            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'sibling', 'SIB', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'SIBLING', 1);
+            call add_concept_answer(@relationship_type_concept_id, @concept_id, 5);
+            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'family member', 'FAMMEMB', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'FAMILY MEMBER', 1);
+            call add_concept_answer(@relationship_type_concept_id, @concept_id, 6);
+            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+
+            call add_concept_events(@relationship_type_concept_id, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
+        </sql>
+    </changeSet>
+    <changeSet id="BD-201504211648" author="neha">
+        <preConditions>
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Encounter Type' and concept_name_type='FULLY_SPECIFIED';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding Encounter Type Valueset</comment>
+        <sql>
+            set @encounter_type_concept_id = 0;
+            set @concept_id = 0;
+            set @concept_name_short_id = 0;
+            set @concept_name_full_id = 0;
+
+            call add_concept(@encounter_type_concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Encounter Type', 'encounter type', 'Coded', 'Valueset', false);
+            call add_concept_word(@encounter_type_concept_id, @concept_name_short_id, 'Encounter', 1);
+            call add_concept_word(@encounter_type_concept_id, @concept_name_short_id, 'Type', 1);
+            call add_concept_events(@encounter_type_concept_id, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
+
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Registration', 'REG', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'Registration', 1);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'IPD', 1);
+            call add_concept_answer(@encounter_type_concept_id, @concept_id, 1);
+            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Outpatient', 'OPD', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'Outpatient', 1);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'OPD', 1);
+            call add_concept_answer(@encounter_type_concept_id, @concept_id, 2);
+            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Inpatient', 'IPD', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'Inpatient', 1);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'IPD', 1);
+            call add_concept_answer(@encounter_type_concept_id, @concept_id, 2);
+            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Emergency', 'EME', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'Emergency', 1);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'EME', 1);
+            call add_concept_answer(@encounter_type_concept_id, @concept_id, 2);
+            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+
+            call add_concept_events(@encounter_type_concept_id, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
+        </sql>
+    </changeSet>
 </databaseChangeLog>
