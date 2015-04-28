@@ -674,4 +674,29 @@
             call add_concept_events(@encounter_type_concept_id, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
         </sql>
     </changeSet>
+    <changeSet id="BD-201504281848" author="neha">
+        <preConditions>
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Field' and concept_name_type='FULLY_SPECIFIED';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding Encounter Type Field</comment>
+        <sql>
+            set @encounter_type_concept_id = 0;
+            set @concept_id = 0;
+            set @concept_name_short_id = 0;
+            set @concept_name_full_id = 0;
+
+            select concept_id into @encounter_type_concept_id from concept_name where name = 'Encounter Type' and concept_name_type='FULLY_SPECIFIED';
+
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Field', 'FLD', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'FIELD', 1);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'FLD', 1);
+            call add_concept_answer(@encounter_type_concept_id, @concept_id, 5);
+            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+
+            call add_concept_events(@encounter_type_concept_id, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
+        </sql>
+    </changeSet>
 </databaseChangeLog>
