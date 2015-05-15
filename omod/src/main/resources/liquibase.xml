@@ -705,4 +705,25 @@
             UPDATE concept_word SET word = 'TEMPLATES' WHERE concept_id = (SELECT concept_id FROM concept_name WHERE name = 'Templates' AND concept_name_type = 'FULLY_SPECIFIED');
         </sql>
     </changeSet>
+    <changeSet id="BD-201505131351" author="sanjana">
+        <preConditions>
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Unspecified cause of death' and concept_name_type='FULLY_SPECIFIED';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding Unspecified cause of death as default</comment>
+        <sql>
+            set @concept_id = 0;
+            set @concept_name_short_id = 0;
+            set @concept_name_full_id = 0;
+
+
+            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
+            'Unspecified cause of death', 'Unspecified cause of death', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'Unspecified', 1);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'cause', 1);
+            call add_concept_word(@concept_id, @concept_name_short_id, 'death', 1);
+            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+        </sql>
+    </changeSet>
 </databaseChangeLog>
