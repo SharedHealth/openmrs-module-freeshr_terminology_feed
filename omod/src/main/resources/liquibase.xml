@@ -706,7 +706,7 @@
         </sql>
     </changeSet>
     <changeSet id="BD-201505131351" author="sanjana">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 select count(*) from concept_name where name = 'Unspecified cause of death' and concept_name_type='FULLY_SPECIFIED';
             </sqlCheck>
