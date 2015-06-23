@@ -11,10 +11,12 @@ import java.util.Properties;
 
 @Component
 public class TrServerProperties {
-    private static final Logger log = Logger.getLogger(TrServerProperties.class);
     private static final String REST_URI_PREFIX = "webservices.rest.uriPrefix";
     private static final String CONCEPT_URI_CONTEXT_PATH = "concept.uri";
     private static final String CONCEPT_REFERENCE_TERM_URI_CONTEXT_PATH = "concept.reference.term.uri";
+    public static final String VALUESET_DEF_ANSWERS = "answers";
+    public static final String VALUESET_DEF_MEMBERS = "members";
+    private static final Logger log = Logger.getLogger(TrServerProperties.class);
 
     @Resource(name = "trServerDefaultProperties")
     private Properties defaultProperties;
@@ -45,5 +47,10 @@ public class TrServerProperties {
 
     public String getRestUriPrefix() {
         return StringUtil.ensureSuffix(trServerProperties.getProperty(REST_URI_PREFIX), "/");
+    }
+
+    public String getValuesetDefinition() {
+        String value = trServerProperties.getProperty("valueset.definition");
+        return (value != null && !"".equals(value)) ? value : VALUESET_DEF_MEMBERS;
     }
 }

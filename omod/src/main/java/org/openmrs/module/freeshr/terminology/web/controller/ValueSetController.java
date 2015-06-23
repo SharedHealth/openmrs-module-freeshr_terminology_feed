@@ -2,7 +2,6 @@ package org.openmrs.module.freeshr.terminology.web.controller;
 
 import org.openmrs.*;
 import org.openmrs.api.ConceptService;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSet;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetConcept;
@@ -10,7 +9,6 @@ import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetDefinition;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
 import org.openmrs.module.freeshr.terminology.utils.StringUtil;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
-import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -75,7 +73,7 @@ public class ValueSetController extends BaseRestController {
     }
 
     private boolean isValueSet(org.openmrs.Concept mrsConcept) {
-        return mrsConcept.getConceptClass().getName().equalsIgnoreCase("ValueSet");
+        return mrsConcept.getConceptClass().getName().equalsIgnoreCase("Valueset");
     }
 
     private String getIdentifier(org.openmrs.Concept mrsConcept) {
@@ -108,10 +106,30 @@ public class ValueSetController extends BaseRestController {
     }
 
     private ValueSetDefinition getDefinition(org.openmrs.Concept mrsConcept) {
+        return trServerProperties.getValuesetDefinition().equals(TrServerProperties.VALUESET_DEF_MEMBERS)
+             ? getValueSetDefinitionFromMembers(mrsConcept)
+             : getValueSetDefinitionFromAnswers(mrsConcept);
+    }
+
+    private ValueSetDefinition getValueSetDefinitionFromMembers(Concept mrsConcept) {
+        List<Concept> members = mrsConcept.getSetMembers();
+        List<ValueSetConcept> valueSetConcepts = new ArrayList<>();
+        for (Concept concept : members) {
+            if (!concept.isRetired()) {
+                valueSetConcepts.add(new ValueSetConcept(
+                        getConceptCode(concept),
+                        getConceptDisplay(concept),
+                        getDescription(concept)));
+            }
+        }
+        return new ValueSetDefinition(getIdentifier(mrsConcept), true, valueSetConcepts);
+    }
+
+    private ValueSetDefinition getValueSetDefinitionFromAnswers(Concept mrsConcept) {
         ConceptDatatype datatype = mrsConcept.getDatatype();
+        List<ValueSetConcept> valueSetConcepts = new ArrayList<ValueSetConcept>();
         if (datatype.getName().equalsIgnoreCase("coded")) {
             Collection<ConceptAnswer> answers = mrsConcept.getAnswers();
-            List<ValueSetConcept> valueSetConcepts = new ArrayList<>();
             for (ConceptAnswer answer : answers) {
                 Concept codedAnswer = answer.getAnswerConcept();
                 valueSetConcepts.add(new ValueSetConcept(
@@ -122,7 +140,7 @@ public class ValueSetController extends BaseRestController {
             }
             return new ValueSetDefinition(getIdentifier(mrsConcept), true, valueSetConcepts);
         }
-        return new ValueSetDefinition(getIdentifier(mrsConcept), true, new ArrayList<ValueSetConcept>());
+        return new ValueSetDefinition(getIdentifier(mrsConcept), true, valueSetConcepts);
     }
 
     private String getReferenceCode(Concept codedAnswer) {
