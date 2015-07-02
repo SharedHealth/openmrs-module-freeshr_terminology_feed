@@ -726,4 +726,15 @@
             call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
         </sql>
     </changeSet>
+    <changeSet id="BD-201506021322" author="neha" context="setup">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_class where LOWER(name) = 'labtest';
+            </sqlCheck>
+        </preConditions>
+        <comment>Add concept class valueset</comment>
+        <sql>
+            INSERT INTO concept_class (name, description, uuid, creator, date_created) values ('LabTest', 'Laboratory Tests class', uuid(), 1, NOW());
+        </sql>
+    </changeSet>
 </databaseChangeLog>
