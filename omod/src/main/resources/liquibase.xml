@@ -737,4 +737,22 @@
             INSERT INTO concept_class (name, description, uuid, creator, date_created) values ('LabTest', 'Laboratory Tests class', uuid(), 1, NOW());
         </sql>
     </changeSet>
+
+    <changeSet id="BD-201509021502" author="neha" context="setup">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_reference_source where name = 'WHO ATC-BD';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding WHO ATC-BD concept reference source</comment>
+        <insert tableName="concept_reference_source">
+            <column name="name" value="WHO ATC-BD"/>
+            <column name="description" value="WHO ATC-BD"/>
+            <column name="hl7_code" value="WHO ATC-BD"/>
+            <column name="creator" value="1"/>
+            <column name="date_created" valueDate=" now()"/>
+            <column name="uuid" valueComputed=" uuid()"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>
