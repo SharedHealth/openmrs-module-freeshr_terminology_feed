@@ -826,7 +826,7 @@
     <changeSet id="BD-201509091132" author="neha">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
-                select count(*) from concept_name where name = 'Procedure Follow up';
+                select count(*) from concept_name where name = 'Procedure Followup';
             </sqlCheck>
         </preConditions>
         <comment>Creating Procedure Follow up Valueset</comment>
@@ -837,7 +837,7 @@
 
             -- Creating Procedure Follow up Valueset concept
             call add_concept(@concept_id_procedure_followup, @concept_name_short_id, @concept_name_full_id,
-            'Procedure Follow up', 'Procedure Follow up', 'Coded', 'Valueset', false);
+            'Procedure Followup', 'Procedure Followup', 'Coded', 'Valueset', false);
             call add_concept_word(@concept_id_procedure_followup, @concept_name_short_id, 'PROCEDURE', 1);
             call add_concept_word(@concept_id_procedure_followup, @concept_name_short_id, 'FOLLOWUP', 1);
             call add_concept_events(@concept_id_procedure_followup, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
