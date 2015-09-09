@@ -748,5 +748,153 @@
             <column name="uuid" valueComputed=" uuid()"/>
         </insert>
     </changeSet>
+    <changeSet id="BD-201509081832" author="neha">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Procedure Outcome';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Procedure Outcome Valueset</comment>
+        <sql>
+            set @concept_id_procedure_outcome = 0;
+            set @concept_name_short_id = 0;
+            set @concept_name_full_id = 0;
+            set @concept_id_answer=0;
+            set @concept_source_id_for_SNOMED=0;
+            set @concept_map_type_id_for_SAMEAS=0;
+            set @reference_id=0;
 
+            -- Creating Procedure Outcome Valueset concept
+            call add_concept(@concept_id_procedure_outcome, @concept_name_short_id, @concept_name_full_id,
+            'Procedure Outcome', 'Procedure Outcome', 'Coded', 'Valueset', false);
+            call add_concept_word(@concept_id_procedure_outcome, @concept_name_short_id, 'PROCEDURE', 1);
+            call add_concept_word(@concept_id_procedure_outcome, @concept_name_short_id, 'OUTCOME', 1);
+
+            -- Selecting Snomed source and SameAs map type
+            select concept_source_id into @concept_source_id_for_SNOMED from concept_reference_source where name =
+            'SNOMED-CT-BD';
+            select concept_map_type_id into @concept_map_type_id_for_SAMEAS from concept_map_type where name =
+            'SAME-AS';
+
+            -- Creating Successful concept
+            call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
+            'Procedure Outcome Successful', 'Successful', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'PROCEDURE', 1);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'OUTCOME', 1);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'SUCCESSFUL', 1);
+
+            call add_concept_reference_map(@reference_id, @concept_id_answer, @concept_source_id_for_SNOMED, '385669000',
+            'Successful', @concept_map_type_id_for_SAMEAS);
+            call add_concept_reference_events(@reference_id, '/openmrs/ws/rest/v1/tr/referenceterms/');
+
+            call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+            call add_concept_answer(@concept_id_procedure_outcome, @concept_id_answer, 1);
+
+            -- Creating Unsuccessful concept
+            call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
+            'Procedure Outcome Unsuccessful', 'Unsuccessful', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'PROCEDURE', 1);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'OUTCOME', 1);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'UNSUCCESSFUL', 1);
+
+            call add_concept_reference_map(@reference_id, @concept_id_answer, @concept_source_id_for_SNOMED, '385671000',
+            'Unsuccessful', @concept_map_type_id_for_SAMEAS);
+            call add_concept_reference_events(@reference_id, '/openmrs/ws/rest/v1/tr/referenceterms/');
+
+            call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+            call add_concept_answer(@concept_id_procedure_outcome, @concept_id_answer, 1);
+
+            -- Creating Partially successful concept
+            call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
+            'Procedure Outcome Partially Successful', 'Partially Successful', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'PROCEDURE', 1);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'OUTCOME', 1);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'PARTIALLY', 1);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'SUCCESSFUL', 1);
+
+            call add_concept_reference_map(@reference_id, @concept_id_answer, @concept_source_id_for_SNOMED, '385670004',
+            'Partially successful', @concept_map_type_id_for_SAMEAS);
+            call add_concept_reference_events(@reference_id, '/openmrs/ws/rest/v1/tr/referenceterms/');
+
+            call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+            call add_concept_answer(@concept_id_procedure_outcome, @concept_id_answer, 1);
+
+            -- adding concept answers and creating event for procedure outcome
+            call add_concept_events(@concept_id_procedure_outcome, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
+        </sql>
+    </changeSet>
+    <changeSet id="BD-201509091132" author="neha">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Procedure Follow up';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Procedure Follow up Valueset</comment>
+        <sql>
+            set @concept_id_procedure_followup = 0;
+            set @concept_name_short_id = 0;
+            set @concept_name_full_id = 0;
+
+            -- Creating Procedure Follow up Valueset concept
+            call add_concept(@concept_id_procedure_followup, @concept_name_short_id, @concept_name_full_id,
+            'Procedure Follow up', 'Procedure Follow up', 'Coded', 'Valueset', false);
+            call add_concept_word(@concept_id_procedure_followup, @concept_name_short_id, 'PROCEDURE', 1);
+            call add_concept_word(@concept_id_procedure_followup, @concept_name_short_id, 'FOLLOWUP', 1);
+            call add_concept_events(@concept_id_procedure_followup, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
+        </sql>
+    </changeSet>
+    <changeSet id="BD-201509091132" author="neha">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Procedure Status';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Procedure Status Valueset</comment>
+        <sql>
+            set @concept_id_procedure_status = 0;
+            set @concept_name_short_id = 0;
+            set @concept_name_full_id = 0;
+            set @concept_id_answer=0;
+
+            -- Creating Procedure Status Valueset concept
+            call add_concept(@concept_id_procedure_status, @concept_name_short_id, @concept_name_full_id,
+            'Procedure Status', 'Procedure Status', 'Coded', 'Valueset', false);
+            call add_concept_word(@concept_id_procedure_status, @concept_name_short_id, 'PROCEDURE', 1);
+            call add_concept_word(@concept_id_procedure_status, @concept_name_short_id, 'STATUS', 1);
+
+            -- Creating In progress concept
+            call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
+            'In Progress', 'in-progress', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'IN', 1);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'PROGRESS', 1);
+            call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+            call add_concept_answer(@concept_id_procedure_status, @concept_id_answer, 1);
+
+            -- Creating Aborted concept
+            call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
+            'Aborted', 'aborted', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'ABORTED', 1);
+            call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+            call add_concept_answer(@concept_id_procedure_status, @concept_id_answer, 1);
+
+            -- Creating Completed concept
+            call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
+            'Completed', 'completed', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'COMPLETED', 1);
+            call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+            call add_concept_answer(@concept_id_procedure_status, @concept_id_answer, 1);
+
+            -- Creating Entered In Error concept
+            call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
+            'Entered In Error', 'entered-in-error', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'ENTERED', 1);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'IN', 1);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'ERROR', 1);
+            call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+            call add_concept_answer(@concept_id_procedure_status, @concept_id_answer, 1);
+
+            -- adding concept answers and creating event for procedure status
+            call add_concept_events(@concept_id_procedure_status, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
+        </sql>
+    </changeSet>
 </databaseChangeLog>
