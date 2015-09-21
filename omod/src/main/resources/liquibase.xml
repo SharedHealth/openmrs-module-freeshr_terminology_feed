@@ -864,7 +864,7 @@
 
             -- Creating In progress concept
             call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
-            'In Progress', 'in-progress', 'N/A', 'Misc', false);
+            'Procedure Status In Progress', 'in-progress', 'N/A', 'Misc', false);
             call add_concept_word(@concept_id_answer, @concept_name_short_id, 'IN', 1);
             call add_concept_word(@concept_id_answer, @concept_name_short_id, 'PROGRESS', 1);
             call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
@@ -872,21 +872,21 @@
 
             -- Creating Aborted concept
             call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
-            'Aborted', 'aborted', 'N/A', 'Misc', false);
+            'Procedure Status Aborted', 'aborted', 'N/A', 'Misc', false);
             call add_concept_word(@concept_id_answer, @concept_name_short_id, 'ABORTED', 1);
             call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
             call add_concept_answer(@concept_id_procedure_status, @concept_id_answer, 1);
 
             -- Creating Completed concept
             call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
-            'Completed', 'completed', 'N/A', 'Misc', false);
+            'Procedure Status Completed', 'completed', 'N/A', 'Misc', false);
             call add_concept_word(@concept_id_answer, @concept_name_short_id, 'COMPLETED', 1);
             call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
             call add_concept_answer(@concept_id_procedure_status, @concept_id_answer, 1);
 
             -- Creating Entered In Error concept
             call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
-            'Entered In Error', 'entered-in-error', 'N/A', 'Misc', false);
+            'Procedure Status Entered In Error', 'entered-in-error', 'N/A', 'Misc', false);
             call add_concept_word(@concept_id_answer, @concept_name_short_id, 'ENTERED', 1);
             call add_concept_word(@concept_id_answer, @concept_name_short_id, 'IN', 1);
             call add_concept_word(@concept_id_answer, @concept_name_short_id, 'ERROR', 1);
@@ -895,6 +895,60 @@
 
             -- adding concept answers and creating event for procedure status
             call add_concept_events(@concept_id_procedure_status, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
+        </sql>
+    </changeSet>
+    <changeSet id="BD-201509181800" author="neha">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Immunization Status';
+            </sqlCheck>
+        </preConditions>
+        <comment>Creating Immunization Status Valueset</comment>
+        <sql>
+            set @concept_id_immunization_status = 0;
+            set @concept_name_short_id = 0;
+            set @concept_name_full_id = 0;
+            set @concept_id_answer=0;
+
+            -- Creating Immunization Status Valueset concept
+            call add_concept(@concept_id_immunization_status, @concept_name_short_id, @concept_name_full_id,
+            'Immunization Status', 'Immunization Status', 'Coded', 'Valueset', false);
+            call add_concept_word(@concept_id_immunization_status, @concept_name_short_id, 'Immunization', 1);
+            call add_concept_word(@concept_id_immunization_status, @concept_name_short_id, 'STATUS', 1);
+
+            -- Creating In progress concept
+            call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
+            'Immunization Status In Progress', 'in-progress', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'IN', 1);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'PROGRESS', 1);
+            call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+            call add_concept_answer(@concept_id_immunization_status, @concept_id_answer, 1);
+
+            -- Creating Aborted concept
+            call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
+            'Immunization Status Aborted', 'aborted', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'ABORTED', 1);
+            call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+            call add_concept_answer(@concept_id_immunization_status, @concept_id_answer, 1);
+
+            -- Creating Completed concept
+            call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
+            'Immunization Status Completed', 'completed', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'COMPLETED', 1);
+            call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+            call add_concept_answer(@concept_id_immunization_status, @concept_id_answer, 1);
+
+            -- Creating Entered In Error concept
+            call add_concept(@concept_id_answer, @concept_name_short_id, @concept_name_full_id,
+            'Immunization Status Entered In Error', 'entered-in-error', 'N/A', 'Misc', false);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'ENTERED', 1);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'IN', 1);
+            call add_concept_word(@concept_id_answer, @concept_name_short_id, 'ERROR', 1);
+            call add_concept_events(@concept_id_answer, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
+            call add_concept_answer(@concept_id_immunization_status, @concept_id_answer, 1);
+
+            -- adding concept answers and creating event for procedure status
+            call add_concept_events(@concept_id_immunization_status, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
         </sql>
     </changeSet>
 </databaseChangeLog>
