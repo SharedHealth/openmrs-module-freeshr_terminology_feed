@@ -6,12 +6,12 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import java.util.List;
 
 @JsonPropertyOrder({"system", "caseSensitive", "concept"})
-public class ValueSetDefinition {
+public class ValueSetCodeSystem {
     private String system;
     private boolean caseSensitive = true;
     private List<ValueSetConcept> concept;
 
-    public ValueSetDefinition(String system, boolean caseSensitive, List<ValueSetConcept> vsConcepts) {
+    public ValueSetCodeSystem(String system, boolean caseSensitive, List<ValueSetConcept> vsConcepts) {
         this.system = system;
         this.caseSensitive = caseSensitive;
         this.concept = vsConcepts;

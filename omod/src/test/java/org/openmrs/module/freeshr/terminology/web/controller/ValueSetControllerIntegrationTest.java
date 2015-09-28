@@ -37,7 +37,7 @@ public class ValueSetControllerIntegrationTest extends BaseModuleWebContextSensi
         assertEquals("Patient Contact Relationship", relationShipVs.getName());
         assertEquals("values of all relationships as contacts for a patient", relationShipVs.getDescription());
         assertEquals("active", relationShipVs.getStatus());
-        assertEquals(2, relationShipVs.getDefine().getConcept().size());
+        assertEquals(2, relationShipVs.getCodeSystem().getConcept().size());
     }
 
     @Test
@@ -48,7 +48,7 @@ public class ValueSetControllerIntegrationTest extends BaseModuleWebContextSensi
         assertEquals("Patient Contact Relationship", relationShipVs.getName());
         assertEquals("values of all relationships as contacts for a patient", relationShipVs.getDescription());
         assertEquals("active", relationShipVs.getStatus());
-        assertEquals(2, relationShipVs.getDefine().getConcept().size());
+        assertEquals(2, relationShipVs.getCodeSystem().getConcept().size());
     }
 
     @Test(expected = ConceptNotFoundException.class)

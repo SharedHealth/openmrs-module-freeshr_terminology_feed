@@ -8,13 +8,14 @@ import org.openmrs.module.freeshr.terminology.model.ResourceExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-@JsonPropertyOrder({"resourceType","name", "code", "product"})
+@JsonPropertyOrder({"resourceType","id", "name", "code", "product"})
 public class Medication {
     private String resourceType = "Medication";
     private String name;
     private CodeableConcept code;
     private MedicationProduct product;
     private List<ResourceExtension> extension;
+    private String id;
 
     public Medication(String name, CodeableConcept code, MedicationProduct product) {
         this.name = name;
@@ -45,5 +46,13 @@ public class Medication {
 
     public void addExtension(ResourceExtension extn) {
         extension.add(extn);
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 }

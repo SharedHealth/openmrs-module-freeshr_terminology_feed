@@ -3,21 +3,21 @@ package org.openmrs.module.freeshr.terminology.model.valueset;
 
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({"resourceType", "identifier", "name", "description", "status", "define"})
+@JsonPropertyOrder({"resourceType", "identifier", "name", "description", "status", "codeSystem"})
 public class ValueSet {
     private String resourceType = "ValueSet";
     private String identifier;
     private String name;
     private String description;
     private String status;
-    private ValueSetDefinition define;
+    private ValueSetCodeSystem codeSystem;
 
-    public ValueSet(String identifier, String name, String description, String status, ValueSetDefinition define) {
+    public ValueSet(String identifier, String name, String description, String status, ValueSetCodeSystem codeSystem) {
         this.identifier = identifier;
         this.name = name;
         this.description = description;
         this.status = status;
-        this.define = define;
+        this.codeSystem = codeSystem;
     }
 
     public String getResourceType() {
@@ -40,7 +40,7 @@ public class ValueSet {
         return status;
     }
 
-    public ValueSetDefinition getDefine() {
-        return define;
+    public ValueSetCodeSystem getCodeSystem() {
+        return codeSystem;
     }
 }

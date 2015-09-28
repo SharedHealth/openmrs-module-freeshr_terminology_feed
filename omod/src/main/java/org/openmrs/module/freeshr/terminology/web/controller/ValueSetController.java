@@ -4,8 +4,8 @@ import org.openmrs.*;
 import org.openmrs.api.ConceptService;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSet;
+import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetCodeSystem;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetConcept;
-import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetDefinition;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
 import org.openmrs.module.freeshr.terminology.utils.StringUtil;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
@@ -105,13 +105,13 @@ public class ValueSetController extends BaseRestController {
         return mrsConcept.isRetired() ? "retired" : "active";
     }
 
-    private ValueSetDefinition getDefinition(org.openmrs.Concept mrsConcept) {
+    private ValueSetCodeSystem getDefinition(org.openmrs.Concept mrsConcept) {
         return trServerProperties.getValuesetDefinition().equals(TrServerProperties.VALUESET_DEF_MEMBERS)
              ? getValueSetDefinitionFromMembers(mrsConcept)
              : getValueSetDefinitionFromAnswers(mrsConcept);
     }
 
-    private ValueSetDefinition getValueSetDefinitionFromMembers(Concept mrsConcept) {
+    private ValueSetCodeSystem getValueSetDefinitionFromMembers(Concept mrsConcept) {
         List<Concept> members = mrsConcept.getSetMembers();
         List<ValueSetConcept> valueSetConcepts = new ArrayList<>();
         for (Concept concept : members) {
@@ -122,10 +122,10 @@ public class ValueSetController extends BaseRestController {
                         getDescription(concept)));
             }
         }
-        return new ValueSetDefinition(getIdentifier(mrsConcept), true, valueSetConcepts);
+        return new ValueSetCodeSystem(getIdentifier(mrsConcept), true, valueSetConcepts);
     }
 
-    private ValueSetDefinition getValueSetDefinitionFromAnswers(Concept mrsConcept) {
+    private ValueSetCodeSystem getValueSetDefinitionFromAnswers(Concept mrsConcept) {
         ConceptDatatype datatype = mrsConcept.getDatatype();
         List<ValueSetConcept> valueSetConcepts = new ArrayList<ValueSetConcept>();
         if (datatype.getName().equalsIgnoreCase("coded")) {
@@ -138,9 +138,9 @@ public class ValueSetController extends BaseRestController {
                         getDescription(codedAnswer)));
 
             }
-            return new ValueSetDefinition(getIdentifier(mrsConcept), true, valueSetConcepts);
+            return new ValueSetCodeSystem(getIdentifier(mrsConcept), true, valueSetConcepts);
         }
-        return new ValueSetDefinition(getIdentifier(mrsConcept), true, valueSetConcepts);
+        return new ValueSetCodeSystem(getIdentifier(mrsConcept), true, valueSetConcepts);
     }
 
     private String getReferenceCode(Concept codedAnswer) {
