@@ -699,12 +699,6 @@
             call add_concept_events(@encounter_type_concept_id, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
         </sql>
     </changeSet>
-    <changeSet id="BD-201505061235" author="neha">
-        <comment>Fixing concept word for templates</comment>
-        <sql>
-            UPDATE concept_word SET word = 'TEMPLATES' WHERE concept_id = (SELECT concept_id FROM concept_name WHERE name = 'Templates' AND concept_name_type = 'FULLY_SPECIFIED');
-        </sql>
-    </changeSet>
     <changeSet id="BD-201505131351" author="sanjana">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">

@@ -1,6 +1,7 @@
 package org.openmrs.module.freeshr.terminology.advice;
 
 import org.ict4h.atomfeed.server.repository.jdbc.AllEventRecordsJdbcImpl;
+import org.ict4h.atomfeed.server.repository.jdbc.AllEventRecordsQueueJdbcImpl;
 import org.ict4h.atomfeed.server.service.Event;
 import org.ict4h.atomfeed.server.service.EventService;
 import org.ict4h.atomfeed.server.service.EventServiceImpl;
@@ -37,7 +38,8 @@ public class TREventInterceptor implements AfterReturningAdvice {
     }
 
     private EventServiceImpl createService(AtomFeedSpringTransactionManager atomFeedSpringTransactionManager) {
-        AllEventRecordsJdbcImpl records = new AllEventRecordsJdbcImpl(atomFeedSpringTransactionManager);
+        //AllEventRecordsJdbcImpl records = new AllEventRecordsJdbcImpl(atomFeedSpringTransactionManager);
+        AllEventRecordsQueueJdbcImpl records = new AllEventRecordsQueueJdbcImpl(atomFeedSpringTransactionManager);
         return new EventServiceImpl(records);
     }
 
