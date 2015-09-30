@@ -537,10 +537,10 @@
             insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concept Classes');
             insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concept Datatypes');
             insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concept Sources');
-            insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concept Map Types');
-            insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concept Reference Terms');
+            insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'Get Concept Reference Terms');
             insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concepts');
             insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View RESTWS');
+            insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'Get Concepts');
         </sql>
     </changeSet>
     <changeSet id="BD-201504211724" author="neha">
