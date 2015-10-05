@@ -35,6 +35,7 @@ public class ConceptNameMapper implements ConceptMappingCommons {
         ConceptName name = new ConceptName();
         name.setConceptName(openmrsConceptName.getName());
         name.setLocale(openmrsConceptName.getLocale().toString());
+        name.setPreferred(openmrsConceptName.isPreferred());
         org.openmrs.api.ConceptNameType openmrsConceptNameType = openmrsConceptName.getConceptNameType();
         if (openmrsConceptNameType != null) {
             name.setConceptNameType(openmrsConceptNameType.name());

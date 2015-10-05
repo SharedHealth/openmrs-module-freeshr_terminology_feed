@@ -5,6 +5,7 @@ public class ConceptName {
     private String conceptName;
     private String conceptNameType;
     private String locale;
+    private boolean preferred;
 
     public String getConceptName() {
         return conceptName;
@@ -28,5 +29,13 @@ public class ConceptName {
 
     public void setLocale(String locale) {
         this.locale = locale;
+    }
+
+    public boolean isPreferred() {
+        return preferred;
+    }
+
+    public void setPreferred(boolean preferred) {
+        this.preferred = preferred;
     }
 }
