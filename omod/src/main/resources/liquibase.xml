@@ -951,4 +951,20 @@
             call add_concept_events(@concept_id_immunization_status, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
         </sql>
     </changeSet>
+    <changeSet id="BD-201510121223" author="neha">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Procedure Followup';
+            </sqlCheck>
+        </preConditions>
+        <comment>Retiring Procedure Followup Valueset</comment>
+        <sql>
+            set @concept_id_procedure_followup = 0;
+
+            -- Retiring Procedure Follow up Valueset concept
+            select concept_id into @concept_id_procedure_followup from concept_name where name = 'Procedure Followup';
+            update concept_name set name = 'Procedure Followup Retired' where concept_id = @concept_id_procedure_followup;
+            update concept set retired = 1, date_retired = now(), retire_reason = 'Should not be a valueset' where concept_id = @concept_id_procedure_followup;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
