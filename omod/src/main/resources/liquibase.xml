@@ -951,7 +951,7 @@
             call add_concept_events(@concept_id_immunization_status, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
         </sql>
     </changeSet>
-    <changeSet id="BD-201510121447" author="neha">
+    <changeSet id="BD-201510121513" author="neha">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">
                 select count(*) from concept_name where name = 'Procedure Followup' and concept_name_type = 'FULLY_SPECIFIED';
