@@ -1,9 +1,12 @@
 package org.openmrs.module.freeshr.terminology.web.controller;
 
 
-import org.openmrs.*;
+import org.openmrs.Concept;
+import org.openmrs.ConceptMap;
+import org.openmrs.ConceptName;
+import org.openmrs.ConceptReferenceTerm;
+import org.openmrs.Drug;
 import org.openmrs.api.ConceptService;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.model.CodeableConcept;
 import org.openmrs.module.freeshr.terminology.model.Coding;
@@ -13,7 +16,6 @@ import org.openmrs.module.freeshr.terminology.model.drug.MedicationProduct;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
 import org.openmrs.module.freeshr.terminology.utils.StringUtil;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
-import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,10 +29,10 @@ import java.util.Collection;
 @Controller
 @RequestMapping(value = Constants.REST_URL_DRUG)
 public class DrugController extends BaseRestController {
+    public static final String FHIR_EXTENSION_URL_PREFIX = "https://sharedhealth.atlassian.net/wiki/display/docs/fhir-extensions";
 
     private ConceptService openmrsConceptService;
     private TrServerProperties trServerProperties;
-
 
     @Autowired
     public DrugController(ConceptService conceptService, TrServerProperties trServerProperties) {
@@ -47,16 +49,19 @@ public class DrugController extends BaseRestController {
             throw new ConceptNotFoundException("No drug found with uuid " + uuid);
         }
 
-        String uriPrefix = StringUtil.removeSuffix(trServerProperties.getRestUriPrefix(), "/");
+        String trUriPrefix = StringUtil.removeSuffix(trServerProperties.getRestUriPrefix(), "/");
 
-        CodeableConcept code = getConceptCoding(drug.getConcept(), uriPrefix);
-        CodeableConcept medicationForm = getConceptCoding(drug.getDosageForm(), uriPrefix);
+        CodeableConcept code = getConceptCoding(drug.getConcept(), trUriPrefix);
+        CodeableConcept medicationForm = getConceptCoding(drug.getDosageForm(), trUriPrefix);
         Medication medication = new Medication(drug.getName(), code, new MedicationProduct(medicationForm));
         medication.setId(drug.getUuid());
-        String extensionURI = uriPrefix + "/rest/v1/tr/medication#";
-        medication.addExtension(new ResourceExtension(extensionURI + "strength", drug.getStrength()));
-        medication.addExtension(new ResourceExtension(extensionURI + "retired", drug.isRetired().toString()));
+        medication.addExtension(new ResourceExtension(getFhirExtensionUrl("MedicationStrength"), drug.getStrength()));
+        medication.addExtension(new ResourceExtension(getFhirExtensionUrl("MedicationRetired"), drug.isRetired().toString()));
         return medication;
+    }
+
+    private String getFhirExtensionUrl(String extensionName) {
+        return FHIR_EXTENSION_URL_PREFIX + "#" + extensionName;
     }
 
     private CodeableConcept getConceptCoding(Concept concept, String uriPrefix) {
