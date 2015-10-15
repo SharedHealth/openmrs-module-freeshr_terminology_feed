@@ -968,4 +968,34 @@
             call add_concept_events(@concept_id_procedure_followup, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
         </sql>
     </changeSet>
+    <changeSet id="BD-201510151222" author="angshu">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Medication Forms' and concept_name_type = 'FULLY_SPECIFIED';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding placeholder valueset for Medication Forms</comment>
+        <sql>
+            set @concept_id_med_form = 0;
+            set @concept_name_short_id = 0;
+            set @concept_name_full_id = 0;
+            call add_concept(@concept_id_med_form, @concept_name_short_id, @concept_name_full_id, 'Medication Forms', 'Medication Forms', 'Coded', 'Valueset', false);
+            call add_concept_events(@concept_id_med_form, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
+        </sql>
+    </changeSet>
+    <changeSet id="BD-201510151231" author="angshu">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_name where name = 'Medication Package Forms' and concept_name_type = 'FULLY_SPECIFIED';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding placeholder valueset for Medication Forms</comment>
+        <sql>
+            set @concept_id_med_pkg_form = 0;
+            set @concept_name_short_id = 0;
+            set @concept_name_full_id = 0;
+            call add_concept(@concept_id_med_pkg_form, @concept_name_short_id, @concept_name_full_id, 'Medication Package Forms', 'Medication Package Forms', 'Coded', 'Valueset', false);
+            call add_concept_events(@concept_id_med_pkg_form, 'Valueset', '/openmrs/ws/rest/v1/tr/concepts/');
+        </sql>
+    </changeSet>
 </databaseChangeLog>
