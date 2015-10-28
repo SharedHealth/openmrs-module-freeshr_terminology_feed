@@ -6,24 +6,41 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptDatatype;
+import org.openmrs.ConceptName;
 import org.openmrs.api.APIException;
+import org.openmrs.api.ConceptNameType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 import org.springframework.aop.MethodBeforeAdvice;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.List;
 
 public class TRConceptBeforeAdvice implements MethodBeforeAdvice {
+    public static final String VALUESET_CLASS = "Valueset";
+    public static final String RETIRE_CONCEPT_METHOD_NAME = "retireConcept";
+    public static final String SAVE_CONCEPT_METHOD_NAME = "saveConcept";
     protected final Log logger = LogFactory.getLog(getClass());
     @Override
     public void before(Method method, Object[] arguments, Object service) throws Throwable {
-        if (!method.getName().equals("saveConcept")) {
+        if (!method.getName().equals(SAVE_CONCEPT_METHOD_NAME)) {
             return;
         }
         Concept concept = (Concept) arguments[0];
+        /**
+        if (method.getName().equals(RETIRE_CONCEPT_METHOD_NAME)) {
+            Collection<ConceptName> conceptNames = concept.getNames();
+            for (ConceptName conceptName : conceptNames) {
+                if (conceptName.getConceptNameType().equals(ConceptNameType.FULLY_SPECIFIED)) {
+                    if (!conceptName.getName().contains("Deprecated")) {
+                        conceptName.setName(conceptName.getName() + " (Deprecated)");
+                    }
+                }
+            }
+        } **/
         ConceptClass conceptClass = concept.getConceptClass();
-        if (conceptClass.getName().equalsIgnoreCase("Valueset")) {
+        if (conceptClass.getName().equalsIgnoreCase(VALUESET_CLASS)) {
             validateConcept(concept);
         }
 
