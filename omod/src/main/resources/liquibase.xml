@@ -127,10 +127,10 @@
         </insert>
     </changeSet>
 
-    <changeSet id="BD-201504211010" author="neha">
-        <preConditions>
+    <changeSet id="BD-201511021453" author="neha">
+        <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
-                select count(*) from concept_name where name = 'Templates';
+                select count(*) from concept_name where name = 'Suggestive Templates';
             </sqlCheck>
         </preConditions>
         <comment>Adding concept set Templates</comment>
@@ -140,93 +140,10 @@
             set @concept_name_full_id = 0;
 
             call add_concept(@concept_id, @concept_name_short_id,
-            @concept_name_full_id, 'Templates', 'Templates', 'N/A', 'ConvSet', true);
+            @concept_name_full_id, 'Suggestive Templates', 'Suggestive Templates', 'N/A', 'ConvSet', true);
             call add_concept_word(@concept_id, @concept_name_short_id, 'ROUTE', 1);
             call add_concept_word(@concept_id, @concept_name_full_id,'ADMINISTRATION', 1);
             call add_concept_events(@concept_id, 'ConvSet', '/openmrs/ws/rest/v1/tr/concepts/');
-        </sql>
-    </changeSet>
-    <changeSet id="BD-201412041450" author="utsab">
-        <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">
-                select count(*) from concept_name where name = 'Death note';
-            </sqlCheck>
-        </preConditions>
-        <sql>
-            set @concept_id_templates = 0;
-
-            set @concept_id_death_note = 0;
-            set @concept_name_short_id_death_note = 0;
-            set @concept_name_full_id_death_note = 0;
-
-            set @reference_term = '419620001';
-            set @reference_name = 'Death Alert';
-            set @reference_id = 0;
-
-            set @concept_id_date_of_death = 0;
-            set @concept_name_short_id_date_of_death = 0;
-            set @concept_name_full_id_date_of_death = 0;
-
-            set @concept_id_cause_of_death = 0;
-            set @concept_name_short_id_cause_of_death = 0;
-            set @concept_name_full_id_cause_of_death = 0;
-
-            set @concept_id_Circumstances_of_death = 0;
-            set @concept_name_short_id_circumstances_of_death = 0;
-            set @concept_name_full_id_circumstances_of_death = 0;
-
-            call add_concept(@concept_id_death_note, @concept_name_short_id_death_note,
-            @concept_name_full_id_death_note,
-            'Death Note', 'Death Note', 'N/A', 'ConvSet', true);
-
-            select concept_source_id into @concept_source_id_for_SNOMED from concept_reference_source where name =
-            'SNOMED-CT-BD';
-            select concept_map_type_id into @concept_map_type_id_for_SAMEAS from concept_map_type where name =
-            'SAME-AS';
-
-            call add_concept_reference_map(@reference_id, @concept_id_death_note, @concept_source_id_for_SNOMED, @reference_term,
-            @reference_name, @concept_map_type_id_for_SAMEAS);
-            call add_concept_reference_events(@reference_id, '/openmrs/ws/rest/v1/tr/referenceterms/');
-
-            select MAX(concept_reference_term_id) into @concept_reference_term_id from concept_reference_term;
-
-            call add_concept(@concept_id_date_of_death, @concept_name_short_id_date_of_death,
-            @concept_name_full_id_date_of_death,
-            'Date of death', 'date of death', 'Datetime', 'Question', false);
-
-            call add_concept(@concept_id_cause_of_death, @concept_name_short_id_cause_of_death,
-            @concept_name_full_id_cause_of_death,
-            'Cause of Death', 'Cause of Death', 'Coded', 'Misc', false);
-
-            call add_concept(@concept_id_circumstances_of_death, @concept_name_short_id_circumstances_of_death,
-            @concept_name_full_id_circumstances_of_death, 'Circumstances of Death', 'Death Circumstances', 'Text',
-            'Question', false);
-
-            call add_concept_set_members(@concept_id_death_note, @concept_id_date_of_death, 1);
-            call add_concept_set_members(@concept_id_death_note, @concept_id_cause_of_death, 2);
-            call add_concept_set_members(@concept_id_death_note, @concept_id_circumstances_of_death, 3);
-            select concept_id from concept_name where name = 'Templates' and concept_name_type='FULLY_SPECIFIED' into @concept_id_templates;
-            call add_concept_set_members(@concept_id_templates, @concept_id_death_note, 1);
-
-            call add_concept_word(@concept_id_death_note, @concept_name_short_id_death_note, 'DEATH', '1');
-            call add_concept_word(@concept_id_death_note, @concept_name_full_id_death_note, 'NOTE', '1');
-
-            call add_concept_word(@concept_id_date_of_death, @concept_name_short_id_cause_of_death, 'DATE', '1');
-            call add_concept_word(@concept_id_date_of_death, @concept_name_full_id_date_of_death, 'DEATH', '1');
-
-            call add_concept_word(@concept_id_cause_of_death, @concept_name_short_id_cause_of_death, 'CAUSE', '1');
-            call add_concept_word(@concept_id_cause_of_death, @concept_name_full_id_cause_of_death, 'DEATH', '1');
-
-            call add_concept_word(@concept_id_circumstances_of_death, @concept_name_short_id_circumstances_of_death,
-            'CIRCUMSTANCE', '1');
-            call add_concept_word(@concept_id_circumstances_of_death, @concept_name_full_id_circumstances_of_death,
-            'DEATH', '1');
-
-            call add_concept_reference_events(@concept_reference_term_id, '/openmrs/ws/rest/v1/tr/referenceterms/');
-            call add_concept_events(@concept_id_death_note, 'ConvSet', '/openmrs/ws/rest/v1/tr/concepts/');
-            call add_concept_events(@concept_id_date_of_death, 'Question', '/openmrs/ws/rest/v1/tr/concepts/');
-            call add_concept_events(@concept_id_cause_of_death, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
-            call add_concept_events(@concept_id_circumstances_of_death, 'Question', '/openmrs/ws/rest/v1/tr/concepts/');
         </sql>
     </changeSet>
 
