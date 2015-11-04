@@ -460,30 +460,6 @@
             insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'Get Concepts');
         </sql>
     </changeSet>
-    <changeSet id="BD-201504211724" author="neha">
-        <preConditions>
-            <sqlCheck expectedResult="0">
-                select count(*) from concept_name where name = 'Place of Death' and concept_name_type='FULLY_SPECIFIED';
-            </sqlCheck>
-        </preConditions>
-        <comment>Adding Place of death concept to Death Note</comment>
-        <sql>
-            set @death_note_concept_id = 0;
-            set @concept_id = 0;
-            set @concept_name_full_id = 0;
-            set @concept_name_short_id = 0;
-            select concept_id from concept_name where name = 'Death Note' and concept_name_type='FULLY_SPECIFIED' into @death_note_concept_id;
-
-            call add_concept(@concept_id, @concept_name_short_id, @concept_name_full_id,
-            'Place of Death', 'Place of Death', 'Text', 'Misc', false);
-            call add_concept_word(@concept_id, @concept_name_short_id, 'PLACE', 1);
-            call add_concept_word(@concept_id, @concept_name_short_id, 'DEATH', 1);
-            call add_concept_set_members(@death_note_concept_id, @concept_id, 4);
-            call add_concept_events(@concept_id, 'Misc', '/openmrs/ws/rest/v1/tr/concepts/');
-
-            call add_concept_events(@death_note_concept_id, 'ConvSet', '/openmrs/ws/rest/v1/tr/concepts/');
-        </sql>
-    </changeSet>
     <changeSet id="BD-201504211623" author="neha">
         <preConditions>
             <sqlCheck expectedResult="0">
