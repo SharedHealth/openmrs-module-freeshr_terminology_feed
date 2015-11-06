@@ -922,4 +922,20 @@
             <column name="category" type="varchar(255)"/>
         </createIndex>
     </changeSet>
+    <changeSet id="BD-201511061154" author="neha" context="setup">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from concept_reference_source where name = 'ICD10 PCS-BD';
+            </sqlCheck>
+        </preConditions>
+        <comment>Adding ICD10 PCS-BD concept reference source</comment>
+        <insert tableName="concept_reference_source">
+            <column name="name" value="ICD10 PCS-BD"/>
+            <column name="description" value="ICD10 PCS-BD"/>
+            <column name="hl7_code" value="ICD10 PCS-BD"/>
+            <column name="creator" value="1"/>
+            <column name="date_created" valueDate=" now()"/>
+            <column name="uuid" valueComputed=" uuid()"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>
