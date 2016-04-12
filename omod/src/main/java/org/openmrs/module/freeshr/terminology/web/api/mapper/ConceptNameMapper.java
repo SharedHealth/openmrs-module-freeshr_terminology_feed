@@ -15,7 +15,7 @@ import static java.util.Locale.ENGLISH;
 public class ConceptNameMapper implements ConceptMappingCommons {
 
     @Override
-    public Concept map(Concept concept, org.openmrs.Concept openmrsConcept) {
+    public Concept map(Concept concept, org.openmrs.Concept openmrsConcept, String requestBaseUrl) {
         concept.setFullySpecifiedName(mapConceptName(openmrsConcept.getFullySpecifiedName(ENGLISH)));
         concept.setNames(mapConceptNames(openmrsConcept.getNames()));
         return concept;

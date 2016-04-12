@@ -10,7 +10,7 @@ import static java.util.Locale.ENGLISH;
 public class ConceptDescriptionMapper implements ConceptMappingCommons {
 
     @Override
-    public Concept map(Concept concept, org.openmrs.Concept openmrsConcept) {
+    public Concept map(Concept concept, org.openmrs.Concept openmrsConcept, String requestBaseUrl) {
         concept.setDescription(mapDescription(openmrsConcept.getDescription(ENGLISH)));
         return concept;
     }

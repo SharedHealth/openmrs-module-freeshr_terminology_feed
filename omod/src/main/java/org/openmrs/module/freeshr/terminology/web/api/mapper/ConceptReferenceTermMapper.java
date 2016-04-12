@@ -1,8 +1,12 @@
 package org.openmrs.module.freeshr.terminology.web.api.mapper;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.openmrs.ConceptMap;
+import org.openmrs.*;
 import org.openmrs.module.freeshr.terminology.web.api.*;
+import org.openmrs.module.freeshr.terminology.web.api.Concept;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptMapType;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptReferenceTerm;
+import org.openmrs.module.freeshr.terminology.web.api.ConceptReferenceTermMap;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,17 +29,17 @@ public class ConceptReferenceTermMapper implements ConceptMappingCommons {
     }
 
     @Override
-    public Concept map(Concept concept, org.openmrs.Concept openmrsConcept) {
-        concept.setReferenceTerms(mapReferenceTerms(openmrsConcept.getConceptMappings()));
+    public Concept map(Concept concept, org.openmrs.Concept openmrsConcept, String requestBaseUrl) {
+        concept.setReferenceTerms(mapReferenceTerms(openmrsConcept.getConceptMappings(), requestBaseUrl));
         return concept;
     }
 
-    private List<ConceptReferenceTerm> mapReferenceTerms(Collection<ConceptMap> openmrsConceptMappings) {
+    private List<ConceptReferenceTerm> mapReferenceTerms(Collection<ConceptMap> openmrsConceptMappings, String requestBaseUrl) {
         List<ConceptReferenceTerm> referenceTerms = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(openmrsConceptMappings)) {
             for (org.openmrs.ConceptMap openmrsConceptMap : openmrsConceptMappings) {
                 org.openmrs.ConceptReferenceTerm openmrsConceptReferenceTerm = openmrsConceptMap.getConceptReferenceTerm();
-                final ConceptReferenceTerm referenceTerm = mapReferenceTerm(openmrsConceptReferenceTerm);
+                final ConceptReferenceTerm referenceTerm = mapReferenceTerm(openmrsConceptReferenceTerm, requestBaseUrl);
                 referenceTerm.setMapType(openmrsConceptMap.getConceptMapType().getName());
                 referenceTerms.add(referenceTerm);
             }
@@ -43,12 +47,12 @@ public class ConceptReferenceTermMapper implements ConceptMappingCommons {
         return referenceTerms;
     }
 
-    public ConceptReferenceTerm mapReferenceTerm(org.openmrs.ConceptReferenceTerm openmrsConceptReferenceTerm) {
+    public ConceptReferenceTerm mapReferenceTerm(org.openmrs.ConceptReferenceTerm openmrsConceptReferenceTerm, String requestBaseUrl) {
         ConceptReferenceTerm referenceTerm = new ConceptReferenceTerm();
         referenceTerm.setUuid(openmrsConceptReferenceTerm.getUuid());
         referenceTerm.setName(openmrsConceptReferenceTerm.getName());
         referenceTerm.setCode(openmrsConceptReferenceTerm.getCode());
-        referenceTerm.setUri(getReferenceTermUri(openmrsConceptReferenceTerm.getUuid()));
+        referenceTerm.setUri(getReferenceTermUri(openmrsConceptReferenceTerm.getUuid(), requestBaseUrl));
         referenceTerm.setDescription(openmrsConceptReferenceTerm.getDescription());
         referenceTerm.setVersion(openmrsConceptReferenceTerm.getVersion());
         referenceTerm.setRetired(openmrsConceptReferenceTerm.isRetired());
@@ -76,7 +80,7 @@ public class ConceptReferenceTermMapper implements ConceptMappingCommons {
         return new ConceptReferenceMappedTerm(referenceTerm.getUuid(),referenceTerm.getName());
     }
 
-    private String getReferenceTermUri(String uuid) {
-        return properties.getConceptReferenceTermUri() + uuid;
+    private String getReferenceTermUri(String uuid, String requestBaseUrl) {
+        return properties.getConceptReferenceTermUri(requestBaseUrl) + uuid;
     }
 }

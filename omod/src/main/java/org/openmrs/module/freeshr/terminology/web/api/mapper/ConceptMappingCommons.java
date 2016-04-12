@@ -4,5 +4,5 @@ import org.openmrs.module.freeshr.terminology.web.api.Concept;
 
 public interface ConceptMappingCommons {
 
-    public Concept map(Concept concept, org.openmrs.Concept openMRSConcept);
+    public Concept map(Concept concept, org.openmrs.Concept openMRSConcept, String requestBaseUrl);
 }

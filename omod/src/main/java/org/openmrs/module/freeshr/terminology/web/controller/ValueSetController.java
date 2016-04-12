@@ -1,13 +1,16 @@
 package org.openmrs.module.freeshr.terminology.web.controller;
 
 import org.openmrs.*;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSet;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetCodeSystem;
 import org.openmrs.module.freeshr.terminology.model.valueset.ValueSetConcept;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
 import org.openmrs.module.freeshr.terminology.utils.StringUtil;
+import org.openmrs.module.freeshr.terminology.utils.UrlUtil;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,18 +31,24 @@ import java.util.UUID;
 public class ValueSetController extends BaseRestController {
     private final ConceptService openmrsConceptService;
     private TrServerProperties trServerProperties;
+    private AdministrationService administrationService;
 
     @Autowired
     public ValueSetController(ConceptService conceptService, TrServerProperties trServerProperties) {
+        this(conceptService, trServerProperties, Context.getAdministrationService());
+    }
+
+    public ValueSetController(ConceptService conceptService, TrServerProperties trServerProperties, AdministrationService administrationService) {
         this.openmrsConceptService = conceptService;
         this.trServerProperties = trServerProperties;
+        this.administrationService = administrationService;
     }
 
     @RequestMapping(value = "/{vsName}", method = RequestMethod.GET)
     @ResponseBody
-    public ValueSet getValueSet(@PathVariable("vsName") String vsNameOrUUID) {
+    public ValueSet getValueSet(HttpServletRequest httpServletRequest, @PathVariable("vsName") String vsNameOrUUID) {
         org.openmrs.Concept mrsConcept = null;
-
+        String requestBaseUrl = new UrlUtil().getRequestURL(httpServletRequest, administrationService);
         if (isUUID(vsNameOrUUID)) {
             mrsConcept = openmrsConceptService.getConceptByUuid(vsNameOrUUID);
         }
@@ -56,10 +66,10 @@ public class ValueSetController extends BaseRestController {
             throw new ConceptNotFoundException(String.format("Can not find ValueSet [%s]", vsNameOrUUID));
         }
 
-        ValueSet valueSet = new ValueSet(getIdentifier(mrsConcept),
+        ValueSet valueSet = new ValueSet(getIdentifier(mrsConcept, requestBaseUrl),
                 getConceptDisplay(mrsConcept),
                 getDescription(mrsConcept),
-                getStatus(mrsConcept), getDefinition(mrsConcept));
+                getStatus(mrsConcept), getDefinition(mrsConcept, requestBaseUrl));
         return valueSet;
     }
 
@@ -76,8 +86,8 @@ public class ValueSetController extends BaseRestController {
         return mrsConcept.getConceptClass().getName().equalsIgnoreCase("Valueset");
     }
 
-    private String getIdentifier(org.openmrs.Concept mrsConcept) {
-        String uriPrefix = StringUtil.removeSuffix(trServerProperties.getRestUriPrefix(), "/");
+    private String getIdentifier(Concept mrsConcept, String requestBaseUrl) {
+        String uriPrefix = StringUtil.removeSuffix(trServerProperties.getRestUriPrefix(requestBaseUrl), "/");
         String name = getConceptDisplay(mrsConcept);
         return uriPrefix + StringUtil.ensureSuffix(Constants.REST_URL_VS, "/") + name.replaceAll(" ", "-").toLowerCase();
     }
@@ -105,13 +115,13 @@ public class ValueSetController extends BaseRestController {
         return mrsConcept.isRetired() ? "retired" : "active";
     }
 
-    private ValueSetCodeSystem getDefinition(org.openmrs.Concept mrsConcept) {
+    private ValueSetCodeSystem getDefinition(Concept mrsConcept, String requestBaseUrl) {
         return trServerProperties.getValuesetDefinition().equals(TrServerProperties.VALUESET_DEF_MEMBERS)
-             ? getValueSetDefinitionFromMembers(mrsConcept)
-             : getValueSetDefinitionFromAnswers(mrsConcept);
+             ? getValueSetDefinitionFromMembers(mrsConcept, requestBaseUrl)
+             : getValueSetDefinitionFromAnswers(mrsConcept, requestBaseUrl);
     }
 
-    private ValueSetCodeSystem getValueSetDefinitionFromMembers(Concept mrsConcept) {
+    private ValueSetCodeSystem getValueSetDefinitionFromMembers(Concept mrsConcept, String requestBaseUrl) {
         List<Concept> members = mrsConcept.getSetMembers();
         List<ValueSetConcept> valueSetConcepts = new ArrayList<>();
         for (Concept concept : members) {
@@ -122,10 +132,10 @@ public class ValueSetController extends BaseRestController {
                         getDescription(concept)));
             }
         }
-        return new ValueSetCodeSystem(getIdentifier(mrsConcept), true, valueSetConcepts);
+        return new ValueSetCodeSystem(getIdentifier(mrsConcept, requestBaseUrl), true, valueSetConcepts);
     }
 
-    private ValueSetCodeSystem getValueSetDefinitionFromAnswers(Concept mrsConcept) {
+    private ValueSetCodeSystem getValueSetDefinitionFromAnswers(Concept mrsConcept, String requestBaseUrl) {
         ConceptDatatype datatype = mrsConcept.getDatatype();
         List<ValueSetConcept> valueSetConcepts = new ArrayList<ValueSetConcept>();
         if (datatype.getName().equalsIgnoreCase("coded")) {
@@ -138,9 +148,9 @@ public class ValueSetController extends BaseRestController {
                         getDescription(codedAnswer)));
 
             }
-            return new ValueSetCodeSystem(getIdentifier(mrsConcept), true, valueSetConcepts);
+            return new ValueSetCodeSystem(getIdentifier(mrsConcept, requestBaseUrl), true, valueSetConcepts);
         }
-        return new ValueSetCodeSystem(getIdentifier(mrsConcept), true, valueSetConcepts);
+        return new ValueSetCodeSystem(getIdentifier(mrsConcept, requestBaseUrl), true, valueSetConcepts);
     }
 
     private String getReferenceCode(Concept codedAnswer) {

@@ -16,19 +16,19 @@ public class CommonMappings implements ConceptMappingCommons {
     }
 
     @Override
-    public Concept map(Concept concept, org.openmrs.Concept openmrsConcept) {
+    public Concept map(Concept concept, org.openmrs.Concept openmrsConcept, String requestBaseUrl) {
         concept.setUuid(openmrsConcept.getUuid());
         concept.setVersion(openmrsConcept.getVersion());
         concept.setDatatypeName(openmrsConcept.getDatatype().getName());
         concept.setConceptClass(openmrsConcept.getConceptClass().getName());
-        concept.setUri(getConceptUri(openmrsConcept.getUuid()));
+        concept.setUri(getConceptUri(openmrsConcept.getUuid(), requestBaseUrl));
         concept.setSet(openmrsConcept.isSet());
         concept.setRetired(openmrsConcept.isRetired());
         concept.setRetireReason(openmrsConcept.getRetireReason());
         return concept;
     }
 
-    private String getConceptUri(String uuid) {
-        return properties.getConceptUri() + uuid;
+    private String getConceptUri(String uuid, String requestBaseUrl) {
+        return properties.getConceptUri(requestBaseUrl) + uuid;
     }
 }

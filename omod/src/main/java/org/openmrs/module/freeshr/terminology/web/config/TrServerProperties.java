@@ -37,16 +37,16 @@ public class TrServerProperties {
         }
     }
 
-    public String getConceptUri() {
-        return getRestUriPrefix() + StringUtil.removePrefix(trServerProperties.getProperty(CONCEPT_URI_CONTEXT_PATH), "/");
+    public String getConceptUri(String requestBaseUrl) {
+        return getRestUriPrefix(requestBaseUrl) + StringUtil.removePrefix(trServerProperties.getProperty(CONCEPT_URI_CONTEXT_PATH), "/");
     }
 
-    public String getConceptReferenceTermUri() {
-        return getRestUriPrefix() + StringUtil.removePrefix(trServerProperties.getProperty(CONCEPT_REFERENCE_TERM_URI_CONTEXT_PATH), "/");
+    public String getConceptReferenceTermUri(String requestBaseUrl) {
+        return getRestUriPrefix(requestBaseUrl) + StringUtil.removePrefix(trServerProperties.getProperty(CONCEPT_REFERENCE_TERM_URI_CONTEXT_PATH), "/");
     }
 
-    public String getRestUriPrefix() {
-        return StringUtil.ensureSuffix(trServerProperties.getProperty(REST_URI_PREFIX), "/");
+    public String getRestUriPrefix(String requestBaseUrl) {
+        return StringUtil.ensureSuffix(requestBaseUrl, "/");
     }
 
     public String getValuesetDefinition() {

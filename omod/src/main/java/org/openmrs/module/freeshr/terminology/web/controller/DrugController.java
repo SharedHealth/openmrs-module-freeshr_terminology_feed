@@ -6,7 +6,9 @@ import org.openmrs.ConceptMap;
 import org.openmrs.ConceptName;
 import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.Drug;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.model.CodeableConcept;
 import org.openmrs.module.freeshr.terminology.model.Coding;
@@ -15,6 +17,7 @@ import org.openmrs.module.freeshr.terminology.model.drug.Medication;
 import org.openmrs.module.freeshr.terminology.model.drug.MedicationProduct;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
 import org.openmrs.module.freeshr.terminology.utils.StringUtil;
+import org.openmrs.module.freeshr.terminology.utils.UrlUtil;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 @Controller
@@ -33,23 +37,29 @@ public class DrugController extends BaseRestController {
 
     private ConceptService openmrsConceptService;
     private TrServerProperties trServerProperties;
+    private AdministrationService administrationService;
 
     @Autowired
     public DrugController(ConceptService conceptService, TrServerProperties trServerProperties) {
+        this(conceptService, trServerProperties, Context.getAdministrationService());
+    }
+
+    public DrugController(ConceptService conceptService, TrServerProperties trServerProperties, AdministrationService administrationService) {
         this.openmrsConceptService = conceptService;
         this.trServerProperties = trServerProperties;
+        this.administrationService = administrationService;
     }
 
     @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
     @ResponseBody
-    public Medication getDrug(@PathVariable("uuid") String uuid) {
+    public Medication getDrug(HttpServletRequest httpServletRequest, @PathVariable("uuid") String uuid) {
 
         Drug drug = openmrsConceptService.getDrugByUuid(uuid);
         if (drug == null) {
             throw new ConceptNotFoundException("No drug found with uuid " + uuid);
         }
-
-        String trUriPrefix = StringUtil.removeSuffix(trServerProperties.getRestUriPrefix(), "/");
+        String requestBaseUrl = new UrlUtil().getRequestURL(httpServletRequest, administrationService);
+        String trUriPrefix = StringUtil.removeSuffix(trServerProperties.getRestUriPrefix(requestBaseUrl), "/");
 
         CodeableConcept code = getConceptCoding(drug.getConcept(), trUriPrefix);
         CodeableConcept medicationForm = getConceptCoding(drug.getDosageForm(), trUriPrefix);

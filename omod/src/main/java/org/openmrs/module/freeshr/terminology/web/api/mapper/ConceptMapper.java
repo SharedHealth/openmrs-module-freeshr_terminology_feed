@@ -18,9 +18,9 @@ public class ConceptMapper {
         this.conceptMappingExtensions = conceptMappingExtensions;
     }
 
-    public Concept map(org.openmrs.Concept openmrsConcept) {
+    public Concept map(org.openmrs.Concept openmrsConcept, String requestBaseUrl) {
         Concept concept = new Concept();
-        concept = mapCommons(openmrsConcept, concept);
+        concept = mapCommons(openmrsConcept, concept, requestBaseUrl);
         concept = mapExtensions(openmrsConcept, concept);
         return concept;
     }
@@ -34,9 +34,9 @@ public class ConceptMapper {
         return concept;
     }
 
-    private Concept mapCommons(org.openmrs.Concept openmrsConcept, Concept concept) {
+    private Concept mapCommons(org.openmrs.Concept openmrsConcept, Concept concept, String requestBaseUrl) {
         for (ConceptMappingCommons commonMapping : commonMappings) {
-            concept = commonMapping.map(concept, openmrsConcept);
+            concept = commonMapping.map(concept, openmrsConcept, requestBaseUrl);
         }
         return concept;
     }
