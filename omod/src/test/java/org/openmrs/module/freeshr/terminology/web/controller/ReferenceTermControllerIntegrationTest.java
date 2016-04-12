@@ -6,6 +6,7 @@ import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.freeshr.terminology.exception.ReferenceTermNotFoundException;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
+import org.openmrs.module.freeshr.terminology.utils.UrlUtil;
 import org.openmrs.module.freeshr.terminology.web.api.ConceptReferenceTerm;
 import org.openmrs.module.freeshr.terminology.web.api.ConceptReferenceTermMap;
 import org.openmrs.module.freeshr.terminology.web.api.mapper.ConceptReferenceTermMapper;
@@ -22,14 +23,15 @@ public class ReferenceTermControllerIntegrationTest extends BaseModuleWebContext
 
     @Autowired
     private ConceptReferenceTermMapper mapper;
-
+    @Autowired
+    private UrlUtil urlUtil;
     private ConceptService service;
     private ReferenceTermController referenceTermController;
 
     @Before
     public void setUp() {
         service = org.openmrs.api.context.Context.getConceptService();
-        referenceTermController = new ReferenceTermController(mapper,service, Context.getAdministrationService());
+        referenceTermController = new ReferenceTermController(mapper,service, urlUtil);
 
     }
 

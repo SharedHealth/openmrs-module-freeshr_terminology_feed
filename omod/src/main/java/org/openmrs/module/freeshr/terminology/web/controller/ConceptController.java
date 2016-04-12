@@ -2,7 +2,6 @@ package org.openmrs.module.freeshr.terminology.web.controller;
 
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
 import org.openmrs.module.freeshr.terminology.utils.UrlUtil;
@@ -24,17 +23,13 @@ public class ConceptController extends BaseRestController {
 
     private ConceptMapper conceptMapper;
     private ConceptService openmrsConceptService;
-    private AdministrationService administrationService;
+    private UrlUtil urlUtil;
 
     @Autowired
-    public ConceptController(ConceptMapper conceptMapper, ConceptService conceptService) {
-        this(conceptMapper, conceptService, Context.getAdministrationService());
-    }
-
-    public ConceptController(ConceptMapper conceptMapper, ConceptService conceptService, AdministrationService administrationService) {
+    public ConceptController(ConceptMapper conceptMapper, ConceptService conceptService, UrlUtil urlUtil) {
         this.conceptMapper = conceptMapper;
         this.openmrsConceptService = conceptService;
-        this.administrationService = administrationService;
+        this.urlUtil = urlUtil;
     }
 
     @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
@@ -44,7 +39,7 @@ public class ConceptController extends BaseRestController {
         if (openmrsConcept == null) {
             throw new ConceptNotFoundException("No concept found with uuid " + uuid);
         }
-        String requestBaseUrl = new UrlUtil().getRequestURL(httpServletRequest, administrationService);
+        String requestBaseUrl = urlUtil.getRequestURL(httpServletRequest);
         return conceptMapper.map(openmrsConcept, requestBaseUrl);
     }
 }

@@ -3,6 +3,8 @@ package org.openmrs.module.freeshr.terminology.web.controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -11,6 +13,7 @@ import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.module.freeshr.terminology.exception.ReferenceTermNotFoundException;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
+import org.openmrs.module.freeshr.terminology.utils.UrlUtil;
 import org.openmrs.module.freeshr.terminology.web.api.mapper.ConceptReferenceTermMapper;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -25,12 +28,12 @@ public class ReferenceTermControllerTest {
     @Mock
     private ConceptReferenceTermMapper mapper;
     @Mock
-    private AdministrationService administrationService;
+    private UrlUtil urlUtil;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        controller = new ReferenceTermController(mapper, openmrsConceptService, administrationService);
+        controller = new ReferenceTermController(mapper, openmrsConceptService, urlUtil);
     }
 
     @Test
@@ -38,6 +41,7 @@ public class ReferenceTermControllerTest {
         final String uuid = "216c8246-202c-4376-bfa8-3278d1049630";
         final ConceptReferenceTerm openmrsReferenceTerm = new ConceptReferenceTerm();
         when(openmrsConceptService.getConceptReferenceTermByUuid(uuid)).thenReturn(openmrsReferenceTerm);
+        when(urlUtil.getRequestURL(any(HttpServletRequest.class))).thenReturn("http://tr.com:8081");
         HttpServletRequest httpServletRequest = buildMockHttpRequest(uuid);
         controller.getReferenceTerm(httpServletRequest, uuid);
         verify(mapper).mapReferenceTerm(openmrsReferenceTerm, "http://tr.com:8081");

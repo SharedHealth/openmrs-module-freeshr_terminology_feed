@@ -37,28 +37,23 @@ public class DrugController extends BaseRestController {
 
     private ConceptService openmrsConceptService;
     private TrServerProperties trServerProperties;
-    private AdministrationService administrationService;
+    private UrlUtil urlUtil;
 
     @Autowired
-    public DrugController(ConceptService conceptService, TrServerProperties trServerProperties) {
-        this(conceptService, trServerProperties, Context.getAdministrationService());
-    }
-
-    public DrugController(ConceptService conceptService, TrServerProperties trServerProperties, AdministrationService administrationService) {
+    public DrugController(ConceptService conceptService, TrServerProperties trServerProperties, UrlUtil urlUtil) {
         this.openmrsConceptService = conceptService;
         this.trServerProperties = trServerProperties;
-        this.administrationService = administrationService;
+        this.urlUtil = urlUtil;
     }
 
     @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
     @ResponseBody
     public Medication getDrug(HttpServletRequest httpServletRequest, @PathVariable("uuid") String uuid) {
-
         Drug drug = openmrsConceptService.getDrugByUuid(uuid);
         if (drug == null) {
             throw new ConceptNotFoundException("No drug found with uuid " + uuid);
         }
-        String requestBaseUrl = new UrlUtil().getRequestURL(httpServletRequest, administrationService);
+        String requestBaseUrl = urlUtil.getRequestURL(httpServletRequest);
         String trUriPrefix = StringUtil.removeSuffix(trServerProperties.getRestUriPrefix(requestBaseUrl), "/");
 
         CodeableConcept code = getConceptCoding(drug.getConcept(), trUriPrefix);

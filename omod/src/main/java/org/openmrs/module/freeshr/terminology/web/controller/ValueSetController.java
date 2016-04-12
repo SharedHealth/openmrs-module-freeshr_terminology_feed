@@ -31,24 +31,20 @@ import java.util.UUID;
 public class ValueSetController extends BaseRestController {
     private final ConceptService openmrsConceptService;
     private TrServerProperties trServerProperties;
-    private AdministrationService administrationService;
+    private UrlUtil urlUtil;
 
     @Autowired
-    public ValueSetController(ConceptService conceptService, TrServerProperties trServerProperties) {
-        this(conceptService, trServerProperties, Context.getAdministrationService());
-    }
-
-    public ValueSetController(ConceptService conceptService, TrServerProperties trServerProperties, AdministrationService administrationService) {
+    public ValueSetController(ConceptService conceptService, TrServerProperties trServerProperties, UrlUtil urlUtil) {
         this.openmrsConceptService = conceptService;
         this.trServerProperties = trServerProperties;
-        this.administrationService = administrationService;
+        this.urlUtil = urlUtil;
     }
 
     @RequestMapping(value = "/{vsName}", method = RequestMethod.GET)
     @ResponseBody
     public ValueSet getValueSet(HttpServletRequest httpServletRequest, @PathVariable("vsName") String vsNameOrUUID) {
         org.openmrs.Concept mrsConcept = null;
-        String requestBaseUrl = new UrlUtil().getRequestURL(httpServletRequest, administrationService);
+        String requestBaseUrl = urlUtil.getRequestURL(httpServletRequest);
         if (isUUID(vsNameOrUUID)) {
             mrsConcept = openmrsConceptService.getConceptByUuid(vsNameOrUUID);
         }
@@ -162,6 +158,4 @@ public class ValueSetController extends BaseRestController {
         }
         return null;
     }
-
-
 }

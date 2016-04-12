@@ -24,17 +24,13 @@ public class ReferenceTermController extends BaseRestController {
 
     private final ConceptReferenceTermMapper mapper;
     private final ConceptService openmrsConceptService;
-    private AdministrationService administrationService;
+    private UrlUtil urlUtil;
 
     @Autowired
-    public ReferenceTermController(ConceptReferenceTermMapper mapper, ConceptService conceptService) {
-        this(mapper, conceptService, Context.getAdministrationService());
-    }
-
-    public ReferenceTermController(ConceptReferenceTermMapper mapper, ConceptService conceptService, AdministrationService administrationService) {
+    public ReferenceTermController(ConceptReferenceTermMapper mapper, ConceptService conceptService, UrlUtil urlUtil) {
         this.mapper = mapper;
         this.openmrsConceptService = conceptService;
-        this.administrationService = administrationService;
+        this.urlUtil = urlUtil;
     }
 
     @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
@@ -44,7 +40,7 @@ public class ReferenceTermController extends BaseRestController {
         if (openmrsReferenceTerm == null) {
             throw new ReferenceTermNotFoundException("No reference term found with uuid " + uuid);
         }
-        String requestBaseUrl = new UrlUtil().getRequestURL(httpServletRequest, administrationService);
+        String requestBaseUrl = urlUtil.getRequestURL(httpServletRequest);
         return mapper.mapReferenceTerm(openmrsReferenceTerm, requestBaseUrl);
     }
 }

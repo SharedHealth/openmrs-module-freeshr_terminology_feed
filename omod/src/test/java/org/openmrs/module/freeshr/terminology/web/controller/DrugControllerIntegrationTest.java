@@ -8,6 +8,7 @@ import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException
 import org.openmrs.module.freeshr.terminology.model.Coding;
 import org.openmrs.module.freeshr.terminology.model.drug.Medication;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
+import org.openmrs.module.freeshr.terminology.utils.UrlUtil;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 import org.openmrs.web.test.BaseModuleWebContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,13 @@ public class DrugControllerIntegrationTest extends BaseModuleWebContextSensitive
     private ConceptService conceptService;
     @Autowired
     private TrServerProperties trServerProperties;
+    @Autowired
+    private UrlUtil urlUtil;
 
     @Before
     public void setUp() {
         conceptService = org.openmrs.api.context.Context.getConceptService();
-        drugController = new DrugController(conceptService, trServerProperties, Context.getAdministrationService());
+        drugController = new DrugController(conceptService, trServerProperties, urlUtil);
     }
 
     private void assertCoding(String code, String name, String system, Coding coding) {

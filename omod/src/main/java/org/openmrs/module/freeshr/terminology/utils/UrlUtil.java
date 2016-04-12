@@ -1,19 +1,24 @@
 package org.openmrs.module.freeshr.terminology.utils;
 
 import org.openmrs.api.AdministrationService;
+import org.openmrs.api.context.Context;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Component
 public class UrlUtil {
-    public String getRequestURL(HttpServletRequest request, AdministrationService administrationService) {
+
+    public String getRequestURL(HttpServletRequest request) {
         String requestUrl = getServiceUriFromRequest(request);
         if (requestUrl == null) {
-            requestUrl = getBaseUrlFromOpenMrsGlobalProperties(administrationService);
+            requestUrl = getBaseUrlFromOpenMrsGlobalProperties();
         }
         return requestUrl != null ? requestUrl : formBaseUrl(request, request.getScheme());
     }
 
-    private String getBaseUrlFromOpenMrsGlobalProperties(AdministrationService administrationService) {
+    private String getBaseUrlFromOpenMrsGlobalProperties() {
+        AdministrationService administrationService = Context.getAdministrationService();
         String restUri = administrationService.getGlobalProperty("webservices.rest.uriPrefix");
         if (restUri != null)
             return restUri;

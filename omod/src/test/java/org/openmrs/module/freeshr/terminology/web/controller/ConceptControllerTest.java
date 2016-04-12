@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -12,6 +13,7 @@ import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
+import org.openmrs.module.freeshr.terminology.utils.UrlUtil;
 import org.openmrs.module.freeshr.terminology.web.api.mapper.ConceptMapper;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -26,12 +28,12 @@ public class ConceptControllerTest {
     @Mock
     private ConceptMapper conceptMapper;
     @Mock
-    private AdministrationService administrationService;
+    private UrlUtil urlUtil;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        conceptController = new ConceptController(conceptMapper, conceptService, administrationService);
+        conceptController = new ConceptController(conceptMapper, conceptService, urlUtil);
     }
 
     @Test
@@ -39,6 +41,7 @@ public class ConceptControllerTest {
         final String uuid = "216c8246-202c-4376-bfa8-3278d1049630";
         final org.openmrs.Concept openmrsConcept = new org.openmrs.Concept();
         when(conceptService.getConceptByUuid(uuid)).thenReturn(openmrsConcept);
+        when(urlUtil.getRequestURL(any(HttpServletRequest.class))).thenReturn("http://tr.com:8081");
         conceptController.getConcept(buildMockHttpRequest(uuid), uuid);
         verify(conceptMapper).map(openmrsConcept, "http://tr.com:8081");
     }
