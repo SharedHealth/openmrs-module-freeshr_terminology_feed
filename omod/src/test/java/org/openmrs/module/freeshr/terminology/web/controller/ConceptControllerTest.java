@@ -62,5 +62,4 @@ public class ConceptControllerTest {
         request.setRequestURI(Constants.REST_URL_CONCEPT + "/" + uuid);
         return request;
     }
-
 }

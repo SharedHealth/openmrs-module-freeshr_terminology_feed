@@ -1,27 +1,36 @@
 package org.openmrs.module.freeshr.terminology.utils;
 
-import org.openmrs.api.AdministrationService;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.openmrs.api.context.Context;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @Component
 public class UrlUtil {
+    private static final Logger logger = Logger.getLogger(UrlUtil.class);
 
     public String getRequestURL(HttpServletRequest request) {
         String requestUrl = getServiceUriFromRequest(request);
         if (requestUrl == null) {
-            requestUrl = getBaseUrlFromOpenMrsGlobalProperties();
+            requestUrl = getBaseUrlFromOpenMrsGlobalProperties(request);
         }
-        return requestUrl != null ? requestUrl : formBaseUrl(request, request.getScheme());
+        return requestUrl != null ? requestUrl : formUrl(request.getScheme(), request.getServerName(), request.getServerPort(), request.getRequestURI(), request.getQueryString());
     }
 
-    private String getBaseUrlFromOpenMrsGlobalProperties() {
-        AdministrationService administrationService = Context.getAdministrationService();
-        String restUri = administrationService.getGlobalProperty("webservices.rest.uriPrefix");
-        if (restUri != null)
-            return restUri;
+    private String getBaseUrlFromOpenMrsGlobalProperties(HttpServletRequest request) {
+        String restUri = Context.getAdministrationService().getGlobalProperty("webservices.rest.uriPrefix");
+        if (StringUtils.isNotBlank(restUri)) {
+            try {
+                URI uri = new URI(restUri);
+                return formUrl(uri.getScheme(), uri.getHost(), uri.getPort(), request.getRequestURI(), request.getQueryString());
+            } catch (URISyntaxException e) {
+                logger.warn("Invalid url is set in global property webservices.rest.uriPrefix");
+            }
+        }
         return null;
     }
 
@@ -30,18 +39,19 @@ public class UrlUtil {
         if (scheme == null) {
             return null;
         }
-        return formBaseUrl(request, scheme);
+        return formUrl(scheme, request.getServerName(), request.getServerPort(), request.getRequestURI(), request.getQueryString());
     }
 
-    private String formBaseUrl(HttpServletRequest request, String scheme) {
-        String hostname = request.getServerName();
-        int port = request.getServerPort();
-        String baseUrl = null;
+    private String formUrl(String scheme, String hostname, int port, String path, String queryString) {
+        String url = null;
         if (port != 80 && port != 443 && port != -1) {
-            baseUrl = scheme + "://" + hostname + ":" + port;
+            url = scheme + "://" + hostname + ":" + port + path;
         } else {
-            baseUrl = scheme + "://" + hostname;
+            url = scheme + "://" + hostname + path;
         }
-        return baseUrl;
+        if (queryString != null) {
+            return url + "?" + queryString;
+        }
+        return url;
     }
 }
