@@ -1,34 +1,38 @@
 package org.openmrs.module.freeshr.terminology.web.api.mapper;
 
-import static java.util.Arrays.asList;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
-import static org.openmrs.module.freeshr.terminology.builder.ConceptBuilder.buildNumericConcept;
-import static org.openmrs.module.freeshr.terminology.builder.ConceptBuilder.buildOpenmrsConcept;
-import static org.openmrs.module.freeshr.terminology.util.TestUtils.assertConceptNumeric;
-import static org.openmrs.module.freeshr.terminology.util.TestUtils.assertConcepts;
 import org.openmrs.module.freeshr.terminology.web.config.TrServerProperties;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URLClassLoader;
 import java.util.List;
+import java.util.Properties;
+
+import static java.util.Arrays.asList;
+import static org.openmrs.module.freeshr.terminology.builder.ConceptBuilder.buildNumericConcept;
+import static org.openmrs.module.freeshr.terminology.builder.ConceptBuilder.buildOpenmrsConcept;
+import static org.openmrs.module.freeshr.terminology.util.TestUtils.assertConceptNumeric;
+import static org.openmrs.module.freeshr.terminology.util.TestUtils.assertConcepts;
+import static org.openmrs.module.freeshr.terminology.web.config.TrServerProperties.CONCEPT_REFERENCE_TERM_URI_CONTEXT_PATH;
+import static org.openmrs.module.freeshr.terminology.web.config.TrServerProperties.CONCEPT_URI_CONTEXT_PATH;
+import static org.openmrs.module.freeshr.terminology.web.config.TrServerProperties.REST_URI_PREFIX;
 
 public class ConceptMapperTest {
 
-    public static final String TR_REST_URL = "www.bdshr-tr.com/openmrs/ws/rest/v1/tr/";
-    private static final String BASE_URL = "http://tr.com";
+    private static final String BASE_URL = "www.bdshr-tr.com/";
     private ObjectMapper mapper = new ObjectMapper();
-    @Mock
     private TrServerProperties trServerProperties;
 
     @Before
     public void setUp() throws Exception {
-        initMocks(this);
+        Properties trServerProperties = new Properties();
+        trServerProperties.setProperty(REST_URI_PREFIX, "/openmrs/ws");
+        trServerProperties.setProperty(CONCEPT_URI_CONTEXT_PATH, "/rest/v1/tr/concepts/");
+        trServerProperties.setProperty(CONCEPT_REFERENCE_TERM_URI_CONTEXT_PATH, "/rest/v1/tr/referenceterms/");
+        this.trServerProperties = new TrServerProperties(trServerProperties);
     }
 
     @Test
@@ -37,7 +41,6 @@ public class ConceptMapperTest {
         org.openmrs.module.freeshr.terminology.web.api.Concept expected = mapper.readValue(src, org.openmrs.module.freeshr.terminology.web.api.Concept.class);
         ConceptMapper conceptMapper = buildConceptMapper();
         org.openmrs.module.freeshr.terminology.web.api.Concept actual = conceptMapper.map(buildOpenmrsConcept("Text"), BASE_URL);
-        //mapper.writeValue(System.out,actual);
         assertConcepts(expected, actual);
     }
 
@@ -47,7 +50,6 @@ public class ConceptMapperTest {
         org.openmrs.module.freeshr.terminology.web.api.Concept expected = mapper.readValue(src, org.openmrs.module.freeshr.terminology.web.api.Concept.class);
         ConceptMapper conceptMapper = buildConceptMapper();
         org.openmrs.module.freeshr.terminology.web.api.Concept actual = conceptMapper.map(buildNumericConcept(), BASE_URL);
-        //mapper.writeValue(System.out,actual);
         assertConceptNumeric(expected, actual);
     }
 
@@ -65,12 +67,10 @@ public class ConceptMapperTest {
     }
 
     private CommonMappings buildCommonMapper() {
-        when(trServerProperties.getConceptUri(BASE_URL)).thenReturn(TR_REST_URL + "concepts/");
         return new CommonMappings(trServerProperties);
     }
 
     private ConceptReferenceTermMapper buildReferenceTermMapper() {
-        when(trServerProperties.getConceptReferenceTermUri(BASE_URL)).thenReturn(TR_REST_URL + "referenceterms/");
         return new ConceptReferenceTermMapper(trServerProperties, new ConceptSourceMapper());
     }
 }

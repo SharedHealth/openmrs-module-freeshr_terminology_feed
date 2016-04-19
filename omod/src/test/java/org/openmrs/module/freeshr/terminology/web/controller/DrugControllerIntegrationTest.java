@@ -3,7 +3,6 @@ package org.openmrs.module.freeshr.terminology.web.controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.ConceptService;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.model.Coding;
 import org.openmrs.module.freeshr.terminology.model.drug.Medication;

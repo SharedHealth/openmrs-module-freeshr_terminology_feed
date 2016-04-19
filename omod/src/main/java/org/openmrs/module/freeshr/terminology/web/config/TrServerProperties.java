@@ -11,9 +11,9 @@ import java.util.Properties;
 
 @Component
 public class TrServerProperties {
-    private static final String REST_URI_PREFIX = "webservices.rest.uriPrefix";
-    private static final String CONCEPT_URI_CONTEXT_PATH = "concept.uri";
-    private static final String CONCEPT_REFERENCE_TERM_URI_CONTEXT_PATH = "concept.reference.term.uri";
+    public static final String REST_URI_PREFIX = "webservices.rest.uriPrefix";
+    public static final String CONCEPT_URI_CONTEXT_PATH = "concept.uri";
+    public static final String CONCEPT_REFERENCE_TERM_URI_CONTEXT_PATH = "concept.reference.term.uri";
     public static final String VALUESET_DEF_ANSWERS = "answers";
     public static final String VALUESET_DEF_MEMBERS = "members";
     private static final Logger log = Logger.getLogger(TrServerProperties.class);
@@ -21,6 +21,13 @@ public class TrServerProperties {
     @Resource(name = "trServerDefaultProperties")
     private Properties defaultProperties;
     private Properties trServerProperties;
+
+    public TrServerProperties(Properties trServerProperties) {
+        this.trServerProperties = trServerProperties;
+    }
+
+    public TrServerProperties() {
+    }
 
     @PostConstruct
     public void init() {
@@ -46,7 +53,7 @@ public class TrServerProperties {
     }
 
     public String getRestUriPrefix(String requestBaseUrl) {
-        return StringUtil.ensureSuffix(requestBaseUrl, "/");
+        return StringUtil.ensureSuffix(StringUtil.ensureSuffix(requestBaseUrl, "/") + StringUtil.removePrefix(trServerProperties.getProperty(REST_URI_PREFIX), "/"), "/");
     }
 
     public String getValuesetDefinition() {
