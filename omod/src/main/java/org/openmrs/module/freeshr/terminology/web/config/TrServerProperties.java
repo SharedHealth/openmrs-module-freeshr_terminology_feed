@@ -14,6 +14,7 @@ public class TrServerProperties {
     public static final String REST_URI_PREFIX = "webservices.rest.uriPrefix";
     public static final String CONCEPT_URI_CONTEXT_PATH = "concept.uri";
     public static final String CONCEPT_REFERENCE_TERM_URI_CONTEXT_PATH = "concept.reference.term.uri";
+    public static final String DRUG_URI_CONTEXT_PATH = "concept.drugs.uri";
     public static final String VALUESET_DEF_ANSWERS = "answers";
     public static final String VALUESET_DEF_MEMBERS = "members";
     private static final Logger log = Logger.getLogger(TrServerProperties.class);
@@ -50,6 +51,10 @@ public class TrServerProperties {
 
     public String getConceptReferenceTermUri(String requestBaseUrl) {
         return getRestUriPrefix(requestBaseUrl) + StringUtil.removePrefix(trServerProperties.getProperty(CONCEPT_REFERENCE_TERM_URI_CONTEXT_PATH), "/");
+    }
+
+    public String getDrugsUri(String requestBaseUrl) {
+        return getRestUriPrefix(requestBaseUrl) + StringUtil.removePrefix(trServerProperties.getProperty(DRUG_URI_CONTEXT_PATH), "/");
     }
 
     public String getRestUriPrefix(String requestBaseUrl) {

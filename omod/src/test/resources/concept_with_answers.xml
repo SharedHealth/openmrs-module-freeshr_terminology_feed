@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <concept concept_id="1200" retired="false" datatype_id="4" class_id="3" is_set="false" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="99110684-c97a-4a3b-9dad-5e5bf146867a"/>
+    <concept_name concept_name_id="1035" concept_id="1200" name="Paracetamol" locale="en" creator="1"
+                  date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1"
+                  voided="false" uuid="3803d71e-adc6-41b9-a6c4-392a9593686c"/>
+
+    <concept concept_id="1201" retired="false" datatype_id="4" class_id="3" is_set="false" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="ddea03a4-c986-4bcd-b5d7-212b9fc52581"/>
+    <concept_name concept_name_id="1036" concept_id="1201" name="diphenhydramine" locale="en" creator="1"
+                  date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1"
+                  voided="false" uuid="3031b038-2b77-4634-8614-35259e8d2e66"/>
+
+    <concept concept_id="1204" retired="false" datatype_id="4" class_id="4" is_set="false" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="ddea03a4-c986-4bcd-b5d7-212b9fc545dx"/>
+    <concept_name concept_name_id="1038" concept_id="1204" name="Chew" locale="en" creator="1"
+                  date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1"
+                  voided="false" uuid="3xd0b038-2b77-4634-8614-35259e8d2e66"/>
+
+    <drug drug_id="1010" concept_id="1200" name="Crocin 500mg" dosage_form="1204" strength="500 mg" combination="0"
+          creator="1" date_created="2004-08-12 00:00:00.0" retired="0" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+          uuid="ada47e63-5988-4f51-8282-e22fb66a7332"/>
+    <drug drug_id="1011" concept_id="1201" name="Benedryl" dosage_form="1204" strength="20 mg" combination="0" creator="1"
+          date_created="2004-08-12 00:00:00.0" retired="0" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+          uuid="04558a65-0e18-4fc4-bb8d-4f9a89fbec5c"/>
+
+    <concept concept_id="1203" retired="false" datatype_id="2" class_id="5" is_set="false" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="99110684-c97a-4a3b-9dad-5e5bf1469x0d"/>
+    <concept_name concept_name_id="1037" concept_id="1203" name="Coded Concept with Answer as Concept" locale="en" creator="1"
+                  date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1"
+                  voided="false" uuid="3803d71e-adc6-41b9-a6c4-392a95938df0"/>
+
+    <concept_answer concept_answer_id="100" concept_id="1203" answer_concept="1200" creator="1" date_created="2004-08-12 00:00:00.0"
+    uuid="3803d71e-adc6-jh56-a6c4-392a95938df0"/>
+    <concept_answer concept_answer_id="101" concept_id="1203" answer_concept="1201" creator="1" date_created="2004-08-12 00:00:00.0"
+    uuid="3803d71e-kj78-41b9-a6c4-392a95938df0"/>
+
+
+    <concept concept_id="1213" retired="false" datatype_id="2" class_id="5" is_set="false" creator="1"
+             date_created="2004-08-12 00:00:00.0" version="" changed_by="1" date_changed="2005-02-25 11:43:43.0"
+             uuid="99110684-c97a-jh78-9dad-5e5bf1469x0d"/>
+    <concept_name concept_name_id="1137" concept_id="1213" name="Coded Concept with Answer as Concept Drugs" locale="en" creator="1"
+                  date_created="2004-08-12 00:00:00.0" concept_name_type="FULLY_SPECIFIED" locale_preferred="1"
+                  voided="false" uuid="3803d71e-adc6-lk98-a6c4-392a95938df0"/>
+
+    <concept_answer concept_answer_id="110" concept_id="1213" answer_concept="1200" answer_drug="1010" creator="1" date_created="2004-08-12 00:00:00.0"
+    uuid="3803d71e-kj76-jh56-a6c4-392a95938df0"/>
+    <concept_answer concept_answer_id="111" concept_id="1213" answer_concept="1201" answer_drug="1011" creator="1" date_created="2004-08-12 00:00:00.0"
+    uuid="3803d71e-kj78-hj65-a6c4-392a95938df0"/>
+
+    <concept_reference_source concept_source_id="100" name="WHO DD ATC" description="WHO DD ATC" hl7_code="WHO-ATC" creator="1" date_created="2004-08-12 00:00:00.0" retired="0" uuid="62fddb4e-9a47-4a7c-af26-5098b488d44b"/>
+    <concept_reference_term concept_reference_term_id="1100" concept_source_id="100" name="Paracetamol" code="N02BE01" creator="1" date_created="2004-08-12 00:00:00.0" retired="0" uuid="df2d10af-7bbd-49fe-951d-46f614ff6100"/>
+    <concept_reference_map concept_map_id="200" concept_reference_term_id="1100" concept_map_type_id="2" creator="1" date_created="2004-08-12 00:00:00.0" concept_id="1200" changed_by="1" date_changed="2005-02-25 11:43:43.0"  uuid="6698f7e1-24fc-4b00-bcc7-21b8e494329c"/>
+</dataset>

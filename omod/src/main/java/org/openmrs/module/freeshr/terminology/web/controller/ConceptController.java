@@ -1,6 +1,5 @@
 package org.openmrs.module.freeshr.terminology.web.controller;
 
-import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.module.freeshr.terminology.exception.ConceptNotFoundException;
 import org.openmrs.module.freeshr.terminology.utils.Constants;

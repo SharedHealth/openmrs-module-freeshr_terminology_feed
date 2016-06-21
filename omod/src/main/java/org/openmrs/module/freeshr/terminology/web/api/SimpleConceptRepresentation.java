@@ -48,7 +48,7 @@ public class SimpleConceptRepresentation {
     public int hashCode() {
         int result = uuid.hashCode();
         result = 31 * result + display.hashCode();
-        result = 31 * result + uri.hashCode();
+        result = 31 * result + (uri != null ? uri.hashCode() : 0);
         return result;
     }
 }

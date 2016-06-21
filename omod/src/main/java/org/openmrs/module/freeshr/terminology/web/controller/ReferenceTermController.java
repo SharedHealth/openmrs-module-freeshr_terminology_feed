@@ -1,8 +1,6 @@
 package org.openmrs.module.freeshr.terminology.web.controller;
 
-import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.freeshr.terminology.exception.ReferenceTermNotFoundException;
 import org.openmrs.module.freeshr.terminology.utils.Constants;
 import org.openmrs.module.freeshr.terminology.utils.UrlUtil;
