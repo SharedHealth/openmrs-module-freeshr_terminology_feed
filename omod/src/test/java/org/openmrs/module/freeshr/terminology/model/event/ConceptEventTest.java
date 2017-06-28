@@ -11,7 +11,7 @@ public class ConceptEventTest {
     @Test
     public void shouldIdentifyIfAnOperationIsApplicable() throws Exception {
         assertTrue(conceptEvent().isApplicable("saveConcept"));
-        assertTrue(conceptEvent().isApplicable("updateConcept"));
+        assertTrue(conceptEvent().isApplicable("retireConcept"));
         assertFalse(conceptEvent().isApplicable("unknown"));
     }
 

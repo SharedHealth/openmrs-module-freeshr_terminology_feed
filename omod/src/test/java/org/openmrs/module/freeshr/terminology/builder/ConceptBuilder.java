@@ -100,7 +100,7 @@ public class ConceptBuilder {
         conceptNumeric.setLowNormal(13d);
         conceptNumeric.setLowCritical(14d);
         conceptNumeric.setLowAbsolute(15d);
-        conceptNumeric.setPrecise(true);
+        conceptNumeric.setAllowDecimal(true);
         conceptNumeric.setUnits("test");
         return conceptNumeric;
     }

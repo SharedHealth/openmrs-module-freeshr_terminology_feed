@@ -23,7 +23,7 @@ public class NumericExtension implements ConceptMappingExtension {
         addProperty(concept, numericConcept, NORMAL_LOW.name(), numericConcept.getLowNormal());
         addProperty(concept, numericConcept, CRITICAL_LOW.name(), numericConcept.getLowCritical());
         addProperty(concept, numericConcept, ABSOLUTE_LOW.name(), numericConcept.getLowAbsolute());
-        addProperty(concept, numericConcept, NUMERIC_PRECISE.name(), numericConcept.getPrecise());
+        addProperty(concept, numericConcept, NUMERIC_PRECISE.name(), numericConcept.getAllowDecimal());
         addProperty(concept, numericConcept, NUMERIC_UNITS.name(), numericConcept.getUnits());
         return concept;
     }

@@ -48,7 +48,7 @@ public class TREventInterceptorTest {
 
     @Test
     public void shouldPublishUpdateEventToFeedAfterUpdateConceptOperation() throws Throwable {
-        Method method = ConceptService.class.getMethod("updateConcept", Concept.class);
+        Method method = ConceptService.class.getMethod("saveConcept", Concept.class);
         Object[] objects = new Object[]{concept};
 
         publishedFeed.afterReturning(null, method, objects, null);
@@ -57,7 +57,7 @@ public class TREventInterceptorTest {
 
     @Test
     public void shouldPublishUpdateEventToFeedAfterEveryUpdateConceptOperation() throws Throwable {
-        Method method = ConceptService.class.getMethod("updateConcept", Concept.class);
+        Method method = ConceptService.class.getMethod("saveConcept", Concept.class);
         Object[] objects = new Object[]{concept};
         int updates = 2;
         for (int i = 0; i < updates; i++) {
@@ -89,7 +89,7 @@ public class TREventInterceptorTest {
 
     @Test
     public void shouldSaveEventInTransaction() throws Throwable {
-        Method method = ConceptService.class.getMethod("updateConcept", Concept.class);
+        Method method = ConceptService.class.getMethod("saveConcept", Concept.class);
         Object[] objects = new Object[]{concept};
 
         publishedFeed.afterReturning(null, method, objects, null);
@@ -101,7 +101,7 @@ public class TREventInterceptorTest {
 
     @Test
     public void shouldSaveEventInTheSameTransactionAsTheTrigger() throws Throwable {
-        Method method = ConceptService.class.getMethod("updateConcept", Concept.class);
+        Method method = ConceptService.class.getMethod("saveConcept", Concept.class);
         Object[] objects = new Object[]{concept};
 
         publishedFeed.afterReturning(null, method, objects, null);

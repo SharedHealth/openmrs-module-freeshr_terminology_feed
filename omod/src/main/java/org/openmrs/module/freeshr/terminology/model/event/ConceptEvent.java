@@ -24,7 +24,7 @@ public class ConceptEvent implements TREvent {
     }
 
     private List<String> operations() {
-        return asList("saveConcept", "updateConcept", "retireConcept", "purgeConcept");
+        return asList("saveConcept", "retireConcept", "purgeConcept");
     }
 
     public Boolean isApplicable(String operation) {
