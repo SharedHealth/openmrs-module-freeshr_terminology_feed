@@ -26,7 +26,7 @@
         <openMRSVersion>2.1.0</openMRSVersion>
         <openMRSRuntimeVersion>2.1.0</openMRSRuntimeVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <webservicesRestModuleVersion>2.12</webservicesRestModuleVersion>
+        <webservicesRestModuleVersion>2.17</webservicesRestModuleVersion>
         <openmrsAtomfeedVersion>2.5.5-SNAPSHOT</openmrsAtomfeedVersion>
         <atomfeed.version>1.9.4</atomfeed.version>
     </properties>
