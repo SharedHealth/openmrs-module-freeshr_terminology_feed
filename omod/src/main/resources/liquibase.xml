@@ -441,6 +441,7 @@
     </changeSet>
 
     <changeSet id="BD-201504081208" author="angshu" context="setup">
+        <validCheckSum>3:3b60d27fdd12c3bda26231c4dedd0ac9</validCheckSum>
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
                 select count(*) from role where role = 'TR API CONSUMER';
@@ -448,8 +449,9 @@
         </preConditions>
         <comment>Add TR API CONSUMER role</comment>
         <sql>
-            insert into role (role, description) values ('TR API CONSUMER', 'Terminologies REST API User. This is meant
-            for public');
+            set @uuid = uuid();
+            insert into role (role, description, uuid) values ('TR API CONSUMER', 'Terminologies REST API User. This is meant
+            for public', @uuid);
             delete from role_privilege where role = 'TR API CONSUMER';
             insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concept Classes');
             insert into role_privilege (role, privilege) values ('TR API CONSUMER', 'View Concept Datatypes');
